@@ -212,3 +212,9 @@ directions — Editorial, Lab-first, and Systematic Grid — and the **Systemati
 Grid** direction was selected and built here. If the design is revised in Claude
 Design, re-export the bundle and reconcile changes against this static
 implementation.
+
+Copyright © 2026 North Bay Digital Foundry
+
+All rights reserved.
+
+Unless otherwise stated, the code, content, designs, graphics, documentation, and other materials contained in this repository may not be copied, modified, distributed, or reused without prior written permission.
