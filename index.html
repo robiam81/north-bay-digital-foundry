@@ -1,10 +1,278 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>North Bay Digital Foundry</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>North Bay Digital Foundry — engineering, AI &amp; municipal technology</title>
+  <meta name="description" content="A digital workshop where useful tools for AI, automation, engineering, and municipal technology are designed, prototyped, tested, and shared in the open.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="North Bay Digital Foundry">
+  <meta property="og:description" content="Engineered tools and experiments for AI, automation, and municipal work — designed, tested, and documented in the open.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
-  <h1>North Bay Digital Foundry</h1>
-  <p>Building useful, interesting, and occasionally entertaining digital tools from the North Bay and beyond.</p>
+  <a class="skip-link" href="#overview">Skip to content</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview"     aria-current="true">01 · Overview</a></li>
+          <li><a href="#capabilities">02 · Capabilities</a></li>
+          <li><a href="#projects">    03 · Projects</a></li>
+          <li><a href="#lab">         04 · Lab log</a></li>
+          <li><a href="#writing">     05 · Writing</a></li>
+          <li><a href="#contact">     06 · Contact</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">North Bay · est. 2024</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <!-- 01 · OVERVIEW / HERO -->
+      <section class="hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// digital workshop</p>
+          <h1 class="hero__title" id="hero-title">Engineered tools for AI, automation &amp; municipal work.</h1>
+          <p class="hero__lede">A workshop for designing, prototyping, and testing practical software — then sharing what works and what breaks. Concepts and tools, documented end to end.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#projects">View projects</a>
+            <a class="btn" href="#lab">Read the lab log</a>
+          </div>
+        </div>
+
+        <div class="spec" aria-label="At a glance">
+          <div class="spec__row"><span class="spec__label">PROJECTS</span><span class="spec__value tnum">06</span></div>
+          <div class="spec__row"><span class="spec__label">FOCUS AREAS</span><span class="spec__value tnum">05</span></div>
+          <div class="spec__row"><span class="spec__label">EXPERIMENTS</span><span class="spec__value tnum">12</span></div>
+          <div class="spec__row"><span class="spec__label">OPEN SOURCE</span><span class="spec__value tnum">04</span></div>
+        </div>
+      </section>
+
+      <!-- 02 · CAPABILITIES -->
+      <section class="section" id="capabilities" aria-labelledby="cap-title">
+        <p class="eyebrow">02 · Capabilities</p>
+        <h2 class="section__title" id="cap-title">A consistent set of practices</h2>
+
+        <div class="matrix">
+          <article class="matrix__cell">
+            <span class="matrix__icon" aria-hidden="true"></span>
+            <h3 class="matrix__name">AI systems</h3>
+            <p class="matrix__desc">Applied models, evaluation harnesses, and AI-assisted drafting tools.</p>
+          </article>
+          <article class="matrix__cell">
+            <span class="matrix__icon" aria-hidden="true"></span>
+            <h3 class="matrix__name">Engineering tools</h3>
+            <p class="matrix__desc">Reusable code and CLIs that make day-to-day engineering work faster.</p>
+          </article>
+          <article class="matrix__cell">
+            <span class="matrix__icon" aria-hidden="true"></span>
+            <h3 class="matrix__name">Municipal tech</h3>
+            <p class="matrix__desc">Software concepts for permits, records, and public-sector workflows.</p>
+          </article>
+          <article class="matrix__cell">
+            <span class="matrix__icon" aria-hidden="true"></span>
+            <h3 class="matrix__name">Automation</h3>
+            <p class="matrix__desc">Scripts and pipelines that remove repetitive, manual steps.</p>
+          </article>
+          <article class="matrix__cell">
+            <span class="matrix__icon" aria-hidden="true"></span>
+            <h3 class="matrix__name">Experiments</h3>
+            <p class="matrix__desc">Open-ended prototypes that probe new ideas and techniques.</p>
+          </article>
+          <a class="matrix__cell matrix__cta" href="#projects">Explore the work →</a>
+        </div>
+      </section>
+
+      <!-- 03 · PROJECTS -->
+      <section class="section" id="projects" aria-labelledby="proj-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">03 · Projects</p>
+            <h2 class="section__title" id="proj-title">Selected work</h2>
+          </div>
+          <a class="link-accent" href="#contact">Concepts, prototypes &amp; tools →</a>
+        </div>
+
+        <div class="projects">
+
+          <!-- Project Management Code -->
+          <article class="card">
+            <div class="card__thumb" aria-hidden="true"></div>
+            <div class="card__body">
+              <p class="card__cat">ENGINEERING · AUTOMATION</p>
+              <h3 class="card__title">Project Management Code</h3>
+              <p class="card__desc">A reusable codebase for tracking capital projects — schedules, budgets, and status rollups generated from structured data.</p>
+              <div class="card__foot">
+                <span class="status"><span class="dot" aria-hidden="true"></span>PROTOTYPE</span>
+                <span class="card__arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- As-Built Plan Retrieval System -->
+          <article class="card">
+            <div class="card__thumb" aria-hidden="true"></div>
+            <div class="card__body">
+              <p class="card__cat">MUNICIPAL</p>
+              <h3 class="card__title">As-Built Plan Retrieval System</h3>
+              <p class="card__desc">An indexing and search concept for locating as-built drawings across decades of scanned archives.</p>
+              <div class="card__foot">
+                <span class="status"><span class="dot dot--wip" aria-hidden="true"></span>CONCEPT</span>
+                <span class="card__arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Agenda Report AI Tool -->
+          <article class="card">
+            <div class="card__thumb" aria-hidden="true"></div>
+            <div class="card__body">
+              <p class="card__cat">AI · AUTOMATION</p>
+              <h3 class="card__title">Agenda Report AI Tool</h3>
+              <p class="card__desc">Drafts staff-report summaries and agenda packets from source documents, with a human reviewer in the loop.</p>
+              <div class="card__foot">
+                <span class="status"><span class="dot" aria-hidden="true"></span>PROTOTYPE</span>
+                <span class="card__arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- AI Fleet Maintenance Prediction -->
+          <article class="card">
+            <div class="card__thumb" aria-hidden="true"></div>
+            <div class="card__body">
+              <p class="card__cat">AI</p>
+              <h3 class="card__title">AI Fleet Maintenance Prediction</h3>
+              <p class="card__desc">An experiment in forecasting vehicle maintenance from telematics and service-history signals.</p>
+              <div class="card__foot">
+                <span class="status"><span class="dot dot--wip" aria-hidden="true"></span>EXPERIMENT</span>
+                <span class="card__arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- GIS Export CLI -->
+          <article class="card">
+            <div class="card__thumb" aria-hidden="true"></div>
+            <div class="card__body">
+              <p class="card__cat">TOOLS</p>
+              <h3 class="card__title">GIS Export CLI</h3>
+              <p class="card__desc">A small command-line tool for batch-exporting GIS layers to common formats from the terminal.</p>
+              <div class="card__foot">
+                <span class="status"><span class="dot" aria-hidden="true"></span>TOOL</span>
+                <span class="card__arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Offline Model Evaluation Kit -->
+          <article class="card">
+            <div class="card__thumb" aria-hidden="true"></div>
+            <div class="card__body">
+              <p class="card__cat">AI</p>
+              <h3 class="card__title">Offline Model Evaluation Kit</h3>
+              <p class="card__desc">A harness for benchmarking small language models on a local machine — no network required.</p>
+              <div class="card__foot">
+                <span class="status"><span class="dot dot--wip" aria-hidden="true"></span>EXPERIMENT</span>
+                <span class="card__arrow" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 04 · LAB LOG -->
+      <section class="section" id="lab" aria-labelledby="lab-title">
+        <p class="eyebrow">04 · Lab log</p>
+        <h2 class="section__title" id="lab-title">Recent experiments</h2>
+
+        <div class="table-wrap" style="margin-top: 20px;">
+          <table class="log">
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Experiment</th><th scope="col">Tag</th><th scope="col">Status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-06-09</td>
+                <td class="log__exp">Offline model eval kit — first benchmark run</td>
+                <td>ai</td>
+                <td><span class="status"><span class="dot dot--wip" aria-hidden="true"></span>wip</span></td>
+              </tr>
+              <tr>
+                <td>2026-06-02</td>
+                <td class="log__exp">Fleet maintenance signals from telematics</td>
+                <td>ai</td>
+                <td><span class="status"><span class="dot dot--wip" aria-hidden="true"></span>wip</span></td>
+              </tr>
+              <tr>
+                <td>2026-05-24</td>
+                <td class="log__exp">GIS export CLI — batch format support</td>
+                <td>tools</td>
+                <td><span class="status"><span class="dot" aria-hidden="true"></span>live</span></td>
+              </tr>
+              <tr>
+                <td>2026-05-18</td>
+                <td class="log__exp">Agenda report drafting — prompt iteration</td>
+                <td>auto</td>
+                <td><span class="status"><span class="dot dot--wip" aria-hidden="true"></span>wip</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 05 · WRITING + 06 · CONTACT -->
+      <section class="section" id="writing" aria-labelledby="writing-title">
+        <p class="eyebrow" id="writing-title">05 · Writing</p>
+
+        <div class="writing">
+          <a class="post" href="#"><h3 class="post__title">Notes on evaluating small models offline</h3><span class="post__meta">JUN 2026 · AI</span></a>
+          <a class="post" href="#"><h3 class="post__title">Why as-built retrieval is harder than search</h3><span class="post__meta">MAY 2026 · MUNICIPAL</span></a>
+          <a class="post" href="#"><h3 class="post__title">Keeping a human in the agenda-drafting loop</h3><span class="post__meta">APR 2026 · AI</span></a>
+          <a class="post" href="#"><h3 class="post__title">When a CLI is the whole product</h3><span class="post__meta">MAR 2026 · TOOLS</span></a>
+        </div>
+
+        <div class="cta" id="contact">
+          <h2 class="cta__title">06 · Start a project with the foundry</h2>
+          <a class="btn btn--primary" href="mailto:hello@northbaydigitalfoundry.dev">Get in touch →</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

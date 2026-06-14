@@ -1,0 +1,12 @@
+# Cloudflare Pages — response headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Long-cache fingerprint-free static assets (safe: edit triggers a new deploy)
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
