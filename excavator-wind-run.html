@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Excavator Wind Run — North Bay Digital Foundry</title>
+  <meta name="description" content="A playable HTML-canvas prototype: drive an excavator through a construction corridor, stay on grade, and fight a constant downward crosswind.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Excavator Wind Run — North Bay Digital Foundry">
+  <meta property="og:description" content="Stay on grade. Fight the wind. A canvas game prototype from the foundry.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared design system, then page-specific styles.
+       Relative paths so the page renders styled whether it is served from a
+       web root OR opened directly as a local file (file://). -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/excavator-wind-run.css">
+</head>
+<body>
+  <a class="skip-link" href="#run">Skip to the game</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview" aria-current="true">01 · Overview</a></li>
+          <li><a href="#run">         02 · The run</a></li>
+          <li><a href="#status">      03 · Project status</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">Prototype · v0.1</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <!-- 01 · OVERVIEW / HERO -->
+      <section class="hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// playable prototype</p>
+          <h1 class="hero__title" id="hero-title">Excavator Wind Run</h1>
+          <p class="hero__tagline">Stay on grade. Fight the wind.</p>
+          <p class="hero__lede">Drive the excavator through the corridor while a steady crosswind pushes you off line. Hold Space, click, or tap to correct upward; release to let the wind drift you downward.</p>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#run">Start the run</a>
+            <a class="btn" href="index.html">View the foundry</a>
+          </div>
+
+          <p class="keyhint">
+            Correct upward with
+            <span class="kbd">Space</span>
+            <span class="kbd">Click</span>
+            <span class="kbd">Tap</span>
+            <span class="keyhint__sep" aria-hidden="true">·</span>
+            <span class="kbd">P</span> pause
+            <span class="kbd">Esc</span> end
+            <span class="kbd">R</span> restart
+          </p>
+        </div>
+
+        <!-- Briefing spec block (reuses the shared .spec component) -->
+        <div class="spec" aria-label="Run briefing">
+          <div class="spec__row"><span class="spec__label">LEVEL</span><span class="spec__value tnum">01</span></div>
+          <div class="spec__row"><span class="spec__label">CROSSWIND</span><span class="spec__value">▼ DOWN</span></div>
+          <div class="spec__row"><span class="spec__label">HAZARD</span><span class="spec__value">SCAFFOLD</span></div>
+          <div class="spec__row"><span class="spec__label">GOAL</span><span class="spec__value">DISTANCE</span></div>
+        </div>
+      </section>
+
+      <!-- 02 · THE RUN (game) -->
+      <section class="section" id="run" aria-labelledby="run-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">02 · The run</p>
+            <h2 class="section__title" id="run-title">Excavation corridor — Level 1</h2>
+          </div>
+          <a class="link-accent" href="#status">About this prototype →</a>
+        </div>
+
+        <!-- The playfield -->
+        <div class="stage" id="stage">
+          <canvas class="stage__canvas" id="game"
+                  role="img"
+                  aria-label="Excavator Wind Run game. Hold space, click, or tap to correct against the crosswind. P pauses, Escape ends the run, R restarts."></canvas>
+
+          <!-- DOM HUD overlay (crisp text on top of the canvas) -->
+          <div class="hud" aria-hidden="true">
+            <div class="hud__top">
+              <span class="tag">Level <span class="num" id="hud-level">01</span></span>
+
+              <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <div class="hud__dist">
+                  <span class="k">Score</span>
+                  <span class="v"><span id="hud-dist">0</span><small> m</small></span>
+                </div>
+                <span class="wind">
+                  <span class="wind__chevrons"><span>▼</span><span>▼</span><span>▼</span></span>
+                  Crosswind
+                </span>
+              </div>
+            </div>
+
+            <!-- Start / crash message -->
+            <div class="hud__center">
+              <div class="msg" id="msg">
+                <p class="msg__title" id="msg-title">Ready on site</p>
+                <p class="msg__sub" id="msg-sub">Press <strong>Space</strong>, click, or tap to begin the run.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+          <p class="controls__hint">Furthest run: <strong id="st-best" class="tnum">0</strong> m · Hold <strong>Space</strong> / mouse / touch to correct upward; release to drift with the wind.</p>
+          <div class="controls__buttons">
+            <button class="btn btn--sm" type="button" id="pause">Pause</button>
+            <button class="btn btn--sm" type="button" id="end">End run</button>
+            <button class="btn btn--sm" type="button" id="restart">Restart run</button>
+          </div>
+        </div>
+
+        <!-- Site Conditions: live dashboard (Level Telemetry, renamed) -->
+        <div class="section__head" style="margin-top:26px; margin-bottom:14px;">
+          <p class="eyebrow" style="margin:0;">Site conditions</p>
+          <span class="status" id="st-status"><span class="dot dot--wip" aria-hidden="true"></span>Ready</span>
+        </div>
+        <div class="conditions" aria-label="Live site conditions">
+          <div class="stat">
+            <p class="stat__label">Score</p>
+            <p class="stat__value"><span id="m-score">0</span><small> m</small></p>
+          </div>
+          <div class="stat">
+            <p class="stat__label">Speed</p>
+            <p class="stat__value"><span id="m-speed">0</span><small> km/h</small></p>
+          </div>
+          <div class="stat">
+            <p class="stat__label">Level</p>
+            <p class="stat__value tnum" id="m-level">01</p>
+          </div>
+          <div class="stat">
+            <p class="stat__label">Wind</p>
+            <p class="stat__value" id="m-wind">Strong<small> ▼</small></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 · PROJECT STATUS -->
+      <section class="section" id="status" aria-labelledby="status-title">
+        <p class="eyebrow">03 · Project status</p>
+        <h2 class="section__title" id="status-title">Project status</h2>
+
+        <div class="status-cols">
+          <!-- Prototype / version -->
+          <div class="panel panel--alt">
+            <p class="panel__label">Prototype</p>
+            <div class="statusline">
+              <span class="statusline__k">Stage</span>
+              <span class="statusline__v">Prototype</span>
+            </div>
+            <div class="statusline">
+              <span class="statusline__k">Version</span>
+              <span class="statusline__v tnum">0.1</span>
+            </div>
+          </div>
+
+          <!-- Learning objectives -->
+          <div class="panel">
+            <p class="panel__label">Learning objectives</p>
+            <ul class="objectives">
+              <li class="done"><span class="box" aria-hidden="true">✓</span><span>Multi-page architecture</span></li>
+              <li class="done"><span class="box" aria-hidden="true">✓</span><span>Shared design system</span></li>
+              <li class="done"><span class="box" aria-hidden="true">✓</span><span>HTML Canvas rendering</span></li>
+              <li class="todo"><span class="box" aria-hidden="true"></span><span>Physics tuning</span></li>
+              <li class="todo"><span class="box" aria-hidden="true"></span><span>Mobile controls</span></li>
+              <li class="todo"><span class="box" aria-hidden="true"></span><span>Additional levels</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <!-- Shared progressive enhancement (nav toggle, scroll-spy, year) -->
+  <script src="assets/js/main.js" defer></script>
+  <!-- The game -->
+  <script src="assets/js/excavator-wind-run.js" defer></script>
+</body>
+</html>
