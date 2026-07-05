@@ -137,18 +137,43 @@ breaks the layout on narrow screens. Motion respects
 
 ```
 north-bay-digital-foundry/
-├── index.html              # The single landing page (all content)
+├── index.html              # The landing page
+├── excavator-wind-run.html # "Excavator Wind Run" — canvas game prototype page
+├── pipeline-calc.html      # Potable Pipeline Engineering Suite (calculators)
 ├── 404.html                # Custom not-found page (Cloudflare Pages)
 ├── _headers                # Cloudflare Pages response headers (security + cache)
 ├── README.md               # This file
+├── STYLE_GUIDE.md          # Design-system reference for new pages
 └── assets/
     ├── css/
-    │   └── styles.css      # All styles; design tokens in :root
+    │   ├── styles.css                 # Shared design system; tokens in :root
+    │   ├── excavator-wind-run.css     # Game page styles (blue accent + game UI)
+    │   └── pipeline-calc.css          # Pipeline suite page styles
     └── js/
-        └── main.js         # Progressive enhancement (nav toggle, scroll-spy, year)
+        ├── main.js                    # Progressive enhancement (nav, scroll-spy, year)
+        ├── excavator-wind-run.js      # The canvas game (vanilla JS, no dependencies)
+        ├── pipeline-calc.js           # Pipeline suite UI/state (ES module)
+        └── pipeline-engineering.js    # Pure hydraulic/structural calculations
 ```
 
 There is no build step. The files served are the files in the repository.
+
+### Excavator Wind Run
+
+A second page (`excavator-wind-run.html`) ships a self-contained HTML-canvas
+game built on the **same shared design system** (`assets/css/styles.css`). The
+player drives an excavator through a construction corridor while a constant
+downward **crosswind** pushes it off line; holding <kbd>Space</kbd>, the mouse,
+or a touch applies upward correction, and <kbd>P</kbd>/<kbd>Esc</kbd>/<kbd>R</kbd>
+pause, end, and restart the run. Scaffolding hazards advance from the right
+(forward-travel illusion), score is the distance travelled, and the furthest
+run is kept in `localStorage`.
+
+It demonstrates the project's multi-page direction: the page reuses the shared
+shell, rail, and components, and only overrides `--accent` to blue plus adds
+game-specific UI in `assets/css/excavator-wind-run.css`. The game logic lives
+in `assets/js/excavator-wind-run.js` — vanilla JS, no frameworks, delta-timed
+physics, and high-DPI canvas scaling.
 
 ---
 

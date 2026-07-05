@@ -1,0 +1,319 @@
+/* =========================================================================
+   Potable Pipeline Engineering Suite — page-specific styles
+   Extends assets/css/styles.css (the shared NBDF design system).
+   Loaded AFTER styles.css. Keeps the default ember accent (no :root
+   override — unlike excavator-wind-run.css, which re-themes to blue).
+
+   All new classes are prefixed .nbdf- per the suite's conventions; shared
+   components (.rail, .hero, .spec, .btn, .status, .dot, .eyebrow, …) are
+   reused from the shared sheet unchanged. Panel / stat / chip patterns
+   mirror the excavator page components but are declared here under .nbdf-
+   names so this page does not import that page's blue accent override.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Rail extras: "back to foundry" link (same pattern as the game page)
+   ------------------------------------------------------------------------- */
+
+.rail__home {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+  padding: 2px 0;
+}
+.rail__home:hover { text-decoration: underline; }
+
+/* -------------------------------------------------------------------------
+   Workflow stack: one column of calculator panels per section
+   ------------------------------------------------------------------------- */
+
+.nbdf-workflow {
+  display: grid;
+  gap: 18px;
+}
+
+/* -------------------------------------------------------------------------
+   Calculator panel (mirrors the .panel pattern)
+   ------------------------------------------------------------------------- */
+
+.nbdf-calc {
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 20px 22px;
+}
+
+.nbdf-calc__title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.014em;
+  margin: 0 0 4px;
+}
+
+.nbdf-calc__sub {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin: 0;
+}
+
+.nbdf-calc__grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 20px;
+  margin-top: 16px;
+  align-items: start;
+}
+
+/* -------------------------------------------------------------------------
+   Input fields
+   ------------------------------------------------------------------------- */
+
+.nbdf-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px 14px;
+  align-content: start;
+}
+
+.nbdf-field--wide { grid-column: 1 / -1; }
+
+.nbdf-field__label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 5px;
+}
+
+.nbdf-field__unit {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.nbdf-field__input,
+.nbdf-field__select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  font-feature-settings: 'tnum' 1, 'zero' 1, 'cv05' 1;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid var(--dash);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  transition: border-color 0.12s ease;
+}
+
+.nbdf-field__input::placeholder { color: var(--faint); font-weight: 400; }
+.nbdf-field__input:hover,
+.nbdf-field__select:hover { border-color: var(--muted); }
+.nbdf-field__input:focus,
+.nbdf-field__select:focus { border-color: var(--ink); }
+
+.nbdf-field__input[aria-invalid="true"] { border-color: var(--accent); }
+
+/* Hide native number spinners; values are typed, not stepped */
+.nbdf-field__input::-webkit-outer-spin-button,
+.nbdf-field__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.nbdf-field__input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+.nbdf-field__error {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--accent);
+  margin: 5px 0 0;
+}
+
+/* -------------------------------------------------------------------------
+   Results: bordered readout stack (mirrors the .stat matrix pattern)
+   ------------------------------------------------------------------------- */
+
+.nbdf-results {
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  overflow: hidden;
+}
+
+.nbdf-readout {
+  padding: 13px 16px;
+  border-bottom: 1.5px solid var(--line);
+}
+.nbdf-readout:last-child { border-bottom: 0; }
+
+.nbdf-readout__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 6px;
+}
+
+.nbdf-readout__value {
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nbdf-readout__value small {
+  font-size: 0.5em;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+/* Compliance chip (mirrors the .tag pill pattern) */
+.nbdf-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--surface);
+  color: var(--ink);
+}
+.nbdf-chip--ok      { border-color: var(--line-strong); }
+.nbdf-chip--info    { border-color: var(--dash); color: var(--muted); }
+.nbdf-chip--review  { border-color: var(--accent); color: var(--accent); }
+.nbdf-chip--exceeds { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+
+.nbdf-readout__note {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+
+/* -------------------------------------------------------------------------
+   Method & References (native <details> — zero-JS collapsible)
+   ------------------------------------------------------------------------- */
+
+.nbdf-refs {
+  margin-top: 16px;
+  border-top: 1.5px solid var(--line);
+  padding-top: 12px;
+}
+
+.nbdf-refs > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.nbdf-refs > summary::-webkit-details-marker { display: none; }
+.nbdf-refs > summary::before {
+  content: '+';
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--accent);
+}
+.nbdf-refs[open] > summary::before { content: '−'; }
+.nbdf-refs > summary:hover { color: var(--ink); }
+
+.nbdf-refs__body {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 72ch;
+}
+.nbdf-refs__body p { margin: 0 0 10px; }
+.nbdf-refs__body ul { margin: 0 0 10px; padding-left: 18px; }
+.nbdf-refs__body li { margin-bottom: 4px; }
+.nbdf-refs__body strong { color: var(--ink); }
+
+/* Equation block */
+.nbdf-eq {
+  display: block;
+  background: var(--surface-tint);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink);
+  font-feature-settings: 'tnum' 1, 'zero' 1, 'cv05' 1;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Small reference tables (E′ classes, HS-20 live loads, …) */
+.nbdf-refs__body table {
+  border-collapse: collapse;
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+.nbdf-refs__body th,
+.nbdf-refs__body td {
+  text-align: left;
+  padding: 4px 14px 4px 0;
+  border-bottom: 1.5px solid var(--line);
+  color: var(--muted);
+}
+.nbdf-refs__body th {
+  color: var(--faint);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+/* -------------------------------------------------------------------------
+   Engineering disclaimer strip
+   ------------------------------------------------------------------------- */
+
+.nbdf-disclaimer { background: var(--surface-alt); }
+
+.nbdf-disclaimer__text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 72ch;
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive — same breakpoints as the shared system (860 / 760 / 540)
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .nbdf-calc__grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+  .nbdf-form { grid-template-columns: 1fr; }
+  .nbdf-calc { padding: 16px; }
+}

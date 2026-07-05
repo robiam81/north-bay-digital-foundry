@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Potable Pipeline Engineering Suite — North Bay Digital Foundry</title>
+  <meta name="description" content="Hydraulic, structural, transient, and stability calculators for pressurized potable water distribution design. Preliminary engineering reference — US customary units, methods documented inline.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Potable Pipeline Engineering Suite — North Bay Digital Foundry">
+  <meta property="og:description" content="Hydraulic, structural, and transient analysis tools for pressurized water distribution design.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared design system, then page-specific styles -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/pipeline-calc.css">
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview" aria-current="true">01 · Overview</a></li>
+          <li><a href="#hydraulics">02 · Hydraulics</a></li>
+          <li><a href="#structural">03 · Structural</a></li>
+          <li><a href="#transient">04 · Transient</a></li>
+          <li><a href="#stability">05 · Stability</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">Tool · v1.0</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <!-- 01 · OVERVIEW / HERO -->
+      <section class="hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// engineering suite</p>
+          <h1 class="hero__title" id="hero-title">Potable Pipeline Engineering Suite</h1>
+          <p class="hero__lede">Seven preliminary-design calculators for pressurized potable water pipelines — hydraulics, thrust restraint, wall thickness, deflection, surge, and flotation. US customary units; every method documented inline.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#hydraulics">Open the calculators</a>
+            <a class="btn" href="index.html">View the foundry</a>
+          </div>
+        </div>
+
+        <div class="spec" aria-label="Suite at a glance">
+          <div class="spec__row"><span class="spec__label">CALCULATORS</span><span class="spec__value tnum">07</span></div>
+          <div class="spec__row"><span class="spec__label">WORKFLOWS</span><span class="spec__value tnum">04</span></div>
+          <div class="spec__row"><span class="spec__label">UNITS</span><span class="spec__value">US CUST.</span></div>
+          <div class="spec__row"><span class="spec__label">BASIS</span><span class="spec__value">AWWA · DIPRA</span></div>
+        </div>
+      </section>
+
+      <!-- 02 · HYDRAULICS -->
+      <section class="section" id="hydraulics" aria-labelledby="hyd-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">02 · Hydraulics</p>
+            <h2 class="section__title" id="hyd-title">Head loss &amp; velocity</h2>
+          </div>
+          <span class="status"><span class="dot" aria-hidden="true"></span>LIVE RESULTS</span>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Hazen-Williams -->
+          <article class="nbdf-calc" aria-labelledby="hw-title">
+            <h3 class="nbdf-calc__title" id="hw-title">Hazen-Williams head loss</h3>
+            <p class="nbdf-calc__sub">Friction loss and pressure drop for a full-flowing pressurized water pipe.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="hazenWilliams" novalidate>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="hw-flow">Flow rate <span class="nbdf-field__unit">(gpm)</span></label>
+                  <input class="nbdf-field__input" id="hw-flow" name="flowGpm" type="number" step="any" inputmode="decimal" placeholder="e.g. 1200">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="hw-dia">Pipe inside diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="hw-dia" name="diameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 12">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="hw-c">C factor <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="hw-c" name="cFactor" type="number" step="any" inputmode="decimal" placeholder="typ. 120–150">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="hw-len">Pipeline length <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="hw-len" name="lengthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 5280">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Head loss</p>
+                  <p class="nbdf-readout__value"><span data-out="headLossFt">—</span><small>ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Pressure drop</p>
+                  <p class="nbdf-readout__value"><span data-out="pressureDropPsi">—</span><small>psi</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">hf (ft) = 10.44 · L · Q^1.852 / (C^1.852 · d^4.8655)
+ΔP (psi) = 0.4333 · hf</code>
+                <p><strong>Variables &amp; units:</strong></p>
+                <ul>
+                  <li><strong>Q</strong> — flow rate, gpm</li>
+                  <li><strong>d</strong> — pipe inside diameter, inches</li>
+                  <li><strong>C</strong> — Hazen-Williams roughness coefficient (dimensionless, empirical)</li>
+                  <li><strong>L</strong> — pipeline length, feet</li>
+                </ul>
+                <p><strong>Assumptions &amp; limitations:</strong> turbulent flow of potable water near 60&nbsp;°F. C is empirical and material/age dependent — cement-mortar-lined ductile iron ≈ 140 new, PVC ≈ 150, unlined cast iron 60–100 with age. Outside its calibration range Hazen-Williams can deviate ±10–15% from Darcy-Weisbach; use Darcy-Weisbach where temperature or fluid differs.</p>
+                <p><strong>Source:</strong> Williams &amp; Hazen empirical formula; standard practice per AWWA M32 (Computer Modeling of Water Distribution Systems). The psi-per-foot form (constant 4.52) appears in NFPA 13.</p>
+              </div>
+            </details>
+          </article>
+
+          <!-- Velocity check -->
+          <article class="nbdf-calc" aria-labelledby="vc-title">
+            <h3 class="nbdf-calc__title" id="vc-title">Velocity constraint check</h3>
+            <p class="nbdf-calc__sub">Mean velocity from continuity, flagged against typical municipal design ranges. Results are never clamped.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="velocityCheck" novalidate>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="vc-flow">Flow rate <span class="nbdf-field__unit">(gpm)</span></label>
+                  <input class="nbdf-field__input" id="vc-flow" name="flowGpm" type="number" step="any" inputmode="decimal" placeholder="e.g. 1200">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="vc-dia">Pipe inside diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="vc-dia" name="diameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 12">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Fluid velocity</p>
+                  <p class="nbdf-readout__value"><span data-out="velocityFps">—</span><small>fps</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">V (fps) = 0.4085 · Q / d²</code>
+                <p><strong>Variables &amp; units:</strong> Q — flow rate, gpm; d — inside diameter, inches. Exact continuity identity (V = Q/A), not an empirical formula.</p>
+                <p><strong>Flag tiers</strong> (Industry Approximation — Verify with PE; thresholds vary by agency):</p>
+                <ul>
+                  <li>&lt; 2 fps — informational: check turnover, water age, sedimentation</li>
+                  <li>2–5 fps — typical municipal design range</li>
+                  <li>5–8 fps — upper municipal limit range; review</li>
+                  <li>&gt; 8 fps — exceeds typical municipal maximum</li>
+                </ul>
+                <p><strong>Source:</strong> common municipal design guidance derived from GLUMRB "Ten States Standards" practice and typical utility design manuals. The computed velocity is reported unmodified in all cases.</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 03 · STRUCTURAL -->
+      <section class="section" id="structural" aria-labelledby="str-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">03 · Structural</p>
+            <h2 class="section__title" id="str-title">Restraint, wall &amp; deflection</h2>
+          </div>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Restrained length -->
+          <article class="nbdf-calc" aria-labelledby="rl-title">
+            <h3 class="nbdf-calc__title" id="rl-title">Restrained length — horizontal bend</h3>
+            <p class="nbdf-calc__sub">DIPRA-aligned preliminary estimate, longitudinal friction resistance only. Length applies to each side of the bend.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="restrainedLength" novalidate>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-od">Pipe outside diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="rl-od" name="outsideDiameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 13.20">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-p">Design pressure <span class="nbdf-field__unit">(psi)</span></label>
+                  <input class="nbdf-field__input" id="rl-p" name="pressurePsi" type="number" step="any" inputmode="decimal" placeholder="e.g. 150">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-ang">Fitting angle <span class="nbdf-field__unit">(deg, ≤ 90)</span></label>
+                  <input class="nbdf-field__input" id="rl-ang" name="bendAngleDeg" type="number" step="any" inputmode="decimal" placeholder="11.25 / 22.5 / 45 / 90">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-f">Soil friction coefficient <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="rl-f" name="frictionCoeff" type="number" step="any" inputmode="decimal" placeholder="typ. 0.25–0.40">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-w">Pipe + water weight <span class="nbdf-field__unit">(lb/ft)</span></label>
+                  <input class="nbdf-field__input" id="rl-w" name="pipeWaterWeightLbFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 95">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-gs">Soil unit weight <span class="nbdf-field__unit">(lb/ft³)</span></label>
+                  <input class="nbdf-field__input" id="rl-gs" name="soilUnitWeightLbFt3" type="number" step="any" inputmode="decimal" placeholder="typ. 110–130">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-hc">Cover depth <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="rl-hc" name="coverDepthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 4">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rl-sf">Safety factor <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="rl-sf" name="safetyFactor" type="number" step="any" inputmode="decimal" value="1.5">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Required restrained length (each side)</p>
+                  <p class="nbdf-readout__value"><span data-out="restrainedLengthFt">—</span><small>ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Resultant thrust</p>
+                  <p class="nbdf-readout__value"><span data-out="thrustLb">—</span><small>lb</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Unit friction resistance</p>
+                  <p class="nbdf-readout__value"><span data-out="unitFrictionLbFt">—</span><small>lb/ft</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">A  (in²)   = π · Do² / 4
+T  (lb)    = 2 · P · A · sin(θ/2)
+We (lb/ft) = γs · Hc · Do / 12
+Fs (lb/ft) = f · (2·We + Wp+w)
+L  (ft)    = SF · P · A · tan(θ/2) / Fs</code>
+                <p><strong>Variables &amp; units:</strong></p>
+                <ul>
+                  <li><strong>Do</strong> — pipe outside diameter, inches (thrust acts on the OD cross-section)</li>
+                  <li><strong>P</strong> — design or test pressure, psi</li>
+                  <li><strong>θ</strong> — fitting deflection angle, degrees (horizontal bends, 0 &lt; θ ≤ 90°)</li>
+                  <li><strong>f</strong> — soil-to-pipe friction coefficient (0.25–0.40 typical; lower for polyethylene-encased pipe)</li>
+                  <li><strong>Wp+w</strong> — pipe plus contained water weight, lb/ft</li>
+                  <li><strong>γs, Hc</strong> — soil unit weight (lb/ft³) and depth of cover (ft) for the earth prism We</li>
+                  <li><strong>SF</strong> — safety factor (1.5 typical per DIPRA practice)</li>
+                </ul>
+                <p><strong>DIPRA-aligned preliminary thrust-restraint estimate based on longitudinal friction resistance only. Does not include passive soil bearing resistance. Final restrained length must be verified against DIPRA/AWWA/manufacturer requirements.</strong></p>
+                <p><strong>Assumptions &amp; limitations:</strong> horizontal bend in uniform soil above the water table; friction-only resistance is conservative relative to the full DIPRA method (which adds passive bearing, ½·Rs). Not applicable to vertical bends, dead ends, or reducers without modification.</p>
+                <p><strong>Source:</strong> DIPRA, <em>Thrust Restraint Design for Ductile Iron Pipe</em>; AWWA Manual M41. Friction-only simplification: Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+          <!-- Barlow -->
+          <article class="nbdf-calc" aria-labelledby="bl-title">
+            <h3 class="nbdf-calc__title" id="bl-title">Barlow hoop stress</h3>
+            <p class="nbdf-calc__sub">Thin-wall hoop-stress relation — solve for required wall thickness or maximum allowable pressure.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="barlow" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="bl-mode">Solve for</label>
+                  <select class="nbdf-field__select" id="bl-mode" name="mode">
+                    <option value="thickness">Required wall thickness</option>
+                    <option value="pressure">Maximum allowable pressure</option>
+                  </select>
+                </div>
+                <div class="nbdf-field" data-mode="thickness">
+                  <label class="nbdf-field__label" for="bl-p">Internal pressure <span class="nbdf-field__unit">(psi)</span></label>
+                  <input class="nbdf-field__input" id="bl-p" name="pressurePsi" type="number" step="any" inputmode="decimal" placeholder="e.g. 150">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="pressure">
+                  <label class="nbdf-field__label" for="bl-t">Wall thickness <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="bl-t" name="wallThicknessIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.25">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="bl-od">Outside diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="bl-od" name="outsideDiameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 12.75">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="bl-s">Allowable hoop stress <span class="nbdf-field__unit">(psi)</span></label>
+                  <input class="nbdf-field__input" id="bl-s" name="allowableStressPsi" type="number" step="any" inputmode="decimal" placeholder="incl. design factor">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Required wall thickness</p>
+                  <p class="nbdf-readout__value"><span data-out="wallThicknessIn">—</span><small>in</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Maximum allowable pressure</p>
+                  <p class="nbdf-readout__value"><span data-out="maxPressurePsi">—</span><small>psi</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">t (in)  = P · Do / (2 · S)
+P (psi) = 2 · S · t / Do</code>
+                <p><strong>Variables &amp; units:</strong> P — internal pressure, psi; Do — <em>outside</em> diameter, inches; S — allowable hoop stress, psi; t — wall thickness, inches.</p>
+                <p><strong>Assumptions &amp; limitations:</strong> thin-wall assumption (accurate for t/Do ≤ ~0.10; conservative beyond). S must already include the design/safety factor and any temperature or joint derating — this tool applies no additional factor. Internal pressure only; external loads, vacuum, and bending are excluded.</p>
+                <p><strong>Source:</strong> Barlow's formula as applied in AWWA Manual M11 (Steel Pipe — A Guide for Design and Installation). The AWWA C900/C905 pressure-class equation PC = 2·HDS/(DR−1) is the same relation in dimension-ratio form.</p>
+              </div>
+            </details>
+          </article>
+
+          <!-- Modified Iowa -->
+          <article class="nbdf-calc" aria-labelledby="mi-title">
+            <h3 class="nbdf-calc__title" id="mi-title">Modified Iowa deflection</h3>
+            <p class="nbdf-calc__sub">Predicted vertical ring deflection of buried flexible pipe under earth and live load (Spangler/Watkins).</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="modifiedIowa" novalidate>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-ps">Pipe stiffness PS <span class="nbdf-field__unit">(psi)</span></label>
+                  <input class="nbdf-field__input" id="mi-ps" name="pipeStiffnessPsi" type="number" step="any" inputmode="decimal" placeholder="ASTM D2412">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-e">Soil modulus E′ <span class="nbdf-field__unit">(psi)</span></label>
+                  <input class="nbdf-field__input" id="mi-e" name="soilModulusPsi" type="number" step="any" inputmode="decimal" placeholder="typ. 400–3000">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-k">Bedding constant K <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="mi-k" name="beddingConstant" type="number" step="any" inputmode="decimal" value="0.10">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-dl">Deflection lag DL <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="mi-dl" name="deflectionLag" type="number" step="any" inputmode="decimal" value="1.0">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-gs">Soil unit weight <span class="nbdf-field__unit">(lb/ft³)</span></label>
+                  <input class="nbdf-field__input" id="mi-gs" name="soilUnitWeightLbFt3" type="number" step="any" inputmode="decimal" placeholder="typ. 110–130">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-h">Cover depth <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="mi-h" name="coverDepthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 4">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="mi-wl">Live load WL <span class="nbdf-field__unit">(psi, 0 if none)</span></label>
+                  <input class="nbdf-field__input" id="mi-wl" name="liveLoadPsi" type="number" step="any" inputmode="decimal" placeholder="HS-20 table below">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Predicted vertical deflection</p>
+                  <p class="nbdf-readout__value"><span data-out="deflectionPct">—</span><small>%</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Prism earth load Wc</p>
+                  <p class="nbdf-readout__value"><span data-out="earthLoadPsi">—</span><small>psi</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Wc (psi) = γs · H / 144
+Δy/D (%) = 100 · (DL·Wc + WL) · K / (0.149·PS + 0.061·E′)</code>
+                <p><strong>Why PS and the load terms are required:</strong> the Iowa formula balances load (numerator) against the combined stiffness of the pipe ring (0.149·PS) and the surrounding soil (0.061·E′). Without pipe stiffness and the earth/live loads the equation is indeterminate — they are not optional refinements.</p>
+                <p><strong>Variables &amp; units:</strong> PS — pipe stiffness at 5% deflection per ASTM D2412, psi; E′ — modulus of soil reaction, psi; K — bedding constant (0.083–0.110; 0.10 typical); DL — deflection lag factor (use 1.0 with prism load, up to 1.5 with Marston load); γs — soil unit weight, lb/ft³; H — cover, ft; WL — live load at pipe depth, psi.</p>
+                <table>
+                  <thead><tr><th scope="col">E′ guidance (granular embedment)</th><th scope="col">psi</th></tr></thead>
+                  <tbody>
+                    <tr><td>Dumped / uncompacted</td><td>50–200</td></tr>
+                    <tr><td>Slight compaction (&lt; 85% Proctor)</td><td>200–400</td></tr>
+                    <tr><td>Moderate compaction (85–95%)</td><td>1000</td></tr>
+                    <tr><td>High compaction (&gt; 95%)</td><td>2000–3000</td></tr>
+                  </tbody>
+                </table>
+                <table>
+                  <thead><tr><th scope="col">HS-20 live load (commonly tabulated)</th><th scope="col">psi</th></tr></thead>
+                  <tbody>
+                    <tr><td>1 ft cover</td><td>12.50</td></tr>
+                    <tr><td>2 ft cover</td><td>5.56</td></tr>
+                    <tr><td>4 ft cover</td><td>2.78</td></tr>
+                    <tr><td>8 ft cover</td><td>0.69</td></tr>
+                  </tbody>
+                </table>
+                <p><strong>Assumptions &amp; limitations:</strong> flexible pipe with granular embedment; prism earth load; long-term soil consolidation captured only through DL. Allowable deflection varies by material — 5% initial is common for PVC (AWWA M23); check the governing product standard. Verify E′ and live loads against project geotechnical data and AASHTO.</p>
+                <p><strong>Source:</strong> Spangler (1941), modified by Watkins (1958); AWWA M23 (PVC Pipe), M45 (Fiberglass), M55 (PE); ASTM D2412; E′ values per Howard (USBR).</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 04 · TRANSIENT -->
+      <section class="section" id="transient" aria-labelledby="trn-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">04 · Transient</p>
+            <h2 class="section__title" id="trn-title">Surge analysis</h2>
+          </div>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Joukowsky -->
+          <article class="nbdf-calc" aria-labelledby="jk-title">
+            <h3 class="nbdf-calc__title" id="jk-title">Joukowsky surge</h3>
+            <p class="nbdf-calc__sub">Upper-bound surge pressure from an instantaneous flow stoppage (water hammer).</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="joukowskySurge" novalidate>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="jk-v">Initial velocity <span class="nbdf-field__unit">(fps)</span></label>
+                  <input class="nbdf-field__input" id="jk-v" name="velocityFps" type="number" step="any" inputmode="decimal" placeholder="e.g. 5">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="jk-a">Wave speed <span class="nbdf-field__unit">(fps)</span></label>
+                  <input class="nbdf-field__input" id="jk-a" name="waveSpeedFps" type="number" step="any" inputmode="decimal" placeholder="DI ~4000 · PVC ~1300">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="jk-rho">Fluid density <span class="nbdf-field__unit">(slug/ft³)</span></label>
+                  <input class="nbdf-field__input" id="jk-rho" name="fluidDensitySlugFt3" type="number" step="any" inputmode="decimal" value="1.94">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="jk-po">Operating pressure <span class="nbdf-field__unit">(psi)</span></label>
+                  <input class="nbdf-field__input" id="jk-po" name="operatingPressurePsi" type="number" step="any" inputmode="decimal" placeholder="e.g. 80">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Surge pressure ΔP</p>
+                  <p class="nbdf-readout__value"><span data-out="surgePsi">—</span><small>psi</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Surge head ΔH</p>
+                  <p class="nbdf-readout__value"><span data-out="surgeHeadFt">—</span><small>ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Total transient pressure</p>
+                  <p class="nbdf-readout__value"><span data-out="totalPsi">—</span><small>psi</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">ΔP (psi) = ρ · a · ΔV / 144
+ΔH (ft)  = a · ΔV / g          (g = 32.174 ft/s²)
+Total    = operating pressure + ΔP</code>
+                <p><strong>Variables &amp; units:</strong> ρ — fluid mass density, slug/ft³ (water ≈ 1.94 at 60&nbsp;°F); a — pressure wave speed, fps; ΔV — velocity change, fps (full stoppage assumed).</p>
+                <p><strong>Typical wave speeds:</strong> ductile iron 3000–4400 fps; steel 3000–4000 fps; PVC 1100–1500 fps (function of pipe material, wall, and entrained air — compute from pipe properties or take from manufacturer data).</p>
+                <p><strong>Assumptions &amp; limitations:</strong> valid for closure faster than one wave round-trip (t &lt; 2L/a). Ignores friction, wave reflections, and column separation; a matching downsurge of −ΔP occurs and can drive the line into vacuum. This is a screening value, not a substitute for a full transient (method-of-characteristics) model on critical systems.</p>
+                <p><strong>Source:</strong> Joukowsky (1898); discussed in AWWA M11 and standard transient references (Wylie &amp; Streeter, <em>Fluid Transients in Systems</em>).</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 05 · STABILITY -->
+      <section class="section" id="stability" aria-labelledby="stb-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">05 · Stability</p>
+            <h2 class="section__title" id="stb-title">Buoyancy &amp; flotation</h2>
+          </div>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Buoyancy -->
+          <article class="nbdf-calc" aria-labelledby="by-title">
+            <h3 class="nbdf-calc__title" id="by-title">Buoyancy / flotation check</h3>
+            <p class="nbdf-calc__sub">Flotation safety factor for buried pipe — fully-submerged, empty-pipe worst case — with concrete ballast sizing when short.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="buoyancy" novalidate>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-od">Outside diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="by-od" name="outsideDiameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 13.20">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-t">Wall thickness <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="by-t" name="wallThicknessIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.28">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-gp">Pipe material unit weight <span class="nbdf-field__unit">(lb/ft³)</span></label>
+                  <input class="nbdf-field__input" id="by-gp" name="pipeUnitWeightLbFt3" type="number" step="any" inputmode="decimal" placeholder="DI 448 · steel 490 · PVC 87.5">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-gs">Soil unit weight <span class="nbdf-field__unit">(lb/ft³)</span></label>
+                  <input class="nbdf-field__input" id="by-gs" name="soilUnitWeightLbFt3" type="number" step="any" inputmode="decimal" placeholder="typ. 110–130">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-hc">Cover depth <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="by-hc" name="coverDepthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 4">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-hw">Groundwater above crown <span class="nbdf-field__unit">(ft, 0 = at crown)</span></label>
+                  <input class="nbdf-field__input" id="by-hw" name="groundwaterDepthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 2">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="by-sf">Required safety factor <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="by-sf" name="requiredSF" type="number" step="any" inputmode="decimal" value="1.25">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Safety factor vs flotation</p>
+                  <p class="nbdf-readout__value"><span data-out="safetyFactor">—</span><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Buoyant uplift</p>
+                  <p class="nbdf-readout__value"><span data-out="upliftLbFt">—</span><small>lb/ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Resisting weight (pipe + soil)</p>
+                  <p class="nbdf-readout__value"><span data-out="resistanceLbFt">—</span><small>lb/ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Concrete ballast required (air weight)</p>
+                  <p class="nbdf-readout__value"><span data-out="ballastConcreteLbFt">—</span><small>lb/ft</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Fb = γw · π · (Do/12)² / 4
+Wp = γp · π/4 · [(Do/12)² − ((Do−2t)/12)²]
+Ws = [γs·(Hc−Hsub) + (γs−γw)·Hsub] · Do/12,   Hsub = min(Hw, Hc)
+SF = (Wp + Ws) / Fb
+Ballast (concrete, air wt) = [SFreq·Fb − (Wp+Ws)] · γc / (γc − γw)</code>
+                <p><strong>Variables &amp; units:</strong> γw = 62.4 lb/ft³; γc = 150 lb/ft³ (normal-weight concrete); Do, t — inches; Hc, Hw — feet; γp, γs — lb/ft³. All forces per foot of pipe.</p>
+                <p><strong>Assumptions &amp; limitations:</strong> worst case — pipe empty and fully submerged (groundwater at or above the crown); simple soil prism of width Do (no trench shear or wedge effects); soil below the water table taken at buoyant unit weight (γs − 62.4). Ballast is reported as concrete air weight, already corrected for the ballast's own submergence. Required SF varies by agency — 1.1 to 1.5 is typical; confirm the governing standard.</p>
+                <p><strong>Source:</strong> Archimedes principle + prism method as discussed in AWWA M11 (flotation) and ASCE buried-pipe practice. Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- DISCLAIMER -->
+      <section class="section nbdf-disclaimer" aria-label="Engineering disclaimer">
+        <p class="eyebrow">Disclaimer</p>
+        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <!-- Shared progressive enhancement (nav toggle, scroll-spy, year) -->
+  <script src="assets/js/main.js" defer></script>
+  <!-- Calculator UI (ES module; imports the pure engineering layer) -->
+  <script type="module" src="assets/js/pipeline-calc.js"></script>
+</body>
+</html>
