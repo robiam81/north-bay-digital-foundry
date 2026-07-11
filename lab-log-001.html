@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capable is not the same as honest — North Bay Digital Foundry</title>
+  <meta name="description" content="Twelve language models — ten local, two cloud — run through a five-task engineering battery, scored on two independent axes: what they can do, and whether they stay truthful while doing it.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Capable is not the same as honest — North Bay Digital Foundry">
+  <meta property="og:description" content="Lab Log 001: a local LLM capability and reliability battery — 12 models, 5 tests, two axes that do not move together.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#lab-log-001">Skip to content</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#axes" aria-current="true">01 · Two axes</a></li>
+          <li><a href="#battery">02 · The five tests</a></li>
+          <li><a href="#results">03 · Results</a></li>
+          <li><a href="#findings">04 · Findings</a></li>
+          <li><a href="#methodology">05 · Methodology</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">Lab Log 001 · v2</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <article class="nbdf-report" id="lab-log-001">
+        <style>
+          .nbdf-report{
+            /* palette: engineering bench. slate ground, two distinct axis colors. */
+            --ink:#1c2126; --ink-soft:#4a535d; --faint:#8b94a0;
+            --paper:#f4f2ee; --panel:#fbfaf8; --line:#dcd8d0; --line-hard:#c2bcb0;
+            /* CAPABILITY axis = blue-signal family */
+            --cap:#2f6d8c; --cap-soft:#e5eef2;
+            /* RELIABILITY axis = amber/rust family, deliberately different from capability */
+            --rel:#a6591f; --rel-soft:#f3e9df;
+            /* tag bands */
+            --pc:#1f6b52; --vi:#2f6d8c; --co:#a6591f; --bt:#9c3327;
+            --hi:#1f6b52; --gen:#5a8a4a; --inc:#a6591f; --poor:#9c3327;
+            --mono:"SFMono-Regular",ui-monospace,"Cascadia Mono","Roboto Mono",Menlo,Consolas,monospace;
+            --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            --serif:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+            color:var(--ink); background:var(--paper); font-family:var(--sans);
+            line-height:1.58; -webkit-font-smoothing:antialiased;
+            max-width:1000px; margin:0 auto; padding:clamp(1.25rem,4vw,3.5rem);
+            font-size:clamp(15px,1rem,17px);
+          }
+          .nbdf-report *{box-sizing:border-box}
+          .nbdf-report a{color:var(--cap)}
+
+          /* masthead */
+          .nbdf-report .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;
+            text-transform:uppercase;color:var(--faint);margin:0 0 1rem;display:flex;gap:.75rem;flex-wrap:wrap}
+          .nbdf-report .eyebrow b{color:var(--cap);font-weight:600}
+          .nbdf-report h1{font-family:var(--serif);font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.02;
+            margin:0 0 .7rem;font-weight:600;letter-spacing:-.015em}
+          .nbdf-report .standfirst{font-size:clamp(1.08rem,2.3vw,1.4rem);color:var(--ink-soft);
+            max-width:62ch;margin:0 0 1.8rem;font-weight:400;line-height:1.45}
+          .nbdf-report .rule{height:2px;background:var(--ink);margin:0 0 .5rem}
+          .nbdf-report .subline{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+            font-family:var(--mono);font-size:.7rem;color:var(--faint);text-transform:uppercase;
+            letter-spacing:.08em;margin-bottom:3rem}
+
+          /* the thesis hero — the one-row proof */
+          .nbdf-report .hero-finding{background:var(--panel);border:1px solid var(--line-hard);
+            border-radius:3px;padding:clamp(1.25rem,3vw,2rem);margin:0 0 3rem;position:relative;overflow:hidden}
+          .nbdf-report .hero-finding::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+            background:linear-gradient(var(--cap),var(--rel))}
+          .nbdf-report .hero-finding .kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;
+            text-transform:uppercase;color:var(--rel);font-weight:600;margin:0 0 .8rem}
+          .nbdf-report .hero-finding p{margin:0 0 .8rem;font-size:1.08rem;max-width:64ch}
+          .nbdf-report .hero-finding p:last-child{margin:0}
+          .nbdf-report .hero-finding strong{font-weight:650}
+
+          /* section scaffold */
+          .nbdf-report section{margin:0 0 3rem}
+          .nbdf-report h2{font-family:var(--serif);font-size:1.55rem;font-weight:600;letter-spacing:-.01em;
+            margin:0 0 .4rem;display:flex;align-items:baseline;gap:.7rem}
+          .nbdf-report h2 .n{font-family:var(--mono);font-size:.78rem;color:var(--cap);font-weight:600}
+          .nbdf-report h3{font-size:1.05rem;font-weight:700;margin:1.7rem 0 .4rem}
+          .nbdf-report p{margin:0 0 1rem;max-width:70ch}
+          .nbdf-report .lede{color:var(--ink-soft)}
+
+          /* axis explainer chips */
+          .nbdf-report .axes{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.4rem 0}
+          .nbdf-report .axis{border:1px solid var(--line);border-radius:3px;padding:1rem 1.2rem;background:var(--panel)}
+          .nbdf-report .axis.cap{border-top:3px solid var(--cap)}
+          .nbdf-report .axis.rel{border-top:3px solid var(--rel)}
+          .nbdf-report .axis h4{margin:0 0 .3rem;font-size:.95rem;font-family:var(--mono);letter-spacing:.03em}
+          .nbdf-report .axis.cap h4{color:var(--cap)} .nbdf-report .axis.rel h4{color:var(--rel)}
+          .nbdf-report .axis p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+          .nbdf-report .axis .scale{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.6rem;line-height:1.5}
+
+          /* tests strip */
+          .nbdf-report .tests{display:grid;gap:1px;margin:1.2rem 0;border:1px solid var(--line);
+            border-radius:3px;overflow:hidden;background:var(--line)}
+          .nbdf-report .test{background:var(--panel);padding:.9rem 1.2rem}
+          .nbdf-report .test .id{font-family:var(--mono);font-weight:700;color:var(--cap);font-size:.8rem;margin-right:.6rem}
+          .nbdf-report .test .nm{font-weight:700}
+          .nbdf-report .test .ds{color:var(--ink-soft);font-size:.9rem;margin:.2rem 0 0}
+
+          /* ===== results matrix : paired capability + reliability badges per row ===== */
+          .nbdf-report .matrix-wrap{overflow-x:auto;margin:1.2rem 0 .5rem;border:1px solid var(--line);
+            border-radius:3px;background:var(--panel)}
+          .nbdf-report table.results-matrix{border-collapse:collapse;width:100%;min-width:820px;font-size:.85rem}
+          .nbdf-report table.results-matrix thead th{font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;
+            text-transform:uppercase;color:var(--ink-soft);padding:.7rem .55rem;background:#ece8e1;
+            border-bottom:2px solid var(--line-hard);text-align:center;vertical-align:bottom}
+          .nbdf-report table.results-matrix thead th.l{text-align:left}
+          .nbdf-report table.results-matrix thead th.capgrp{color:var(--cap);border-bottom-color:var(--cap)}
+          .nbdf-report table.results-matrix thead th.relgrp{color:var(--rel);border-bottom-color:var(--rel)}
+          .nbdf-report table.results-matrix tbody td{padding:.55rem .55rem;text-align:center;border-bottom:1px solid var(--line);vertical-align:middle}
+          .nbdf-report table.results-matrix tbody td.l{text-align:left;font-weight:600;white-space:nowrap}
+          .nbdf-report table.results-matrix tbody td.l .sub{display:block;font-family:var(--mono);font-size:.64rem;color:var(--faint);font-weight:400}
+          .nbdf-report table.results-matrix tbody tr:hover{background:#f6f3ee}
+          .nbdf-report table.results-matrix tbody tr.cloud td.l{border-left:3px solid var(--cap)}
+          .nbdf-report .pc-cell{font-family:var(--mono);font-weight:700;color:var(--cap)}
+          .nbdf-report .comp{font-family:var(--mono);font-weight:800;font-size:.95rem}
+          .nbdf-report .comp .d{font-weight:400;color:var(--faint);font-size:.7rem}
+          /* tag badges */
+          .nbdf-report .badge{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;
+            padding:.2rem .45rem;border-radius:2px;font-weight:600;white-space:nowrap;text-transform:uppercase}
+          .nbdf-report .b-pc{background:rgba(31,107,82,.12);color:var(--pc)}
+          .nbdf-report .b-vi{background:rgba(47,109,140,.12);color:var(--vi)}
+          .nbdf-report .b-co{background:rgba(166,89,31,.12);color:var(--co)}
+          .nbdf-report .b-bt{background:rgba(156,51,39,.12);color:var(--bt)}
+          .nbdf-report .b-hi{background:rgba(31,107,82,.12);color:var(--hi)}
+          .nbdf-report .b-gen{background:rgba(90,138,74,.14);color:var(--gen)}
+          .nbdf-report .b-inc{background:rgba(166,89,31,.12);color:var(--inc)}
+          .nbdf-report .b-poor{background:rgba(156,51,39,.12);color:var(--poor)}
+          .nbdf-report .vis-badge{font-family:var(--mono);font-size:.7rem;font-weight:700}
+          .nbdf-report .vis-t{color:var(--pc)} .nbdf-report .vis-n{color:var(--faint)}
+
+          /* per-test capability scores with subtle band coloring */
+          .nbdf-report td[data-c]{font-family:var(--mono);font-weight:600}
+          .nbdf-report td[data-c="pc"]{color:var(--pc)} .nbdf-report td[data-c="vi"]{color:var(--vi)}
+          .nbdf-report td[data-c="co"]{color:var(--co)} .nbdf-report td[data-c="bt"]{color:var(--bt)}
+          .nbdf-report td[data-c="na"]{color:var(--faint)}
+
+          .nbdf-report .legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-family:var(--mono);
+            font-size:.72rem;color:var(--ink-soft);margin:.5rem 0 0}
+          .nbdf-report .legend b{font-weight:600}
+          .nbdf-report .caption{font-size:.82rem;color:var(--ink-soft);font-style:italic;margin:.7rem 0 0;max-width:74ch}
+
+          /* callout for the centerpiece */
+          .nbdf-report .spotlight{border:1px solid var(--rel);background:var(--rel-soft);border-radius:3px;
+            padding:1.2rem 1.4rem;margin:1.6rem 0}
+          .nbdf-report .spotlight .h{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;
+            text-transform:uppercase;color:var(--rel);font-weight:700;margin:0 0 .5rem}
+          .nbdf-report .spotlight p{margin:0 0 .7rem} .nbdf-report .spotlight p:last-child{margin:0}
+
+          /* disclosure */
+          .nbdf-report .disclose{background:#ece8e1;border:1px dashed var(--line-hard);border-radius:3px;
+            padding:1.1rem 1.4rem;margin:1.2rem 0}
+          .nbdf-report .disclose ol{margin:.4rem 0 0;padding-left:1.2rem}
+          .nbdf-report .disclose li{margin:0 0 .6rem;max-width:72ch}
+
+          .nbdf-report .report-colophon{border-top:2px solid var(--ink);padding-top:1rem;font-family:var(--mono);
+            font-size:.72rem;color:var(--faint);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+          @media (max-width:640px){
+            .nbdf-report .axes{grid-template-columns:1fr}
+          }
+          @media (prefers-reduced-motion:no-preference){
+            .nbdf-report table.results-matrix tbody tr{transition:background .12s ease}
+          }
+        </style>
+
+        <!-- ============ MASTHEAD ============ -->
+        <header>
+          <p class="eyebrow"><b>North Bay Digital Foundry</b> <span>Lab Log 001</span> <span>Local-model evaluation</span></p>
+          <h1>Capable is not the same as honest</h1>
+          <p class="standfirst">Twelve language models — ten local, two cloud — run through a five-task engineering battery, scored on two independent axes: what they can do, and whether they stay truthful while doing it. The two do not move together.</p>
+          <div class="rule"></div>
+          <div class="subline">
+            <span>Alienware Aurora · RTX 5070 Ti 16 GB · Ollama + Open WebUI</span>
+            <span>Single run per test · scores directional</span>
+          </div>
+        </header>
+
+        <!-- ============ HERO FINDING ============ -->
+        <div class="hero-finding">
+          <p class="kicker">The result that organized this report</p>
+          <p>Test 1 asks each model to find "the unique ranking" for a constraint puzzle. The premise is false — the puzzle has <strong>two</strong> valid solutions. Of twelve models, <strong>one</strong> caught it and said so.</p>
+          <p>The models that <em>found both solutions and then buried one</em> were among the most capable in the battery. MiniMax-M3 derived both, then invented a rule — a "funding cycle wraps around" adjacency reading present nowhere in the prompt — specifically to force a single answer. It used its capability to rationalize a conclusion it had already disproven. That is why this report scores capability and reliability as two separate axes, and never collapses them into one number.</p>
+        </div>
+
+        <!-- ============ WHY TWO AXES ============ -->
+        <section id="axes" aria-labelledby="axes-title">
+          <h2 id="axes-title"><span class="n">01</span> Two axes, not one ranking</h2>
+          <p class="lede">A single leaderboard number answers the wrong question. It tells you a model is "good" without telling you whether you can trust what it produces — and for professional engineering work, an assured wrong answer is more dangerous than an obvious one. So every model here carries two classifications.</p>
+          <div class="axes">
+            <div class="axis cap">
+              <h4>CAPABILITY</h4>
+              <p>How well the model completed the task — correct results, sound method, the diagnostic behavior each test targets.</p>
+              <p class="scale">Preferred Candidate ≥85 · Viable 70–84 · Constrained 50–69 · Below Threshold &lt;50</p>
+            </div>
+            <div class="axis rel">
+              <h4>RELIABILITY</h4>
+              <p>How grounded the output stayed — whether the model invented facts, sources, or justifications to fill gaps or satisfy a premise.</p>
+              <p class="scale">Highly ≥80 · Generally 60–79 · Inconsistently 40–59 · Poorly Grounded &lt;40</p>
+            </div>
+          </div>
+          <p>The composite score at the end of each row is a <strong>capability roll-up only</strong> — the mean of completed capability tests, with the count shown. Reliability deliberately stands outside it, because averaging the two would hide exactly the divergences that matter most.</p>
+        </section>
+
+        <!-- ============ THE BATTERY ============ -->
+        <section id="battery" aria-labelledby="battery-title">
+          <h2 id="battery-title"><span class="n">02</span> The five tests</h2>
+          <div class="tests">
+            <div class="test"><span class="id">T1</span><span class="nm">Constraint logic</span><p class="ds">A capital-project funding-order puzzle that falsely claims a unique solution. Diagnostic: does the model surface the ambiguity or confabulate a single answer?</p></div>
+            <div class="test"><span class="id">T2</span><span class="nm">Applied domain reasoning</span><p class="ds">A council-ready water-main rehabilitation memo, $2.8M, four options, with required self-critique. Diagnostic: real domain integration vs. invented supporting detail.</p></div>
+            <div class="test"><span class="id">T3</span><span class="nm">Quantitative math</span><p class="ds">A variable-inflow reservoir problem requiring piecewise integration. Verified answer 150,000 gallons. Diagnostic: correct result and honest ambiguity-flagging.</p></div>
+            <div class="test"><span class="id">T4</span><span class="nm">Compound-instruction code</span><p class="ds">A priority inspection scheduler requiring policy stated before code, then an accurate execution trace. Diagnostic: instruction adherence and honest self-verification.</p></div>
+            <div class="test"><span class="id">T5</span><span class="nm">Multimodal vision</span><p class="ds">Reading a real Complete Streets planning figure — layout, symbology, jurisdiction. Diagnostic: genuine image comprehension vs. plausible fabrication.</p></div>
+          </div>
+          <p class="caption">Ground truth for every test was established independently — brute-force enumeration for T1, hand-verified integration for T3, direct source inspection for T5 — before any model was scored.</p>
+        </section>
+
+        <!-- ============ THE MATRIX ============ -->
+        <section id="results" aria-labelledby="results-title">
+          <h2 id="results-title"><span class="n">03</span> Results</h2>
+          <p class="lede">Per-test cells are capability scores (0–100). The two badge columns give each model's overall capability tag and its reliability tag. A dash marks a test not run or architecturally impossible; gaps are never scored as zero. Cloud models are marked and sit outside the local speed comparison.</p>
+
+          <div class="matrix-wrap">
+            <table class="results-matrix">
+              <thead>
+                <tr>
+                  <th class="l" rowspan="2">Model</th>
+                  <th class="capgrp" colspan="5">Capability — per test</th>
+                  <th class="capgrp" rowspan="2">Capability<br>Composite</th>
+                  <th class="capgrp" rowspan="2">Capability<br>Tag</th>
+                  <th class="relgrp" rowspan="2">Reliability<br>Tag *</th>
+                  <th rowspan="2">Vision</th>
+                </tr>
+                <tr>
+                  <th class="capgrp">T1</th><th class="capgrp">T2</th><th class="capgrp">T3</th><th class="capgrp">T4</th><th class="capgrp">T5</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- rows ordered by composite desc -->
+                <tr class="cloud">
+                  <td class="l">MiniMax-M3<span class="sub">cloud</span></td>
+                  <td data-c="pc">88</td><td data-c="pc">90</td><td data-c="pc">88</td><td data-c="pc">92</td><td data-c="pc">95</td>
+                  <td class="comp">91<span class="d"> /5</span></td>
+                  <td><span class="badge b-pc">Preferred Candidate</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr class="cloud">
+                  <td class="l">Microsoft Copilot<span class="sub">cloud</span></td>
+                  <td data-c="pc">90</td><td data-c="vi">78</td><td data-c="pc">85</td><td data-c="vi">80</td><td data-c="vi">72</td>
+                  <td class="comp">81<span class="d"> /5</span></td>
+                  <td><span class="badge b-vi">Viable</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr>
+                  <td class="l">qwen3-vl:30b<span class="sub">30B · 17.2 t/s</span></td>
+                  <td data-c="co">65</td><td data-c="pc">88</td><td data-c="pc">90</td><td data-c="vi">80</td><td data-c="vi">72</td>
+                  <td class="comp">79<span class="d"> /5</span></td>
+                  <td><span class="badge b-vi">Viable</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr>
+                  <td class="l">qwen3.6-35b-a3b<span class="sub">35B MoE · 58.7 t/s</span></td>
+                  <td data-c="co">68</td><td data-c="pc">90</td><td data-c="pc">85</td><td data-c="pc">85</td><td data-c="co">62</td>
+                  <td class="comp">78<span class="d"> /5</span></td>
+                  <td><span class="badge b-vi">Viable</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr>
+                  <td class="l">qwen3.5:27b<span class="sub">27B</span></td>
+                  <td data-c="vi">70</td><td data-c="pc">90</td><td data-c="vi">82</td><td data-c="pc">85</td><td data-c="co">62</td>
+                  <td class="comp">78<span class="d"> /5</span></td>
+                  <td><span class="badge b-vi">Viable</span></td>
+                  <td><span class="badge b-gen">Generally Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr>
+                  <td class="l">gemma4:26b<span class="sub">26B</span></td>
+                  <td data-c="vi">70</td><td data-c="pc">85</td><td data-c="vi">82</td><td data-c="pc">85</td><td data-c="co">55</td>
+                  <td class="comp">75<span class="d"> /5</span></td>
+                  <td><span class="badge b-vi">Viable</span></td>
+                  <td><span class="badge b-gen">Generally Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr>
+                  <td class="l">phi4:14b<span class="sub">14B</span></td>
+                  <td data-c="co">55</td><td data-c="co">55</td><td data-c="vi">82</td><td data-c="vi">80</td><td data-c="na">—</td>
+                  <td class="comp">68<span class="d"> /4</span></td>
+                  <td><span class="badge b-co">Constrained</span></td>
+                  <td><span class="badge b-gen">Generally Grounded</span></td>
+                  <td><span class="vis-badge vis-n">—</span></td>
+                </tr>
+                <tr>
+                  <td class="l">hermes3:70b-q3<span class="sub">70B · 1.66 t/s</span></td>
+                  <td data-c="bt">30</td><td data-c="pc">88</td><td data-c="co">58</td><td data-c="pc">88</td><td data-c="na">—</td>
+                  <td class="comp">66<span class="d"> /4</span></td>
+                  <td><span class="badge b-co">Constrained</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-n">—</span></td>
+                </tr>
+                <tr>
+                  <td class="l">mistral-small3.1:24b<span class="sub">24B · 19.6 t/s</span></td>
+                  <td data-c="bt">30</td><td data-c="co">60</td><td data-c="pc">90</td><td data-c="bt">35</td><td data-c="vi">82</td>
+                  <td class="comp">59<span class="d"> /5</span></td>
+                  <td><span class="badge b-co">Constrained</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-t">✓</span></td>
+                </tr>
+                <tr>
+                  <td class="l">deepseek-r1:8b<span class="sub">8B · 24.2 t/s</span></td>
+                  <td data-c="bt">20</td><td data-c="co">55</td><td data-c="vi">78</td><td data-c="vi">80</td><td data-c="na">—</td>
+                  <td class="comp">58<span class="d"> /4</span></td>
+                  <td><span class="badge b-co">Constrained</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-n">—</span></td>
+                </tr>
+                <tr>
+                  <td class="l">hermes3:8b<span class="sub">8B · 27.7 t/s</span></td>
+                  <td data-c="bt">30</td><td data-c="co">55</td><td data-c="bt">18</td><td data-c="co">55</td><td data-c="na">—</td>
+                  <td class="comp">40<span class="d"> /4</span></td>
+                  <td><span class="badge b-bt">Below Threshold</span></td>
+                  <td><span class="badge b-poor">Poorly Grounded</span></td>
+                  <td><span class="vis-badge vis-n">—</span></td>
+                </tr>
+                <tr>
+                  <td class="l">qwen2.5:14b-instruct<span class="sub">14B · 50.2 t/s</span></td>
+                  <td data-c="bt">30</td><td data-c="bt">30</td><td data-c="bt">20</td><td data-c="vi">80</td><td data-c="na">—</td>
+                  <td class="comp">40<span class="d"> /4</span></td>
+                  <td><span class="badge b-bt">Below Threshold</span></td>
+                  <td><span class="badge b-inc">Inconsistently Grounded</span></td>
+                  <td><span class="vis-badge vis-n">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="legend">
+            <span><b>Capability:</b> Preferred ≥85 · Viable 70 · Constrained 50 · Below &lt;50</span>
+            <span><b>Vision:</b> ✓ tested · — no capability</span>
+          </div>
+          <p class="caption">* Reliability tag is a per-model summary. Grounding varied by task within several models — most were better grounded on externally-verifiable tests (math, code) than on open-ended ones (domain memo, vision). Per-test reliability detail sits in the model profiles below; the summary tag reflects the model's weakest sustained pattern, not an average.</p>
+        </section>
+
+        <!-- ============ CENTERPIECE ============ -->
+        <section id="findings" aria-labelledby="findings-title">
+          <h2 id="findings-title"><span class="n">04</span> What the two axes reveal</h2>
+          <p class="lede">Read down the composite column and the field looks conventional — cloud on top, the strong local mid-tier clustered close behind. The reliability column is where the story turns.</p>
+
+          <div class="spotlight">
+            <p class="h">The centerpiece: capability spent on rationalization</p>
+            <p>MiniMax-M3 tops the battery on capability (composite 91) and was the <em>only</em> model to correctly identify the West Sacramento planning jurisdiction, with nine independent lines of evidence. It is, by capability, the best model tested.</p>
+            <p>On Test 1 it also produced the most rigorous constraint analysis in the field — derived both valid solutions, cleanly. Then, to satisfy the prompt's false claim of a unique answer, it <strong>invented a constraint reinterpretation</strong> ("the funding cycle wraps, so ranks 1 and 6 are adjacent") that exists nowhere in the problem, and used it to discard a solution it had just proven valid. The capability produced the correct answer; the reliability failure threw it away. A single blended score would have averaged this into invisibility.</p>
+          </div>
+
+          <h3>The honesty gradient runs sideways to capability</h3>
+          <p>Of the two models that found both T1 solutions, only <strong>Copilot</strong> reported the ambiguity honestly — stating outright that the puzzle has no unique solution as written. It is not the strongest reasoner in the battery; MiniMax-M3's case-logic was better. Its advantage was refusing to discard a correct finding under pressure from the prompt. That is a reliability trait, not a capability one, and no capability score captures it.</p>
+
+          <h3>qwen3-vl:30b: the same model, both ends of the scale</h3>
+          <p>Within a single model, grounding swung from <span class="badge b-poor">Poorly Grounded</span> on the domain memo — where it invented dollar figures and attributed them to "historical data" that did not exist — to <span class="badge b-hi">Highly Grounded</span> on the math, where a single verifiable number left no room to invent. Reliability tracked how checkable the task was, not any fixed trait of the model. This is the strongest argument for reporting reliability per task rather than as one badge, and the model profiles below do exactly that.</p>
+
+          <h3>The practical local pick</h3>
+          <p>Among locally-run models, <strong>qwen3.6-35b-a3b</strong> is the standout for daily use — Viable capability at 58.7 tokens/second, the fastest substantive reasoner tested. Its stablemate qwen3-vl:30b and the 70B Hermes match or exceed it on individual tests but are hardware-impractical on 16 GB, running at 1.7–17 t/s once forced to offload. Capability you cannot afford to wait for is capability you will not use.</p>
+        </section>
+
+        <!-- ============ METHODOLOGY ============ -->
+        <section id="methodology" aria-labelledby="methodology-title">
+          <h2 id="methodology-title"><span class="n">05</span> Methodology and limitations</h2>
+          <p class="lede">This is a working engineer's evaluation, not a validated instrument. It earns trust by being explicit about its edges — including two mistakes caught and corrected during the work.</p>
+          <div class="disclose">
+            <ol>
+              <li><strong>Single run, small N.</strong> One run of one prompt per test per model. LLM output varies between runs; every score is directional, not repeatable to the digit. No confidence intervals are claimed because none were measured.</li>
+              <li><strong>Scores are a structured human reading.</strong> Each value maps a qualitative outcome onto a fixed anchor scale. The mapping is transparent and consistently applied, but it is judgment, not instrumentation.</li>
+              <li><strong>Test 1 ground truth was corrected mid-program.</strong> The puzzle was authored to have one solution; brute-force verification proved it has two. The error became the test's most valuable feature — it turned T1 into a confabulation trap, and the whole panel was re-run against the corrected, frozen version so all twelve T1 scores are commensurable.</li>
+              <li><strong>The vision pipeline was validated.</strong> Direct-PDF attachment in Open WebUI silently falls back to text extraction rather than true vision. All T5 results in this report used image files, confirmed, so the vision comparison rests on genuine visual input across the panel.</li>
+              <li><strong>Local and cloud use different rulers.</strong> Throughput (t/s) is specific to the 16 GB workstation and applies only to local models. Cloud entries carry no speed figure. One cloud run (MiniMax-M3, T1) truncated and required a continuation prompt, which may have influenced its forced-uniqueness behavior — noted rather than hidden.</li>
+              <li><strong>Coverage is uneven and shown as such.</strong> Five models are architecturally text-only and cannot take the vision test; those T5 cells are permanent dashes, not gaps to fill. Composites average only completed tests, denominator shown.</li>
+            </ol>
+          </div>
+          <p class="caption">Result tags reflect fitness for the tested use cases — municipal engineering work — and should be read alongside the reliability axis, not in place of it.</p>
+        </section>
+
+        <footer class="report-colophon">
+          <span>North Bay Digital Foundry · Lab Log 001 · v2</span>
+          <span>12 models · 5 tests · two axes · single-run · directional</span>
+        </footer>
+      </article>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
