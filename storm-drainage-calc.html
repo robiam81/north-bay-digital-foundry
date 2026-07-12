@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storm Drainage Toolkit — North Bay Digital Foundry</title>
+  <meta name="description" content="Pipe sizing, inlet capacity, detention basin volume, and outlet structures — quick-reference calculations for small-site storm drain design. Preliminary engineering reference — US customary units, methods documented inline.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Storm Drainage Toolkit — North Bay Digital Foundry">
+  <meta property="og:description" content="Pipe sizing, inlet capacity, detention basin volume, and outlet structures — quick-reference calculations for small-site storm drain design.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared design system, then page-specific styles -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/storm-drainage-calc.css">
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview" aria-current="true">01 · Overview</a></li>
+          <li><a href="#hydrology">02 · Hydrology</a></li>
+          <li><a href="#conveyance">03 · Conveyance</a></li>
+          <li><a href="#detention">04 · Detention</a></li>
+          <li><a href="#outfalls">05 · Outfalls</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">Tool · v1.0</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <!-- 01 · OVERVIEW / HERO -->
+      <section class="hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// engineering suite</p>
+          <h1 class="hero__title" id="hero-title">Storm Drainage Toolkit</h1>
+          <p class="hero__lede">Pipe sizing, inlet capacity, detention basin volume, and outlet structures — quick-reference calculations for small-site storm drain design. Preliminary, order-of-magnitude sizing only, not a comprehensive design suite. US customary units; every method documented inline.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#hydrology">Open the calculators</a>
+            <a class="btn" href="index.html">View the foundry</a>
+          </div>
+        </div>
+
+        <div class="spec" aria-label="Suite at a glance">
+          <div class="spec__row"><span class="spec__label">CALCULATORS</span><span class="spec__value tnum">07</span></div>
+          <div class="spec__row"><span class="spec__label">WORKFLOWS</span><span class="spec__value tnum">04</span></div>
+          <div class="spec__row"><span class="spec__label">UNITS</span><span class="spec__value">US CUST.</span></div>
+          <div class="spec__row"><span class="spec__label">BASIS</span><span class="spec__value">FHWA · HEC</span></div>
+        </div>
+      </section>
+
+      <!-- 02 · HYDROLOGY -->
+      <section class="section" id="hydrology" aria-labelledby="hyd-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">02 · Hydrology</p>
+            <h2 class="section__title" id="hyd-title">Peak runoff</h2>
+          </div>
+          <span class="status"><span class="dot" aria-hidden="true"></span>LIVE RESULTS</span>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Rational Method -->
+          <article class="nbdf-calc" aria-labelledby="rm-title">
+            <h3 class="nbdf-calc__title" id="rm-title">Rational Method peak flow</h3>
+            <p class="nbdf-calc__sub">Peak runoff from a small drainage area — the feed value for the pipe-sizing, detention, and outlet calculators below. Rainfall intensity comes from the local IDF curve; it is regional and is not built in.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="rationalMethod" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="rm-mode">Time of concentration</label>
+                  <select class="nbdf-field__select" id="rm-mode" name="mode">
+                    <option value="direct">Direct entry</option>
+                    <option value="kirpich">Kirpich estimate (length &amp; slope)</option>
+                  </select>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rm-c">Runoff coefficient C <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="rm-c" name="runoffC" type="number" step="any" inputmode="decimal" placeholder="table below · pavement 0.90">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rm-a">Drainage area A <span class="nbdf-field__unit">(acres)</span></label>
+                  <input class="nbdf-field__input" id="rm-a" name="areaAcres" type="number" step="any" inputmode="decimal" placeholder="e.g. 5">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="rm-i">Rainfall intensity i <span class="nbdf-field__unit">(in/hr)</span></label>
+                  <input class="nbdf-field__input" id="rm-i" name="intensityInHr" type="number" step="any" inputmode="decimal" placeholder="from local IDF at Tc">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="direct">
+                  <label class="nbdf-field__label" for="rm-tc">Time of concentration Tc <span class="nbdf-field__unit">(min)</span></label>
+                  <input class="nbdf-field__input" id="rm-tc" name="tcMin" type="number" step="any" inputmode="decimal" placeholder="min 5–10 typ. floor">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="kirpich">
+                  <label class="nbdf-field__label" for="rm-len">Flow-path length L <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="rm-len" name="flowLengthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 500">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="kirpich">
+                  <label class="nbdf-field__label" for="rm-s">Flow-path slope <span class="nbdf-field__unit">(%)</span></label>
+                  <input class="nbdf-field__input" id="rm-s" name="slopePct" type="number" step="any" inputmode="decimal" placeholder="e.g. 2">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Peak flow Q</p>
+                  <p class="nbdf-readout__value"><span data-out="peakFlowCfs">—</span><small>cfs</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Time of concentration Tc</p>
+                  <p class="nbdf-readout__value"><span data-out="tcMin">—</span><small>min</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Q  (cfs) = C · i · A
+Tc (min) = 0.0078 · L^0.77 · S^−0.385     (Kirpich; S in ft/ft)</code>
+                <p><strong>Variables &amp; units:</strong> C — runoff coefficient (dimensionless); i — rainfall intensity, in/hr, from the local IDF curve at the design return period and Tc; A — drainage area, acres; L — longest flow path, ft; S — mean flow-path slope, ft/ft.</p>
+                <table>
+                  <thead><tr><th scope="col">Typical C values (Industry Approximation — Verify with PE)</th><th scope="col">C</th></tr></thead>
+                  <tbody>
+                    <tr><td>Pavement / asphalt / concrete</td><td>0.85–0.95</td></tr>
+                    <tr><td>Roofs</td><td>0.85–0.95</td></tr>
+                    <tr><td>Gravel</td><td>0.40–0.70</td></tr>
+                    <tr><td>Lawn, flat (sandy → heavy soil)</td><td>0.10–0.25</td></tr>
+                    <tr><td>Lawn, steep (sandy → heavy soil)</td><td>0.15–0.35</td></tr>
+                    <tr><td>Composite site — area-weight the parts</td><td>ΣCᵢAᵢ / ΣAᵢ</td></tr>
+                  </tbody>
+                </table>
+                <p><strong>Assumptions &amp; limitations:</strong> small, hydrologically simple areas (commonly capped near 100–200 acres by agency policy); uniform rainfall over the whole area for a duration ≥ Tc; C constant over the storm. Intensity–duration–frequency data are regional — this tool does not hardcode an IDF curve, so i must be read from the governing agency's curves at the computed Tc. Many agencies apply a Tc floor of 5–10 min. Kirpich was calibrated on small rural Tennessee watersheds; check the governing manual's preferred Tc method for paved sites.</p>
+                <p><strong>Source:</strong> Rational Method per FHWA HEC-22 (Urban Drainage Design Manual), Ch. 3; Kirpich (1940). C values are generic textbook ranges (e.g. HEC-22 Table 3-1) — use the governing agency's table.</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 03 · CONVEYANCE -->
+      <section class="section" id="conveyance" aria-labelledby="cnv-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">03 · Conveyance</p>
+            <h2 class="section__title" id="cnv-title">Pipes &amp; inlets</h2>
+          </div>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Pipe sizing -->
+          <article class="nbdf-calc" aria-labelledby="ps-title">
+            <h3 class="nbdf-calc__title" id="ps-title">Storm drain pipe sizing</h3>
+            <p class="nbdf-calc__sub">Minimum circular pipe diameter by Manning's equation at full flow, rounded up to the nearest standard size, with the flow depth at design Q in the selected pipe.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="pipeSizing" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="ps-n">Pipe material — Manning's n</label>
+                  <select class="nbdf-field__select" id="ps-n" name="manningN">
+                    <option value="0.013">Concrete (RCP) — n = 0.013</option>
+                    <option value="0.010">PVC — n = 0.010</option>
+                    <option value="0.012">HDPE, smooth interior — n = 0.012</option>
+                    <option value="0.024">CMP — n = 0.024</option>
+                  </select>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="ps-q">Design flow Q <span class="nbdf-field__unit">(cfs)</span></label>
+                  <input class="nbdf-field__input" id="ps-q" name="designFlowCfs" type="number" step="any" inputmode="decimal" placeholder="from calc 01">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="ps-s">Pipe slope S <span class="nbdf-field__unit">(ft/ft)</span></label>
+                  <input class="nbdf-field__input" id="ps-s" name="slopeFtFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.005">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Recommended standard size</p>
+                  <p class="nbdf-readout__value"><span data-out="standardSizeIn">—</span><small>in</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Minimum computed diameter</p>
+                  <p class="nbdf-readout__value"><span data-out="minDiameterIn">—</span><small>in</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Full-flow capacity of standard size</p>
+                  <p class="nbdf-readout__value"><span data-out="capacityCfs">—</span><small>cfs</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Utilization Q / Q<sub>full</sub></p>
+                  <p class="nbdf-readout__value"><span data-out="utilizationPct">—</span><small>%</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Flow depth at design Q, d/D</p>
+                  <p class="nbdf-readout__value"><span data-out="flowDepthRatioPct">—</span><small>%</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Q (cfs)  = (1.49/n) · A · R^(2/3) · S^(1/2),   R = D/4 (full circular)
+D_req (ft) = [ Q·n / (0.4644·√S) ]^(3/8)</code>
+                <p><strong>Variables &amp; units:</strong> Q — design flow, cfs; n — Manning roughness (dimensionless, empirical); S — pipe slope, ft/ft; D — inside diameter, ft; A — flow area, ft²; R — hydraulic radius, ft. Standard sizes carried: 12, 15, 18, 24, 30, 36, 42, 48, 54, 60 in.</p>
+                <p><strong>Manning's n guidance:</strong> concrete 0.013; PVC 0.010–0.011; HDPE (smooth interior) 0.012–0.013; CMP 0.024. The dropdown carries one representative value per material — confirm against the manufacturer and the governing manual.</p>
+                <p><strong>Assumptions &amp; limitations:</strong> gravity flow, uniform (normal) depth, barrel not surcharged. The d/D readout solves partial circular flow at the design Q by the same equation. Storm drains are commonly designed near d/D ≤ 0.8–1.0 for the design storm — the governing standard controls. Junction, bend, and inlet losses (hydraulic grade line) are not modeled; check minimum self-cleansing velocity (typ. ≥ 2–3 fps).</p>
+                <p><strong>Source:</strong> Manning's equation per FHWA HEC-22 Ch. 5 and standard hydraulics practice. n values: Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+          <!-- Inlet capacity -->
+          <article class="nbdf-calc" aria-labelledby="ic-title">
+            <h3 class="nbdf-calc__title" id="ic-title">Inlet capacity — sump condition</h3>
+            <p class="nbdf-calc__sub">Interception capacity of a grate or curb-opening inlet in a sag (sump). Scope is sump/sag inlets only — on-grade interception efficiency is materially more complex and is not modeled here.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="inletCapacity" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="ic-mode">Inlet type</label>
+                  <select class="nbdf-field__select" id="ic-mode" name="mode">
+                    <option value="grate">Grate inlet (sump)</option>
+                    <option value="curb">Curb-opening inlet (sump)</option>
+                  </select>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="ic-d">Ponding depth d <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="ic-d" name="pondingDepthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.3">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="grate">
+                  <label class="nbdf-field__label" for="ic-p">Effective perimeter P <span class="nbdf-field__unit">(ft, curb side excluded)</span></label>
+                  <input class="nbdf-field__input" id="ic-p" name="perimeterFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 6">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="grate">
+                  <label class="nbdf-field__label" for="ic-a">Clear opening area A <span class="nbdf-field__unit">(ft²)</span></label>
+                  <input class="nbdf-field__input" id="ic-a" name="openAreaFt2" type="number" step="any" inputmode="decimal" placeholder="e.g. 2.3">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="grate">
+                  <label class="nbdf-field__label" for="ic-cw">Weir coefficient Cw <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="ic-cw" name="grateWeirCw" type="number" step="any" inputmode="decimal" value="3.0">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="grate">
+                  <label class="nbdf-field__label" for="ic-co">Orifice coefficient Co <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="ic-co" name="grateOrificeCo" type="number" step="any" inputmode="decimal" value="0.67">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="curb">
+                  <label class="nbdf-field__label" for="ic-l">Opening length L <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="ic-l" name="openingLengthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 10">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="curb">
+                  <label class="nbdf-field__label" for="ic-ccw">Weir coefficient Cw <span class="nbdf-field__unit">(3.0–3.6)</span></label>
+                  <input class="nbdf-field__input" id="ic-ccw" name="curbWeirCw" type="number" step="any" inputmode="decimal" value="3.0">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Interception capacity</p>
+                  <p class="nbdf-readout__value"><span data-out="interceptionCfs">—</span><small>cfs</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Controlling regime</p>
+                  <p class="nbdf-readout__value"><span data-out="controlling">—</span></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Weir-flow capacity</p>
+                  <p class="nbdf-readout__value"><span data-out="weirCfs">—</span><small>cfs</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Orifice-flow capacity (grate)</p>
+                  <p class="nbdf-readout__value"><span data-out="orificeCfs">—</span><small>cfs</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Grate, weir:     Q = Cw · P · d^1.5        (Cw ≈ 3.0)
+Grate, orifice:  Q = Co · A · √(2g·d)      (Co ≈ 0.67; d ≳ 0.4 ft)
+Curb, weir:      Q = Cw · L · d^1.5        (Cw ≈ 3.0–3.6)</code>
+                <p><strong>Variables &amp; units:</strong> d — ponding depth at the inlet, ft (over the grate; to the curb-opening lip); P — grate perimeter available to flow, ft, excluding the side against the curb; A — clear (open) grate area, ft²; L — curb opening length, ft; g = 32.174 ft/s².</p>
+                <p><strong>Assumptions &amp; limitations:</strong> sag/sump locations only — all approaching flow ponds at the inlet, so interception is a capacity problem, not an efficiency problem. Grate capacity is reported as the lesser of the weir and orifice values, which is conservative through the transition zone (d ≈ 0.4–1.4 ft for typical grates). Capacities are unclogged; HEC-22 recommends designing sag grates for ~50% clogging (curb openings are less clogging-prone). Curb openings transition to orifice flow when depth exceeds ~1.4 × the opening height — outside this calculator's range.</p>
+                <p><strong>Source:</strong> FHWA HEC-22 (Urban Drainage Design Manual), Ch. 4, inlets in sag locations. Coefficients are HEC-22 defaults: Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 04 · DETENTION -->
+      <section class="section" id="detention" aria-labelledby="det-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">04 · Detention</p>
+            <h2 class="section__title" id="det-title">Storage &amp; release</h2>
+          </div>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Detention basin -->
+          <article class="nbdf-calc" aria-labelledby="db-title">
+            <h3 class="nbdf-calc__title" id="db-title">Detention basin sizing — preliminary</h3>
+            <p class="nbdf-calc__sub">Required storage by the Modified Rational Method with a triangular hydrograph, checked across several trial storm durations to approximate the critical duration.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="detentionBasin" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="db-qin">Peak inflow(s) Qin <span class="nbdf-field__unit">(cfs — one value, or one per duration)</span></label>
+                  <input class="nbdf-field__input" id="db-qin" name="qinListCfs" type="text" inputmode="decimal" autocomplete="off" placeholder="from calc 01 · e.g. 12.4, 9.8, 7.1">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="db-td">Trial storm duration(s) Td <span class="nbdf-field__unit">(min, comma-separated)</span></label>
+                  <input class="nbdf-field__input" id="db-td" name="durationsMinList" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 10, 20, 30, 60">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="db-qout">Allowable release Qout <span class="nbdf-field__unit">(cfs)</span></label>
+                  <input class="nbdf-field__input" id="db-qout" name="qoutCfs" type="number" step="any" inputmode="decimal" placeholder="downstream constraint">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Required storage Vs</p>
+                  <p class="nbdf-readout__value"><span data-out="storageCf">—</span><small>cf</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Required storage</p>
+                  <p class="nbdf-readout__value"><span data-out="storageAcFt">—</span><small>ac-ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Governing duration</p>
+                  <p class="nbdf-readout__value"><span data-out="governingTdMin">—</span><small>min</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Governing inflow</p>
+                  <p class="nbdf-readout__value"><span data-out="governingQinCfs">—</span><small>cfs</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Vs (cf) = (Qin − Qout) · Td · 60 / 2       (per trial duration; largest governs)</code>
+                <p><strong>Variables &amp; units:</strong> Qin — peak inflow, cfs, from the Rational Method at the IDF intensity for each trial duration; Qout — allowable release rate, cfs (the downstream or pre-development constraint); Td — trial storm duration, min.</p>
+                <p><strong>Why several durations:</strong> shorter storms are more intense (higher Qin) but briefer; longer storms are weaker but deliver volume for longer. The critical duration is the one that maximizes Vs, so this simple method requires checking several — enter one Qin per duration (re-run calculator 01 with the IDF intensity at each Td). A single Qin may be broadcast across all durations for a quick upper-bound pass, but it makes the longest duration govern by construction.</p>
+                <p><strong>Assumptions &amp; limitations:</strong> triangular inflow and outflow approximation with release at a constant Qout; no routing, stage-storage, or outlet rating. Small-site preliminary sizing only — not a substitute for full hydrograph routing (TR-55/TR-20 or continuous simulation) on larger or complex sites, and many agencies mandate a specific method.</p>
+                <p><strong>Source:</strong> Modified Rational Method, standard drainage-manual practice built on the Rational Method of FHWA HEC-22 Ch. 3. Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+          <!-- Outlet structure -->
+          <article class="nbdf-calc" aria-labelledby="os-title">
+            <h3 class="nbdf-calc__title" id="os-title">Detention outlet structure — orifice + weir</h3>
+            <p class="nbdf-calc__sub">Size the low-flow orifice for the allowable release, or the emergency overflow weir length, from a target discharge and the available head.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="outletStructure" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="os-mode">Element to size</label>
+                  <select class="nbdf-field__select" id="os-mode" name="mode">
+                    <option value="orifice">Orifice — solve diameter</option>
+                    <option value="weir">Weir — solve length</option>
+                  </select>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="os-q">Target release Q <span class="nbdf-field__unit">(cfs)</span></label>
+                  <input class="nbdf-field__input" id="os-q" name="releaseQCfs" type="number" step="any" inputmode="decimal" placeholder="e.g. 2.0">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="orifice">
+                  <label class="nbdf-field__label" for="os-h">Head on orifice centroid h <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="os-h" name="orificeHeadFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 4">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="orifice">
+                  <label class="nbdf-field__label" for="os-cd">Discharge coefficient Cd <span class="nbdf-field__unit">(—)</span></label>
+                  <input class="nbdf-field__input" id="os-cd" name="orificeCd" type="number" step="any" inputmode="decimal" value="0.6">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="weir">
+                  <label class="nbdf-field__label" for="os-hw">Head above crest H <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="os-hw" name="weirHeadFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.75">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field" data-mode="weir">
+                  <label class="nbdf-field__label" for="os-cwe">Weir coefficient Cw <span class="nbdf-field__unit">(3.0–3.33)</span></label>
+                  <input class="nbdf-field__input" id="os-cwe" name="weirCw" type="number" step="any" inputmode="decimal" value="3.0">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Required orifice diameter</p>
+                  <p class="nbdf-readout__value"><span data-out="orificeDiameterIn">—</span><small>in</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Orifice area</p>
+                  <p class="nbdf-readout__value"><span data-out="orificeAreaFt2">—</span><small>ft²</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Required weir length</p>
+                  <p class="nbdf-readout__value"><span data-out="weirLengthFt">—</span><small>ft</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Orifice: Q = Cd · A · √(2g·h)   →  A = Q / (Cd·√(2g·h))
+Weir:    Q = Cw · L · H^1.5     →  L = Q / (Cw·H^1.5)</code>
+                <p><strong>Variables &amp; units:</strong> Cd — orifice discharge coefficient (≈ 0.6 for a sharp-edged orifice); h — head from the design water surface to the orifice centroid, ft; Cw — rectangular sharp-crested weir coefficient (3.0–3.33); H — head above the weir crest, ft; L — weir length, ft; g = 32.174 ft/s².</p>
+                <p><strong>Assumptions &amp; limitations:</strong> free (unsubmerged) discharge on both elements; end contractions and velocity of approach ignored; single-stage release at the design water surface. Multi-stage outlets need a rating curve across the full stage range. Small orifices clog — many agencies set a minimum orifice size and require a trash rack.</p>
+                <p><strong>Source:</strong> standard orifice and sharp-crested weir equations per FHWA HEC-22 and hydraulics texts (e.g. Brater &amp; King). Coefficients: Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 05 · OUTFALLS -->
+      <section class="section" id="outfalls" aria-labelledby="out-title">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">05 · Outfalls</p>
+            <h2 class="section__title" id="out-title">Culverts &amp; outlet protection</h2>
+          </div>
+        </div>
+
+        <div class="nbdf-workflow">
+
+          <!-- Culvert screening -->
+          <article class="nbdf-calc" aria-labelledby="cv-title">
+            <h3 class="nbdf-calc__title" id="cv-title">Culvert capacity screening — inlet vs. outlet control</h3>
+            <p class="nbdf-calc__sub">Headwater for a circular culvert under inlet control and outlet control, reporting the controlling condition against the allowable headwater. Screening only — final design follows the full HDS-5 procedure.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="culvertScreening" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="cv-cfg">Material &amp; entrance type</label>
+                  <select class="nbdf-field__select" id="cv-cfg" name="config">
+                    <option value="conc-square-hw">Concrete — square edge with headwall</option>
+                    <option value="conc-groove-hw">Concrete — groove end with headwall</option>
+                    <option value="conc-groove-proj">Concrete — groove end projecting</option>
+                    <option value="cmp-headwall">CMP — headwall</option>
+                    <option value="cmp-mitered">CMP — mitered to slope</option>
+                    <option value="cmp-projecting">CMP — projecting</option>
+                  </select>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="cv-q">Design discharge Q <span class="nbdf-field__unit">(cfs)</span></label>
+                  <input class="nbdf-field__input" id="cv-q" name="designQCfs" type="number" step="any" inputmode="decimal" placeholder="e.g. 50">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="cv-dia">Barrel diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="cv-dia" name="diameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 36">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="cv-len">Barrel length L <span class="nbdf-field__unit">(ft)</span></label>
+                  <input class="nbdf-field__input" id="cv-len" name="lengthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 60">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="cv-s">Barrel slope S <span class="nbdf-field__unit">(ft/ft)</span></label>
+                  <input class="nbdf-field__input" id="cv-s" name="slopeFtFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.01">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="cv-tw">Tailwater above outlet invert <span class="nbdf-field__unit">(ft, 0 if none)</span></label>
+                  <input class="nbdf-field__input" id="cv-tw" name="tailwaterFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 1.5">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="cv-ahw">Allowable headwater <span class="nbdf-field__unit">(ft above inlet invert)</span></label>
+                  <input class="nbdf-field__input" id="cv-ahw" name="allowableHwFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 6">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Controlling headwater</p>
+                  <p class="nbdf-readout__value"><span data-out="controllingHwFt">—</span><small>ft</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Controlling condition</p>
+                  <p class="nbdf-readout__value"><span data-out="controlling">—</span></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Inlet-control headwater</p>
+                  <p class="nbdf-readout__value"><span data-out="inletHwFt">—</span><small>ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Outlet-control headwater</p>
+                  <p class="nbdf-readout__value"><span data-out="outletHwFt">—</span><small>ft</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">F = Q / (A·D^0.5)
+Inlet, unsubmerged (F ≤ 3.5): HW/D = Hc/D + K·F^M + cs·S
+Inlet, submerged   (F ≥ 4.0): HW/D = c·F² + Y + cs·S
+Outlet (full flow): H  = [1 + ke + 29·n²·L / R^(4/3)] · V²/2g
+                    HWo = max(TW, (dc+D)/2) + H − S·L</code>
+                <p><strong>Variables &amp; units:</strong> D — barrel diameter, ft; A — barrel area, ft²; dc — critical depth in the barrel, ft (computed); Hc — specific head at critical depth, ft; K, M, c, Y — HDS-5 inlet-control constants by entrance type; cs — slope-term coefficient (−0.5 standard; +0.7 mitered); ke — entrance loss coefficient; n — barrel Manning roughness (concrete 0.012, CMP 0.024); TW — tailwater above the outlet invert, ft. Between F = 3.5 and 4.0 the two inlet equations are interpolated linearly.</p>
+                <p><strong>Assumptions &amp; limitations:</strong> single circular barrel, no inlet depression, no skew. Outlet control uses the full-barrel-flow approximation, which is conservative for partly full barrels at low headwater. The inlet-control fits apply to roughly HW/D ≤ 3 (the nomograph range). The larger of the two headwaters governs. Roadway overtopping, buoyancy/uplift, and scour are not checked.</p>
+                <p><strong>Source:</strong> FHWA HDS-5 (Hydraulic Design of Highway Culverts) — inlet-control nomograph-fit constants per Appendix A and entrance-loss coefficients per the outlet-control tables; simplified per screening practice (FHWA's HY-8 implements the full method). Constants: Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+          <!-- Riprap apron -->
+          <article class="nbdf-calc" aria-labelledby="ra-title">
+            <h3 class="nbdf-calc__title" id="ra-title">Outlet protection — riprap apron sizing</h3>
+            <p class="nbdf-calc__sub">Median riprap stone size and apron dimensions for a minor circular outlet, per the simplified HEC-14 apron method. Energy dissipators and complex outlets need full HEC-14 analysis.</p>
+
+            <div class="nbdf-calc__grid">
+              <form class="nbdf-form" data-calc="riprapApron" novalidate>
+                <div class="nbdf-field nbdf-field--wide">
+                  <label class="nbdf-field__label" for="ra-tw">Tailwater condition</label>
+                  <select class="nbdf-field__select" id="ra-tw" name="tailwater">
+                    <option value="minimal">Minimal / unknown (TW &lt; 0.5·D)</option>
+                    <option value="adequate">Adequate (TW ≥ 0.5·D)</option>
+                  </select>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="ra-dia">Outlet pipe diameter <span class="nbdf-field__unit">(in)</span></label>
+                  <input class="nbdf-field__input" id="ra-dia" name="diameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 36">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-field">
+                  <label class="nbdf-field__label" for="ra-q">Design discharge Q <span class="nbdf-field__unit">(cfs)</span></label>
+                  <input class="nbdf-field__input" id="ra-q" name="designQCfs" type="number" step="any" inputmode="decimal" placeholder="e.g. 50">
+                  <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+              </form>
+
+              <div class="nbdf-results" aria-live="polite">
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Median stone size d50</p>
+                  <p class="nbdf-readout__value"><span data-out="d50In">—</span><small>in</small><span class="nbdf-chip" data-flag hidden></span></p>
+                  <p class="nbdf-readout__note" data-flag-msg hidden></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Apron length</p>
+                  <p class="nbdf-readout__value"><span data-out="apronLengthFt">—</span><small>ft</small></p>
+                </div>
+                <div class="nbdf-readout">
+                  <p class="nbdf-readout__label">Apron width at downstream end</p>
+                  <p class="nbdf-readout__value"><span data-out="apronWidthFt">—</span><small>ft</small></p>
+                </div>
+              </div>
+            </div>
+
+            <details class="nbdf-refs">
+              <summary>Method &amp; References</summary>
+              <div class="nbdf-refs__body">
+                <code class="nbdf-eq">Fd (—)   = Q / (√g · D^2.5)               (discharge intensity)
+d50 (ft) = 0.2 · D · Fd^(4/3) · (D / TW)
+La  (ft) = D · (8 + 17 · log10 Fd),  min 4·D
+W   (ft) = 3·D + (2/3)·La</code>
+                <p><strong>Variables &amp; units:</strong> D — outlet pipe diameter, ft; Q — design discharge, cfs; TW — tailwater depth used in the stone-size relation, ft (minimal/unknown → 0.4·D; adequate → 1.0·D); g = 32.174 ft/s².</p>
+                <p><strong>Assumptions &amp; limitations:</strong> minor circular outlet discharging onto a flat apron with no defined downstream channel; apron level, flared to the width W at its downstream end; riprap layer thickness typically 2×d50 over filter fabric or granular filter. High discharge intensity (Fd ≳ 2.5), drop outlets, steep or confined receiving channels, and supercritical approach flow are outside the simplified method — use a full HEC-14 energy-dissipator design. Round d50 up to the nearest local riprap class.</p>
+                <p><strong>Source:</strong> FHWA HEC-14 (Hydraulic Design of Energy Dissipators), riprap apron design, simplified. Tailwater-condition assumptions: Industry Approximation — Verify with PE.</p>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- DISCLAIMER -->
+      <section class="section nbdf-disclaimer" aria-label="Engineering disclaimer">
+        <p class="eyebrow">Disclaimer</p>
+        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <!-- Shared progressive enhancement (nav toggle, scroll-spy, year) -->
+  <script src="assets/js/main.js" defer></script>
+  <!-- Calculator UI (ES module; imports the pure engineering layer) -->
+  <script type="module" src="assets/js/storm-drainage-calc.js"></script>
+</body>
+</html>
