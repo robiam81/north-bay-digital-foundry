@@ -2,7 +2,7 @@
 
 A single-page website for **North Bay Digital Foundry** — a digital workshop where
 useful tools for **AI, automation, engineering, and municipal technology** are
-designed, prototyped, tested, and shared in the open.
+designed, prototyped, tested, and documented in public.
 
 The work is presented as **concepts, prototypes, experiments, and tools** — not
 commercial products. The tone is that of a modern engineering workshop:
@@ -16,8 +16,9 @@ The site is a portfolio and lab log for a one-person (or small) engineering
 practice. Its goals, in order:
 
 1. **Establish technical credibility** with engineering and public-sector peers.
-2. **Show the work** — a structured grid of projects, each tagged with a status
-   (`PROTOTYPE`, `CONCEPT`, `EXPERIMENT`, `TOOL`).
+2. **Show the work** — a structured grid of projects, each tagged with an
+   availability-aware status such as `IN DEVELOPMENT`, `CONCEPT ONLY`,
+   `PLANNED TOOL`, `PROTOTYPE · PLAY`, or `TOOL · AVAILABLE`.
 3. **Stay honest** — nothing is sold; everything is framed as something being
    built, tested, and documented.
 
@@ -41,19 +42,22 @@ the left index rail:
 |----|---------------|----------------------------------------------------------------|
 | 01 | Overview      | Hero statement + a spec block of "at a glance" stats           |
 | 02 | Capabilities  | A bordered matrix of the five practice areas                   |
-| 03 | Projects      | A uniform grid of six project cards                            |
+| 03 | Projects      | A uniform grid of nine project cards                           |
 | 04 | Lab log       | A table of recent experiments (date / experiment / tag / status) |
 | 05 | Writing       | A two-column list of posts                                     |
 | 06 | Contact       | A call-to-action panel                                         |
 
 ### Projects featured
 
-- **Project Management Code** — engineering / automation · `PROTOTYPE`
-- **As-Built Plan Retrieval System** — municipal · `CONCEPT`
-- **Agenda Report AI Tool** — AI / automation · `PROTOTYPE`
-- **AI Fleet Maintenance Prediction** — AI · `EXPERIMENT`
-- **GIS Export CLI** — tools · `TOOL`
-- **Offline Model Evaluation Kit** — AI · `EXPERIMENT`
+- **Project Management Code** — engineering / automation · `IN DEVELOPMENT`
+- **As-Built Plan Retrieval System** — municipal · `CONCEPT ONLY`
+- **Agenda Report AI Tool** — AI / automation · `IN DEVELOPMENT`
+- **AI Fleet Maintenance Prediction** — AI · `EARLY EXPERIMENT`
+- **GIS Export CLI** — tools · `PLANNED TOOL`
+- **Offline Model Evaluation Kit** — AI · `EARLY EXPERIMENT`
+- **Excavator Wind Run** — game / canvas · `PROTOTYPE · PLAY`
+- **Potable Pipeline Engineering Suite** — engineering / tools · `TOOL · AVAILABLE`
+- **Storm Drainage Toolkit** — engineering / tools · `TOOL · AVAILABLE`
 
 ### Semantic HTML
 
@@ -107,7 +111,7 @@ as CSS custom properties in `:root` (see `assets/css/styles.css`).
 | `--accent`       | `#DC5B26` | Ember accent (links, primary buttons)  |
 | `--status-wip`   | `#C4C0B5` | "Work in progress" status dot          |
 
-The accent is used sparingly — links, the primary button, and "live" status
+The accent is used sparingly — links, the primary button, and available/published status
 dots — so it reads as a deliberate signal rather than decoration.
 
 > **Contrast note:** `--muted` and `--faint` are used only for secondary/large
@@ -213,9 +217,10 @@ and every push deploys.
 The site is deliberately simple so it can grow without a rewrite:
 
 - **Add or edit a project** — copy one `.card` block in the Projects grid. The
-  grid is uniform and auto-flows, so adding a seventh card needs no CSS changes.
-  Use the `dot` (accent) / `dot--wip` (grey) status classes and a status label
-  (`PROTOTYPE`, `CONCEPT`, `EXPERIMENT`, `TOOL`).
+  grid is uniform and auto-flows, so additional cards need no CSS changes.
+  Use an `<a class="card">` only when a working destination exists; otherwise
+  use `<article class="card">`. Use the accent `dot` only for available work,
+  and `dot--wip` for concepts, planned work, and active development.
 - **Real thumbnails** — the `.card__thumb` blocks are CSS placeholders. Swap in
   `<img>` screenshots when available; the card height adapts.
 - **Add a lab-log entry** — add a `<tr>` to the table; keep dates in ISO
@@ -226,8 +231,9 @@ The site is deliberately simple so it can grow without a rewrite:
 - **Grow into multiple pages** — when project or writing detail pages are
   needed, factor the rail and shared styles out; `styles.css` is already
   organized by component with section banners.
-- **Contact** — the CTA currently points to a `mailto:` placeholder. Update the
-  address in `index.html` (search for `mailto:`) or swap it for a form/handler.
+- **Contact** — the CTA intentionally uses the public
+  `mailto:rob@northbaydigitalfoundry.com` address. Mailbox routing is configured
+  externally and is not handled by this static repository.
 
 ### Design provenance
 

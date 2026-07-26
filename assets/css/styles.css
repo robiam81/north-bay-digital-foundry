@@ -405,9 +405,11 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   background: var(--surface);
+}
+a.card {
   transition: transform 0.1s ease, box-shadow 0.14s ease;
 }
-.card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(26,26,24,0.15); }
+a.card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(26,26,24,0.15); }
 
 .card__thumb {
   height: 92px;
@@ -548,6 +550,8 @@ img { max-width: 100%; display: block; }
   line-height: 1.25;
 }
 .post:hover .post__title { color: var(--accent); }
+.post--planned .post__title { color: var(--muted); }
+.post--planned:hover .post__title { color: var(--muted); }
 
 .post__meta {
   font-size: 12px;
@@ -570,6 +574,18 @@ img { max-width: 100%; display: block; }
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+.cta__copy {
+  max-width: 56ch;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.cta .btn {
+  max-width: 100%;
+  text-align: center;
 }
 
 .cta__title {

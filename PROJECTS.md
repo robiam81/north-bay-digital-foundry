@@ -4,7 +4,7 @@
 
 ### 🚧 Excavator Wind Run
 
-Status: Prototype (`excavator-wind-run.html`)
+Status: Available prototype (`excavator-wind-run.html`)
 
 Goals
 
@@ -18,7 +18,7 @@ Goals
 
 ### 🔧 Potable Pipeline Engineering Suite
 
-Status: Tool (`pipeline-calc.html`)
+Status: Available tool (`pipeline-calc.html`)
 
 Seven preliminary-design calculators for pressurized potable water pipelines —
 Hazen-Williams head loss, velocity check, restrained length, Barlow hoop
@@ -33,7 +33,7 @@ Goals
 
 ### 🔧 Storm Drainage Toolkit
 
-Status: Tool (`storm-drainage-calc.html`)
+Status: Available tool (`storm-drainage-calc.html`)
 
 Seven quick-reference calculators for small-site storm drain design —
 Rational Method peak flow, pipe sizing, sump inlet capacity, detention basin
@@ -50,6 +50,11 @@ Goals
 
 ## Planned
 
+- Project management code
+- As-built plan retrieval system
+- Agenda report AI tool
+- AI fleet maintenance prediction experiment
+- Offline model evaluation kit
 - GIS export utility
 - AI prompt library
 - Additional Public Works design tools
