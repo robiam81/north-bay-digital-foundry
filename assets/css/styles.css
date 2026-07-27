@@ -180,6 +180,53 @@ img { max-width: 100%; display: block; }
   color: var(--surface);
 }
 
+.rail__feature {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1.5px solid var(--line);
+}
+
+.rail__feature-label {
+  margin: 0 0 7px;
+  padding: 0 2px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.rail__nav .rail__feature a {
+  padding: 10px;
+  border: 1.5px solid var(--dash);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.rail__nav .rail__feature a:hover {
+  border-color: var(--ink);
+  background: var(--surface);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 rgba(26, 26, 24, 0.12);
+}
+
+.rail__feature-title,
+.rail__feature-copy {
+  display: block;
+}
+
+.rail__feature-title {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.rail__feature-copy {
+  margin-top: 3px;
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
 .rail__meta {
   margin: auto 0 0;
   font-size: 11px;

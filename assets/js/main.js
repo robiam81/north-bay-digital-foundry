@@ -30,7 +30,7 @@
 
   /* --- Scroll-spy: mark the active section link --- */
   var links = Array.prototype.slice.call(
-    document.querySelectorAll('.rail__nav a[href^="#"]')
+    document.querySelectorAll('.rail__nav a[href^="#"]:not([data-calculator-jump])')
   );
   var sections = links
     .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })

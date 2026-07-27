@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Civil Transportation Engineering Suite — North Bay Digital Foundry</title>
+  <meta name="description" content="Planning and preliminary-design calculators for roadway geometry, pavement design, intersection operations, sight distance, and trip generation.">
+  <meta name="color-scheme" content="light">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Civil Transportation Engineering Suite">
+  <meta property="og:description" content="Preliminary roadway geometry, pavement, intersection, sight-distance, and trip-generation tools.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/transportation-calc.css">
+</head>
+<body>
+  <a class="skip-link" href="#suite">Skip to calculators</a>
+  <div class="shell">
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">Menu</button>
+      </div>
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview" aria-current="true">01 · Overview</a></li>
+          <li><a href="#suite">02 · Calculator suite</a></li>
+          <li><a href="#disclaimer">03 · Disclaimer</a></li>
+        </ol>
+        <div class="rail__jump">
+          <p class="rail__jump-label">Jump to calculator</p>
+          <ol class="rail__jump-list">
+            <li><a href="#calculator-stopping-sight-distance" data-calculator-jump>1 · Stopping sight distance</a></li>
+            <li><a href="#calculator-horizontal-curve" data-calculator-jump>2 · Horizontal curve</a></li>
+            <li><a href="#calculator-vertical-curve" data-calculator-jump>3 · Vertical curve</a></li>
+            <li><a href="#calculator-pavement-structural-number" data-calculator-jump>4 · Pavement structural no.</a></li>
+            <li><a href="#calculator-intersection-los" data-calculator-jump>5 · Intersection LOS</a></li>
+            <li><a href="#calculator-sight-triangles" data-calculator-jump>6 · Sight triangles</a></li>
+            <li><a href="#calculator-trip-generation" data-calculator-jump>7 · Trip generation</a></li>
+          </ol>
+        </div>
+      </nav>
+      <p class="rail__meta">Preliminary tool · v1.0</p>
+    </header>
+
+    <main class="content">
+      <section class="hero transport-hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// civil transportation</p>
+          <h1 class="hero__title" id="hero-title">Civil Transportation Engineering Suite</h1>
+          <p class="hero__lede">Planning and preliminary-design calculators for roadway geometry, pavement design, intersection operations, sight distance, and trip generation.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#suite">Open calculators</a>
+            <a class="btn" href="index.html#projects">Return to projects</a>
+          </div>
+        </div>
+        <div class="spec" aria-label="Suite summary">
+          <div class="spec__row"><span class="spec__label">TOOLS</span><span class="spec__value tnum">07</span></div>
+          <div class="spec__row"><span class="spec__label">UNIT SYSTEMS</span><span class="spec__value">US · SI</span></div>
+          <div class="spec__row"><span class="spec__label">STATE</span><span class="spec__value">LOCAL</span></div>
+          <div class="spec__row"><span class="spec__label">STATUS</span><span class="spec__value">PRELIMINARY</span></div>
+        </div>
+      </section>
+
+      <section class="section" id="suite" aria-labelledby="suite-title">
+        <p class="eyebrow">02 · Calculator suite</p>
+        <h2 class="section__title" id="suite-title">Seven planning tools</h2>
+
+        <details class="mobile-jump-nav" id="calculator-jump">
+          <summary>Jump to calculator</summary>
+          <ol>
+            <li><a href="#calculator-stopping-sight-distance">Stopping Sight Distance</a></li>
+            <li><a href="#calculator-horizontal-curve">Horizontal Curve</a></li>
+            <li><a href="#calculator-vertical-curve">Vertical Curve</a></li>
+            <li><a href="#calculator-pavement-structural-number">Pavement Structural Number</a></li>
+            <li><a href="#calculator-intersection-los">Intersection LOS / Capacity</a></li>
+            <li><a href="#calculator-sight-triangles">Intersection Sight Triangles</a></li>
+            <li><a href="#calculator-trip-generation">Trip Generation</a></li>
+          </ol>
+        </details>
+
+        <div class="tool-stack">
+        <article class="tool-panel" id="calculator-stopping-sight-distance" aria-labelledby="ssd-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="ssd-title">Stopping Sight Distance</h3><p class="tool-panel__lede">Direct kinematic estimate using reaction distance plus grade-adjusted braking distance.</p></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="ssd" novalidate>
+              <div class="transport-form__grid">
+                <label class="transport-field"><span class="transport-label">Unit system</span><select class="transport-select" name="unitSystem" id="ssd-units"><option value="us">US customary</option><option value="si">SI</option></select></label>
+                <label class="transport-field"><span class="transport-label">Design speed (<span data-unit data-us="mph" data-si="km/h">mph</span>)</span><input class="transport-input" name="speed" id="ssd-speed" type="number" value="60" step="any" data-kind="speed"><span class="transport-error" hidden></span></label>
+                <label class="transport-field"><span class="transport-label">Perception-reaction time (s)</span><input class="transport-input" name="reactionTime" id="ssd-reaction" type="number" value="2.5" step="any"><span class="transport-error" hidden></span></label>
+                <label class="transport-field"><span class="transport-label">Grade (%)</span><input class="transport-input" name="gradePct" id="ssd-grade" type="number" value="0" step="any"><span class="transport-help">Positive = upgrade; negative = downgrade.</span><span class="transport-error" hidden></span></label>
+                <label class="transport-field"><span class="transport-label">Method</span><select class="transport-select" name="method" id="ssd-method"><option value="deceleration">Constant deceleration</option><option value="friction">Longitudinal friction</option></select><span class="transport-error" hidden></span></label>
+                <label class="transport-field" data-mode="deceleration"><span class="transport-label">Deceleration (<span data-unit data-us="ft/s²" data-si="m/s²">ft/s²</span>)</span><input class="transport-input" name="deceleration" id="ssd-deceleration" type="number" value="11.2" step="any" data-kind="deceleration"><span class="transport-error" hidden></span></label>
+                <label class="transport-field" data-mode="friction" hidden><span class="transport-label">Longitudinal friction factor</span><input class="transport-input" name="friction" id="ssd-friction" type="number" value="0.35" step="any"><span class="transport-help">User-supplied criterion; no speed table is embedded.</span><span class="transport-error" hidden></span></label>
+              </div>
+              <div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge" data-unit-badge>US customary</span></div>
+            </form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Enter valid inputs and select Calculate. No result is shown until validation passes.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>SSD</var> = <var>v</var><var>t</var><sub>r</sub> + <var>v</var><sup>2</sup> / (2<var>a</var><sub>effective</sub>)</span><p>Canonical calculation uses SI kinematics. Positive upgrade adds <var>gG</var> to braking deceleration; downgrade subtracts it. The rounded value is the unrounded result rounded upward to one displayed length unit, not a tabulated agency design value.</p><p>FHWA-RD-02-045 (2003), equation 3.5.1, and dimensional kinematics. Verify reaction time, wet-pavement braking criteria, grade convention, and agency rounding.</p></div></details>
+        </article>
+
+        <article class="tool-panel" id="calculator-horizontal-curve" aria-labelledby="horizontal-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="horizontal-title">Horizontal Curve Radius and Superelevation</h3><p class="tool-panel__lede">Solve the point-mass relationship for radius, superelevation, or side-friction demand without an embedded friction table.</p></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="horizontal" novalidate><div class="transport-form__grid">
+              <label class="transport-field"><span class="transport-label">Unit system</span><select class="transport-select" name="unitSystem" id="horizontal-units"><option value="us">US customary</option><option value="si">SI</option></select></label>
+              <label class="transport-field"><span class="transport-label">Solve for</span><select class="transport-select" name="solveMode" id="horizontal-mode"><option value="radius">Minimum radius</option><option value="superelevation">Required superelevation</option><option value="friction">Required side friction</option></select></label>
+              <label class="transport-field"><span class="transport-label">Design speed (<span data-unit data-us="mph" data-si="km/h">mph</span>)</span><input class="transport-input" name="speed" id="horizontal-speed" type="number" value="50" step="any" data-kind="speed"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Proposed / maximum superelevation (%)</span><input class="transport-input" name="superelevationPct" id="horizontal-e" type="number" value="6" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Proposed / maximum side-friction factor</span><input class="transport-input" name="friction" id="horizontal-f" type="number" value="0.12" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field" data-radius-field hidden><span class="transport-label">Specified radius (<span data-unit data-us="ft" data-si="m">ft</span>)</span><input class="transport-input" name="radius" id="horizontal-radius" type="number" value="1000" step="any" data-kind="length"><span class="transport-error" hidden></span></label>
+            </div><div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge" data-unit-badge>US customary</span></div></form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Enter valid inputs and select Calculate.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>v</var><sup>2</sup> / (<var>gR</var>) = <var>e</var> + <var>f</var></span><p>Superelevation entered as percent is converted to a decimal ratio. US customary equivalent: <var>R</var> ≈ <var>V</var><sup>2</sup> / [15(<var>e</var> + <var>f</var>)].</p><p>FHWA-HRT-17-098 (2018), point-mass model. Final selection must address agency superelevation policy, runoff, transitions, drainage, climate, urban context, and side-friction criteria.</p></div></details>
+        </article>
+
+        <article class="tool-panel" id="calculator-vertical-curve" aria-labelledby="vertical-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="vertical-title">Vertical Curve Length — K-Value Method</h3><p class="tool-panel__lede">Calculate preliminary curve length from a user-entered K-value and algebraic grade difference.</p><span class="reference-state">Authorized lookup data not bundled · K required</span></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="vertical" novalidate><div class="transport-form__grid">
+              <label class="transport-field"><span class="transport-label">Unit system</span><select class="transport-select" name="unitSystem" id="vertical-units"><option value="us">US customary</option><option value="si">SI</option></select></label>
+              <label class="transport-field"><span class="transport-label">Curve type</span><select class="transport-select" name="curveType" id="vertical-type"><option value="crest">Crest</option><option value="sag">Sag</option></select></label>
+              <label class="transport-field"><span class="transport-label">Design speed (<span data-unit data-us="mph" data-si="km/h">mph</span>)</span><input class="transport-input" name="speed" id="vertical-speed" type="number" value="50" step="any" data-kind="speed"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Entering grade, g₁ (%)</span><input class="transport-input" name="g1Pct" id="vertical-g1" type="number" value="2" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Exiting grade, g₂ (%)</span><input class="transport-input" name="g2Pct" id="vertical-g2" type="number" value="-3" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">User-entered K (<span data-unit data-us="ft/%" data-si="m/%">ft/%</span>)</span><input class="transport-input" name="kValue" id="vertical-k" type="number" value="44" step="any" data-kind="k"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Optional minimum length (<span data-unit data-us="ft" data-si="m">ft</span>)</span><input class="transport-input" name="minimumLength" id="vertical-min" type="number" value="0" step="any" data-kind="length"><span class="transport-error" hidden></span></label>
+            </div><div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge" data-unit-badge>US customary</span></div></form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Supply a K-value from the governing reference, then calculate.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>A</var> = |<var>g</var><sub>2</sub> − <var>g</var><sub>1</sub>| &nbsp; · &nbsp; <var>L</var> = <var>KA</var></span><p>A uses percentage points; K uses length per percent. No AASHTO K-value table is generated or approximated.</p><p>AASHTO-based preliminary relation. The user must select K and any minimum length from an authorized, applicable governing edition and agency policy.</p></div></details>
+        </article>
+
+        <article class="tool-panel" id="calculator-pavement-structural-number" aria-labelledby="pavement-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="pavement-title">Pavement Structural Number — AASHTO 1993</h3><p class="tool-panel__lede">Bounded bisection solution of the implicit flexible-pavement equation.</p><span class="reference-state">Z<sub>R</sub> required · reliability mapping not bundled</span></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="pavement" novalidate><div class="transport-form__grid">
+              <label class="transport-field"><span class="transport-label">Design ESALs, W₁₈</span><input class="transport-input" name="w18" id="pavement-w18" type="number" value="1000000" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Reliability, R (%)</span><input class="transport-input" name="reliabilityPct" id="pavement-r" type="number" value="95" step="any"><span class="transport-help">Displayed assumption; ZR is entered separately.</span><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Overall standard deviation, Sₒ</span><input class="transport-input" name="standardDeviation" id="pavement-so" type="number" value="0.45" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Standard normal deviate, ZR</span><input class="transport-input" name="zR" id="pavement-zr" type="number" value="-1.645" step="any"><span class="transport-help">User-supplied from an authorized source.</span><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Initial serviceability, Pᵢ</span><input class="transport-input" name="initialServiceability" id="pavement-pi" type="number" value="4.2" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Terminal serviceability, Pₜ</span><input class="transport-input" name="terminalServiceability" id="pavement-pt" type="number" value="2.5" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Resilient modulus, MR (psi)</span><input class="transport-input" name="resilientModulusPsi" id="pavement-mr" type="number" value="10000" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Numerical tolerance</span><input class="transport-input" name="tolerance" id="pavement-tol" type="number" value="0.000001" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Maximum SN search bound</span><input class="transport-input" name="snMax" id="pavement-max" type="number" value="20" step="any"><span class="transport-error" hidden></span></label>
+            </div><div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge">US customary equation</span></div></form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Enter valid equation inputs and calculate.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation">log₁₀(W₁₈) = ZR·Sₒ + 9.36log₁₀(SN+1) − 0.20 + log₁₀(ΔPSI/2.7) / [0.40 + 1094/(SN+1)<sup>5.19</sup>] + 2.32log₁₀(MR) − 8.07</span><p>Bisection searches SN ∈ [0, user-entered maximum], requires a bracket, retains full precision, and reports iterations and residual.</p><p>AASHTO Guide for Design of Pavement Structures (1993); equation reproduced in FHWA NHI-05-037 (2006), chapter 3. Layer coefficients, drainage coefficients, constructability, and agency minimum sections remain separate design work.</p></div></details>
+        </article>
+
+        <article class="tool-panel" id="calculator-intersection-los" aria-labelledby="los-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="los-title">Intersection LOS / Capacity Estimator</h3><p class="tool-panel__lede">Simplified directional screen using user-entered capacities and control delays. It does not calculate formal HCM delay.</p><span class="reference-state">HCM-aligned planning estimate · not formal operational analysis</span></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="los" novalidate><div class="transport-form__grid">
+              <label class="transport-field"><span class="transport-label">Control type</span><select class="transport-select" name="controlType" id="los-control"><option value="signalized">Signalized</option><option value="twsc">Two-way stop-controlled</option><option value="awsc">All-way stop-controlled</option></select></label>
+              <label class="transport-field"><span class="transport-label">Analysis period (min)</span><input class="transport-input" name="periodMinutes" id="los-period" type="number" value="60" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Peak-hour factor</span><input class="transport-input" name="peakHourFactor" id="los-phf" type="number" value="1" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Approaching-capacity flag (v/c)</span><input class="transport-input" name="alertRatio" id="los-alert" type="number" value="0.9" step="any"><span class="transport-help">Editable screening criterion.</span><span class="transport-error" hidden></span></label>
+              <div class="approach-grid" data-approaches>
+                <span class="approach-grid__head">Approach / lane note</span><span class="approach-grid__head">Demand (veh/period)</span><span class="approach-grid__head">Capacity (veh/h)</span><span class="approach-grid__head">Delay (s/veh)</span>
+                <label class="transport-field"><span class="transport-label">Northbound</span><input class="transport-input" name="approach0Lanes" id="los-nb-lanes" type="text" value="L1 / T1 / R0"><span class="transport-help">Document left / through / right lanes.</span></label><label class="transport-field"><span class="transport-label">NB demand</span><input class="transport-input" name="approach0Demand" id="los-nb-demand" type="number" value="700" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">NB capacity</span><input class="transport-input" name="approach0Capacity" id="los-nb-capacity" type="number" value="900" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">NB delay</span><input class="transport-input" name="approach0Delay" id="los-nb-delay" type="number" value="25" step="any"><span class="transport-error" hidden></span></label>
+                <label class="transport-field"><span class="transport-label">Southbound</span><input class="transport-input" name="approach1Lanes" id="los-sb-lanes" type="text" value="L1 / T1 / R0"></label><label class="transport-field"><span class="transport-label">SB demand</span><input class="transport-input" name="approach1Demand" id="los-sb-demand" type="number" value="650" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">SB capacity</span><input class="transport-input" name="approach1Capacity" id="los-sb-capacity" type="number" value="900" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">SB delay</span><input class="transport-input" name="approach1Delay" id="los-sb-delay" type="number" value="22" step="any"><span class="transport-error" hidden></span></label>
+                <label class="transport-field"><span class="transport-label">Eastbound</span><input class="transport-input" name="approach2Lanes" id="los-eb-lanes" type="text" value="L1 / T1 / R0"></label><label class="transport-field"><span class="transport-label">EB demand</span><input class="transport-input" name="approach2Demand" id="los-eb-demand" type="number" value="500" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">EB capacity</span><input class="transport-input" name="approach2Capacity" id="los-eb-capacity" type="number" value="800" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">EB delay</span><input class="transport-input" name="approach2Delay" id="los-eb-delay" type="number" value="30" step="any"><span class="transport-error" hidden></span></label>
+                <label class="transport-field"><span class="transport-label">Westbound</span><input class="transport-input" name="approach3Lanes" id="los-wb-lanes" type="text" value="L1 / T1 / R0"></label><label class="transport-field"><span class="transport-label">WB demand</span><input class="transport-input" name="approach3Demand" id="los-wb-demand" type="number" value="550" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">WB capacity</span><input class="transport-input" name="approach3Capacity" id="los-wb-capacity" type="number" value="800" step="any"><span class="transport-error" hidden></span></label><label class="transport-field"><span class="transport-label">WB delay</span><input class="transport-input" name="approach3Delay" id="los-wb-delay" type="number" value="28" step="any"><span class="transport-error" hidden></span></label>
+              </div>
+            </div><div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge">US traffic units</span></div></form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Supply directional capacity and average control delay assumptions, then calculate.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>v/c</var> = hourly adjusted directional demand / user-entered directional capacity</span><p>LOS is classified only from user-entered control delay using control-specific threshold sets. The lane note documents geometry but does not calculate capacity.</p><p>Signalized thresholds: FHWA-HOP-08-024 (2008), table 3-3. This screen omits timing, progression, lane utilization, pedestrians, heavy vehicles, queues, turns, calibration, and formal HCM movement analysis.</p></div></details>
+        </article>
+
+        <article class="tool-panel" id="calculator-sight-triangles" aria-labelledby="sight-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="sight-title">Intersection Sight Triangles — AASHTO Case-Based</h3><p class="tool-panel__lede">Calculate the major-road leg from speed and a user-supplied time gap; report the minor-road eye setback as leg a.</p><span class="reference-state">Time gap required · no proprietary table bundled</span></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="sight" novalidate><div class="transport-form__grid">
+              <label class="transport-field"><span class="transport-label">Unit system</span><select class="transport-select" name="unitSystem" id="sight-units"><option value="us">US customary</option><option value="si">SI</option></select></label>
+              <label class="transport-field"><span class="transport-label">Case</span><select class="transport-select" name="caseType" id="sight-case"><option value="stop-departure">Stop-controlled departure</option></select></label>
+              <label class="transport-field"><span class="transport-label">Major-road speed (<span data-unit data-us="mph" data-si="km/h">mph</span>)</span><input class="transport-input" name="speed" id="sight-speed" type="number" value="50" step="any" data-kind="speed"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Major-road grade (%)</span><input class="transport-input" name="majorGradePct" id="sight-major-grade" type="number" value="0" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Minor-road approach grade (%)</span><input class="transport-input" name="minorGradePct" id="sight-minor-grade" type="number" value="0" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Crossed / entered lanes</span><input class="transport-input" name="lanes" id="sight-lanes" type="number" value="2" step="1"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Lane width (<span data-unit data-us="ft" data-si="m">ft</span>)</span><input class="transport-input" name="laneWidth" id="sight-lane-width" type="number" value="12" step="any" data-kind="length"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Median width (<span data-unit data-us="ft" data-si="m">ft</span>)</span><input class="transport-input" name="medianWidth" id="sight-median" type="number" value="0" step="any" data-kind="length"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Driver-eye setback, leg a (<span data-unit data-us="ft" data-si="m">ft</span>)</span><input class="transport-input" name="setback" id="sight-setback" type="number" value="14.5" step="any" data-kind="length"><span class="transport-help">Measured from the near edge of major-road traveled way to the driver’s eye.</span><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Design vehicle / criterion note</span><input class="transport-input" name="vehicle" id="sight-vehicle" type="text" value="Passenger car — user criterion"></label>
+              <label class="transport-field"><span class="transport-label">User-supplied time gap, tg (s)</span><input class="transport-input" name="timeGap" id="sight-gap" type="number" value="7.5" step="any"><span class="transport-error" hidden></span></label>
+            </div><div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge" data-unit-badge>US customary</span></div></form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Supply a governing time-gap criterion, then calculate.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>b</var> = 1.47 <var>V</var><sub>major</sub><var>t</var><sub>g</sub> (US) &nbsp; · &nbsp; <var>b</var> = (<var>V</var>/3.6)<var>t</var><sub>g</sub> (SI)</span><p>Leg a is the entered eye setback to the near edge. Leg b is measured along the major-road traveled way. No lane-count or grade time-gap adjustment is invented.</p><p>AASHTO-based Case B departure relationship using a user-supplied criterion. Verify horizontal and vertical obstructions, eye/object heights, curvature, skew, grades, and adopted jurisdictional standards.</p></div></details>
+        </article>
+
+        <article class="tool-panel" id="calculator-trip-generation" aria-labelledby="trip-title">
+          <div class="tool-panel__head"><h3 class="tool-panel__title" id="trip-title">Trip Generation Estimator — ITE-Based</h3><p class="tool-panel__lede">Apply a user-supplied or otherwise authorized average rate. No proprietary ITE rates are embedded.</p><span class="reference-state">Reference data required · custom land use only</span></div>
+          <div class="transport-workspace">
+            <form class="transport-form" data-calc="trip" novalidate><div class="transport-form__grid">
+              <label class="transport-field"><span class="transport-label">Land-use category</span><input class="transport-input" name="landUse" id="trip-land-use" type="text" value="Custom land use"></label>
+              <label class="transport-field"><span class="transport-label">Land-use code</span><input class="transport-input" name="landUseCode" id="trip-code" type="text" placeholder="If authorized"></label>
+              <label class="transport-field"><span class="transport-label">Independent-variable type</span><select class="transport-select" name="variableType" id="trip-variable"><option value="dwelling-units">Dwelling units</option><option value="ksf">Gross floor area (1,000 ft²)</option><option value="employees">Employees</option><option value="custom">Custom rate unit</option></select></label>
+              <label class="transport-field"><span class="transport-label">Quantity, X</span><input class="transport-input" name="quantity" id="trip-quantity" type="number" value="100" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Analysis period</span><select class="transport-select" name="period" id="trip-period"><option value="am">AM peak hour</option><option value="pm">PM peak hour</option></select></label>
+              <label class="transport-field"><span class="transport-label">Estimation method</span><select class="transport-select" name="method" id="trip-method"><option value="average-rate">Average rate</option></select></label>
+              <label class="transport-field"><span class="transport-label">User-supplied trip rate, R</span><input class="transport-input" name="rate" id="trip-rate" type="number" value="1" step="any"><span class="transport-help">Trips per selected independent-variable unit.</span><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Entering (%)</span><input class="transport-input" name="enteringPct" id="trip-enter" type="number" value="50" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Exiting (%)</span><input class="transport-input" name="exitingPct" id="trip-exit" type="number" value="50" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Pass-by reduction (%)</span><input class="transport-input" name="passByPct" id="trip-passby" type="number" value="0" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Diverted-link reduction (%)</span><input class="transport-input" name="divertedPct" id="trip-diverted" type="number" value="0" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Internal-capture reduction (%)</span><input class="transport-input" name="internalPct" id="trip-internal" type="number" value="0" step="any"><span class="transport-error" hidden></span></label>
+              <label class="transport-field"><span class="transport-label">Data source</span><input class="transport-input" name="source" id="trip-source" type="text" value="User supplied"></label>
+              <label class="transport-field"><span class="transport-label">Source edition / date</span><input class="transport-input" name="edition" id="trip-edition" type="text" value="User supplied"></label>
+            </div><div class="transport-actions"><button class="btn btn--primary" type="submit">Calculate</button><button class="btn" type="button" data-reset>Reset this tool</button><span class="transport-unit-badge">User-authorized rate</span></div></form>
+            <div class="transport-results" data-results aria-live="polite"><p class="transport-results__idle">Supply an authorized rate and source disclosure, then calculate.</p></div>
+          </div>
+          <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>T</var> = <var>R X</var></span><p>The independent-variable quantity must already be normalized to the rate unit. User-entered pass-by, diverted-link, and internal-capture reductions are applied sequentially and shown separately.</p><p>No ITE-published rates or equations are included. Verify the authorized dataset, local validation, mixed-use effects, multimodal reductions, pass-by treatment, and jurisdictional policy.</p></div></details>
+        </article>
+        </div>
+      </section>
+
+      <section class="section nbdf-disclaimer" id="disclaimer" aria-label="Engineering disclaimer">
+        <p class="eyebrow">Disclaimer</p>
+        <p class="nbdf-disclaimer__text">Preliminary engineering tool. Results are for planning and preliminary evaluation only and must be independently verified against governing-agency requirements and the applicable editions of AASHTO, HCM, ITE, and other controlling references. Not for final design or construction without independent professional review.</p>
+      </section>
+    </main>
+  </div>
+  <footer class="colophon"><span>© <span id="year">2026</span> North Bay Digital Foundry</span><span>Build carefully. Verify independently.</span></footer>
+  <script src="assets/js/main.js" defer></script>
+  <script type="module" src="assets/js/transportation-calc.js"></script>
+</body>
+</html>

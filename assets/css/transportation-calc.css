@@ -1,0 +1,340 @@
+/* Civil Transportation Engineering Suite — page-scoped UI */
+
+:root { scroll-behavior: smooth; }
+
+.shell { overflow: visible; }
+
+.rail {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  height: calc(100vh - 32px);
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px) 0 0 calc(var(--radius) - 2px);
+}
+.rail__nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-gutter: stable;
+}
+.rail__jump {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1.5px solid var(--line);
+}
+.rail__jump-label {
+  margin: 0 0 6px;
+  padding: 0 8px;
+  color: var(--faint);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.rail__nav .rail__jump-list { gap: 1px; }
+.rail__nav .rail__jump-list a {
+  padding: 5px 8px;
+  font-size: 11px;
+  line-height: 1.25;
+}
+.rail__jump a:focus-visible,
+.mobile-jump-nav a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.transport-hero .hero__lede { max-width: 64ch; }
+.transport-unit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 5px 9px;
+  background: var(--surface);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.transport-unit-badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.transport-disclaimer {
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1.5px solid var(--line);
+  border-left: 4px solid var(--accent);
+  background: var(--surface-alt);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.tool-stack {
+  display: grid;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.tool-panel {
+  min-width: 0;
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 20px 22px;
+  background: var(--surface);
+  scroll-margin-top: 20px;
+}
+.tool-panel__head { margin-bottom: 18px; }
+.tool-panel__title {
+  margin: 0 0 7px;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  letter-spacing: -.022em;
+}
+.tool-panel__lede { margin: 0; max-width: 68ch; color: var(--muted); font-size: 14px; }
+.reference-state {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 8px;
+  border: 1.5px solid var(--dash);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  background: var(--surface-alt);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.transport-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+  gap: 18px;
+  align-items: start;
+}
+.transport-form,
+.transport-results {
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 18px;
+  background: var(--surface);
+  min-width: 0;
+}
+.transport-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px 12px;
+}
+.transport-field { min-width: 0; }
+.transport-field--wide { grid-column: 1 / -1; }
+.transport-field[hidden] { display: none; }
+.transport-label {
+  display: block;
+  margin: 0 0 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.transport-help {
+  display: block;
+  margin-top: 4px;
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.35;
+}
+.transport-input,
+.transport-select {
+  width: 100%;
+  min-width: 0;
+  border: 2px solid var(--dash);
+  border-radius: var(--radius-sm);
+  padding: 8px 9px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+.transport-input:hover,
+.transport-select:hover { border-color: var(--muted); }
+.transport-input:focus,
+.transport-select:focus { border-color: var(--ink); }
+.transport-input[aria-invalid="true"],
+.transport-select[aria-invalid="true"] { border-color: var(--accent); }
+.transport-error {
+  margin: 4px 0 0;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 650;
+}
+.transport-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 17px;
+}
+.transport-actions .btn { cursor: pointer; }
+
+.transport-results {
+  background: var(--surface-alt);
+  min-height: 220px;
+}
+.transport-results__idle {
+  margin: 0;
+  color: var(--faint);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.result-status {
+  display: inline-block;
+  margin-bottom: 9px;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.result-status--ok { color: var(--ink); }
+.result-status--warning { color: var(--accent); }
+.result-primary {
+  margin: 0 0 7px;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+.result-interpretation { margin: 0 0 15px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.result-warning {
+  margin: 0 0 14px;
+  padding: 9px 10px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.result-group {
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1.5px solid var(--line);
+}
+.result-group h4 {
+  margin: 0 0 7px;
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.result-list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.result-list li { margin-bottom: 4px; }
+
+.transport-details {
+  margin-top: 14px;
+  border-top: 1.5px solid var(--line);
+  padding-top: 11px;
+}
+.transport-details summary {
+  cursor: pointer;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.transport-details summary:hover { color: var(--ink); }
+.transport-details__body { margin-top: 9px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.transport-details__body p,
+.transport-details__body ul { margin: 0 0 8px; }
+.transport-details__body ul { padding-left: 18px; }
+.transport-equation {
+  display: block;
+  overflow-x: auto;
+  margin: 8px 0;
+  padding: 9px 11px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-tint);
+  color: var(--ink);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.approach-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, 1fr);
+  gap: 8px;
+  align-items: end;
+  padding-top: 4px;
+}
+.approach-grid__head { color: var(--faint); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+
+.nbdf-disclaimer { background: var(--surface-alt); }
+.nbdf-disclaimer__text {
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.mobile-jump-nav {
+  display: none;
+  margin-top: 18px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+}
+.mobile-jump-nav summary {
+  padding: 11px 13px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+.mobile-jump-nav ol {
+  margin: 0;
+  padding: 0 13px 12px 34px;
+}
+.mobile-jump-nav li { margin-top: 5px; }
+.mobile-jump-nav a {
+  color: var(--muted);
+  font-size: 12px;
+}
+.mobile-jump-nav a:hover { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .transport-workspace { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .rail {
+    position: static;
+    height: auto;
+    overflow: visible;
+    border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
+  }
+  .rail__nav {
+    overflow: visible;
+    padding-right: 0;
+  }
+  .mobile-jump-nav { display: block; }
+}
+@media (max-width: 540px) {
+  .tool-panel { padding: 16px; }
+  .transport-form__grid { grid-template-columns: 1fr; }
+  .transport-field--wide { grid-column: auto; }
+  .transport-form,
+  .transport-results { padding: 14px; }
+  .transport-actions { display: grid; }
+  .transport-actions .btn { width: 100%; }
+  .approach-grid { grid-template-columns: 1fr; }
+  .approach-grid__head { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { scroll-behavior: auto; }
+}
