@@ -2,7 +2,7 @@
    North Bay Digital Foundry — Potable Pipeline Engineering Suite
    UI / state layer (ES module).
 
-   Responsibilities: DOM wiring, per-keystroke validation display, result
+   Responsibilities: DOM wiring, explicit calculation/validation, result
    rendering, and localStorage persistence. All engineering math lives in
    pipeline-engineering.js and is imported here — no formulas in this file.
 
@@ -154,8 +154,7 @@ function renderResults(card, result) {
    ========================================================================= */
 
 /**
- * Validate a form's inputs and run its calculator. Runs on every input
- * event, so incomplete forms simply idle (no error spam on empty fields).
+ * Validate a form's inputs and run its calculator on explicit submission.
  * @param {HTMLFormElement} form
  */
 function compute(form) {
@@ -293,16 +292,30 @@ function init() {
 
   forms.forEach((form) => {
     // Calculators never navigate; results render in place.
-    form.addEventListener('submit', (e) => e.preventDefault());
-
-    form.addEventListener('input', (e) => {
-      if (e.target.name === 'mode') syncModeVisibility(form);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
       compute(form);
       saveState();
     });
 
+    form.addEventListener('input', (e) => {
+      if (e.target.name === 'mode') syncModeVisibility(form);
+      activeFields(form).forEach((el) => setFieldError(el, null));
+      clearResults(form.closest('.nbdf-calc'));
+      saveState();
+    });
+
+    form.querySelector('[data-reset]')?.addEventListener('click', () => {
+      form.reset();
+      syncModeVisibility(form);
+      activeFields(form).forEach((el) => setFieldError(el, null));
+      clearResults(form.closest('.nbdf-calc'));
+      saveState();
+      form.querySelector('input, select')?.focus();
+    });
+
     syncModeVisibility(form);
-    compute(form);
+    clearResults(form.closest('.nbdf-calc'));
   });
 }
 

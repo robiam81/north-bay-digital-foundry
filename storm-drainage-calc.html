@@ -48,7 +48,20 @@
           <li><a href="#conveyance">03 · Conveyance</a></li>
           <li><a href="#detention">04 · Detention</a></li>
           <li><a href="#outfalls">05 · Outfalls</a></li>
+          <li><a href="#disclaimer">06 · Disclaimer</a></li>
         </ol>
+        <div class="rail__jump">
+          <p class="rail__jump-label">Jump to calculator</p>
+          <ol class="rail__jump-list">
+            <li><a href="#calculator-rational-method" data-calculator-jump>1 · Rational Method</a></li>
+            <li><a href="#calculator-pipe-sizing" data-calculator-jump>2 · Pipe sizing</a></li>
+            <li><a href="#calculator-inlet-capacity" data-calculator-jump>3 · Inlet capacity</a></li>
+            <li><a href="#calculator-detention-basin" data-calculator-jump>4 · Detention basin</a></li>
+            <li><a href="#calculator-outlet-structure" data-calculator-jump>5 · Outlet structure</a></li>
+            <li><a href="#calculator-culvert-screening" data-calculator-jump>6 · Culvert screening</a></li>
+            <li><a href="#calculator-riprap-apron" data-calculator-jump>7 · Riprap apron</a></li>
+          </ol>
+        </div>
       </nav>
 
       <p class="rail__meta">Tool · v1.0</p>
@@ -84,13 +97,13 @@
             <p class="eyebrow">02 · Hydrology</p>
             <h2 class="section__title" id="hyd-title">Peak runoff</h2>
           </div>
-          <span class="status"><span class="dot" aria-hidden="true"></span>LIVE RESULTS</span>
+          <span class="status"><span class="dot" aria-hidden="true"></span>CALCULATE ON DEMAND</span>
         </div>
 
         <div class="nbdf-workflow">
 
           <!-- Rational Method -->
-          <article class="nbdf-calc" aria-labelledby="rm-title">
+          <article class="nbdf-calc" id="calculator-rational-method" aria-labelledby="rm-title">
             <h3 class="nbdf-calc__title" id="rm-title">Rational Method peak flow</h3>
             <p class="nbdf-calc__sub">Peak runoff from a small drainage area — the feed value for the pipe-sizing, detention, and outlet calculators below. Rainfall intensity comes from the local IDF curve; it is regional and is not built in.</p>
 
@@ -132,6 +145,10 @@
                   <label class="nbdf-field__label" for="rm-s">Flow-path slope <span class="nbdf-field__unit">(%)</span></label>
                   <input class="nbdf-field__input" id="rm-s" name="slopePct" type="number" step="any" inputmode="decimal" placeholder="e.g. 2">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -186,7 +203,7 @@ Tc (min) = 0.0078 · L^0.77 · S^−0.385     (Kirpich; S in ft/ft)</code>
         <div class="nbdf-workflow">
 
           <!-- Pipe sizing -->
-          <article class="nbdf-calc" aria-labelledby="ps-title">
+          <article class="nbdf-calc" id="calculator-pipe-sizing" aria-labelledby="ps-title">
             <h3 class="nbdf-calc__title" id="ps-title">Storm drain pipe sizing</h3>
             <p class="nbdf-calc__sub">Minimum circular pipe diameter by Manning's equation at full flow, rounded up to the nearest standard size, with the flow depth at design Q in the selected pipe.</p>
 
@@ -210,6 +227,10 @@ Tc (min) = 0.0078 · L^0.77 · S^−0.385     (Kirpich; S in ft/ft)</code>
                   <label class="nbdf-field__label" for="ps-s">Pipe slope S <span class="nbdf-field__unit">(ft/ft)</span></label>
                   <input class="nbdf-field__input" id="ps-s" name="slopeFtFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 0.005">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -252,7 +273,7 @@ D_req (ft) = [ Q·n / (0.4644·√S) ]^(3/8)</code>
           </article>
 
           <!-- Inlet capacity -->
-          <article class="nbdf-calc" aria-labelledby="ic-title">
+          <article class="nbdf-calc" id="calculator-inlet-capacity" aria-labelledby="ic-title">
             <h3 class="nbdf-calc__title" id="ic-title">Inlet capacity — sump condition</h3>
             <p class="nbdf-calc__sub">Interception capacity of a grate or curb-opening inlet in a sag (sump). Scope is sump/sag inlets only — on-grade interception efficiency is materially more complex and is not modeled here.</p>
 
@@ -299,6 +320,10 @@ D_req (ft) = [ Q·n / (0.4644·√S) ]^(3/8)</code>
                   <label class="nbdf-field__label" for="ic-ccw">Weir coefficient Cw <span class="nbdf-field__unit">(3.0–3.6)</span></label>
                   <input class="nbdf-field__input" id="ic-ccw" name="curbWeirCw" type="number" step="any" inputmode="decimal" value="3.0">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -351,7 +376,7 @@ Curb, weir:      Q = Cw · L · d^1.5        (Cw ≈ 3.0–3.6)</code>
         <div class="nbdf-workflow">
 
           <!-- Detention basin -->
-          <article class="nbdf-calc" aria-labelledby="db-title">
+          <article class="nbdf-calc" id="calculator-detention-basin" aria-labelledby="db-title">
             <h3 class="nbdf-calc__title" id="db-title">Detention basin sizing — preliminary</h3>
             <p class="nbdf-calc__sub">Required storage by the Modified Rational Method with a triangular hydrograph, checked across several trial storm durations to approximate the critical duration.</p>
 
@@ -371,6 +396,10 @@ Curb, weir:      Q = Cw · L · d^1.5        (Cw ≈ 3.0–3.6)</code>
                   <label class="nbdf-field__label" for="db-qout">Allowable release Qout <span class="nbdf-field__unit">(cfs)</span></label>
                   <input class="nbdf-field__input" id="db-qout" name="qoutCfs" type="number" step="any" inputmode="decimal" placeholder="downstream constraint">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -408,7 +437,7 @@ Curb, weir:      Q = Cw · L · d^1.5        (Cw ≈ 3.0–3.6)</code>
           </article>
 
           <!-- Outlet structure -->
-          <article class="nbdf-calc" aria-labelledby="os-title">
+          <article class="nbdf-calc" id="calculator-outlet-structure" aria-labelledby="os-title">
             <h3 class="nbdf-calc__title" id="os-title">Detention outlet structure — orifice + weir</h3>
             <p class="nbdf-calc__sub">Size the low-flow orifice for the allowable release, or the emergency overflow weir length, from a target discharge and the available head.</p>
 
@@ -445,6 +474,10 @@ Curb, weir:      Q = Cw · L · d^1.5        (Cw ≈ 3.0–3.6)</code>
                   <label class="nbdf-field__label" for="os-cwe">Weir coefficient Cw <span class="nbdf-field__unit">(3.0–3.33)</span></label>
                   <input class="nbdf-field__input" id="os-cwe" name="weirCw" type="number" step="any" inputmode="decimal" value="3.0">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -492,7 +525,7 @@ Weir:    Q = Cw · L · H^1.5     →  L = Q / (Cw·H^1.5)</code>
         <div class="nbdf-workflow">
 
           <!-- Culvert screening -->
-          <article class="nbdf-calc" aria-labelledby="cv-title">
+          <article class="nbdf-calc" id="calculator-culvert-screening" aria-labelledby="cv-title">
             <h3 class="nbdf-calc__title" id="cv-title">Culvert capacity screening — inlet vs. outlet control</h3>
             <p class="nbdf-calc__sub">Headwater for a circular culvert under inlet control and outlet control, reporting the controlling condition against the allowable headwater. Screening only — final design follows the full HDS-5 procedure.</p>
 
@@ -539,6 +572,10 @@ Weir:    Q = Cw · L · H^1.5     →  L = Q / (Cw·H^1.5)</code>
                   <input class="nbdf-field__input" id="cv-ahw" name="allowableHwFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 6">
                   <p class="nbdf-field__error" role="alert" hidden></p>
                 </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
+                </div>
               </form>
 
               <div class="nbdf-results" aria-live="polite">
@@ -578,7 +615,7 @@ Outlet (full flow): H  = [1 + ke + 29·n²·L / R^(4/3)] · V²/2g
           </article>
 
           <!-- Riprap apron -->
-          <article class="nbdf-calc" aria-labelledby="ra-title">
+          <article class="nbdf-calc" id="calculator-riprap-apron" aria-labelledby="ra-title">
             <h3 class="nbdf-calc__title" id="ra-title">Outlet protection — riprap apron sizing</h3>
             <p class="nbdf-calc__sub">Median riprap stone size and apron dimensions for a minor circular outlet, per the simplified HEC-14 apron method. Energy dissipators and complex outlets need full HEC-14 analysis.</p>
 
@@ -600,6 +637,10 @@ Outlet (full flow): H  = [1 + ke + 29·n²·L / R^(4/3)] · V²/2g
                   <label class="nbdf-field__label" for="ra-q">Design discharge Q <span class="nbdf-field__unit">(cfs)</span></label>
                   <input class="nbdf-field__input" id="ra-q" name="designQCfs" type="number" step="any" inputmode="decimal" placeholder="e.g. 50">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -638,9 +679,9 @@ W   (ft) = 3·D + (2/3)·La</code>
       </section>
 
       <!-- DISCLAIMER -->
-      <section class="section nbdf-disclaimer" aria-label="Engineering disclaimer">
-        <p class="eyebrow">Disclaimer</p>
-        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
+      <section class="section nbdf-disclaimer" id="disclaimer" aria-label="Engineering disclaimer">
+        <p class="eyebrow">06 · Disclaimer</p>
+        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer against the applicable editions of governing standards, references, and agency requirements. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
       </section>
 
     </main>

@@ -45,6 +45,7 @@
   border-radius: 10px;
   background: var(--surface);
   padding: 20px 22px;
+  scroll-margin-top: 20px;
 }
 
 .nbdf-calc__title {
@@ -81,6 +82,16 @@
 }
 
 .nbdf-field--wide { grid-column: 1 / -1; }
+
+.nbdf-form__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 4px;
+}
+
+.nbdf-form__actions .btn { cursor: pointer; }
 
 .nbdf-field__label {
   display: block;
@@ -316,4 +327,6 @@
 @media (max-width: 540px) {
   .nbdf-form { grid-template-columns: 1fr; }
   .nbdf-calc { padding: 16px; }
+  .nbdf-form__actions { display: grid; }
+  .nbdf-form__actions .btn { width: 100%; }
 }

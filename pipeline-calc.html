@@ -48,7 +48,20 @@
           <li><a href="#structural">03 · Structural</a></li>
           <li><a href="#transient">04 · Transient</a></li>
           <li><a href="#stability">05 · Stability</a></li>
+          <li><a href="#disclaimer">06 · Disclaimer</a></li>
         </ol>
+        <div class="rail__jump">
+          <p class="rail__jump-label">Jump to calculator</p>
+          <ol class="rail__jump-list">
+            <li><a href="#calculator-hazen-williams" data-calculator-jump>1 · Hazen-Williams</a></li>
+            <li><a href="#calculator-velocity-check" data-calculator-jump>2 · Velocity check</a></li>
+            <li><a href="#calculator-restrained-length" data-calculator-jump>3 · Restrained length</a></li>
+            <li><a href="#calculator-barlow" data-calculator-jump>4 · Barlow hoop stress</a></li>
+            <li><a href="#calculator-modified-iowa" data-calculator-jump>5 · Modified Iowa</a></li>
+            <li><a href="#calculator-joukowsky-surge" data-calculator-jump>6 · Joukowsky surge</a></li>
+            <li><a href="#calculator-buoyancy" data-calculator-jump>7 · Buoyancy / flotation</a></li>
+          </ol>
+        </div>
       </nav>
 
       <p class="rail__meta">Tool · v1.0</p>
@@ -84,13 +97,13 @@
             <p class="eyebrow">02 · Hydraulics</p>
             <h2 class="section__title" id="hyd-title">Head loss &amp; velocity</h2>
           </div>
-          <span class="status"><span class="dot" aria-hidden="true"></span>LIVE RESULTS</span>
+          <span class="status"><span class="dot" aria-hidden="true"></span>CALCULATE ON DEMAND</span>
         </div>
 
         <div class="nbdf-workflow">
 
           <!-- Hazen-Williams -->
-          <article class="nbdf-calc" aria-labelledby="hw-title">
+          <article class="nbdf-calc" id="calculator-hazen-williams" aria-labelledby="hw-title">
             <h3 class="nbdf-calc__title" id="hw-title">Hazen-Williams head loss</h3>
             <p class="nbdf-calc__sub">Friction loss and pressure drop for a full-flowing pressurized water pipe.</p>
 
@@ -115,6 +128,10 @@
                   <label class="nbdf-field__label" for="hw-len">Pipeline length <span class="nbdf-field__unit">(ft)</span></label>
                   <input class="nbdf-field__input" id="hw-len" name="lengthFt" type="number" step="any" inputmode="decimal" placeholder="e.g. 5280">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -149,7 +166,7 @@
           </article>
 
           <!-- Velocity check -->
-          <article class="nbdf-calc" aria-labelledby="vc-title">
+          <article class="nbdf-calc" id="calculator-velocity-check" aria-labelledby="vc-title">
             <h3 class="nbdf-calc__title" id="vc-title">Velocity constraint check</h3>
             <p class="nbdf-calc__sub">Mean velocity from continuity, flagged against typical municipal design ranges. Results are never clamped.</p>
 
@@ -164,6 +181,10 @@
                   <label class="nbdf-field__label" for="vc-dia">Pipe inside diameter <span class="nbdf-field__unit">(in)</span></label>
                   <input class="nbdf-field__input" id="vc-dia" name="diameterIn" type="number" step="any" inputmode="decimal" placeholder="e.g. 12">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -208,7 +229,7 @@
         <div class="nbdf-workflow">
 
           <!-- Restrained length -->
-          <article class="nbdf-calc" aria-labelledby="rl-title">
+          <article class="nbdf-calc" id="calculator-restrained-length" aria-labelledby="rl-title">
             <h3 class="nbdf-calc__title" id="rl-title">Restrained length — horizontal bend</h3>
             <p class="nbdf-calc__sub">DIPRA-aligned preliminary estimate, longitudinal friction resistance only. Length applies to each side of the bend.</p>
 
@@ -254,6 +275,10 @@
                   <input class="nbdf-field__input" id="rl-sf" name="safetyFactor" type="number" step="any" inputmode="decimal" value="1.5">
                   <p class="nbdf-field__error" role="alert" hidden></p>
                 </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
+                </div>
               </form>
 
               <div class="nbdf-results" aria-live="polite">
@@ -298,7 +323,7 @@ L  (ft)    = SF · P · A · tan(θ/2) / Fs</code>
           </article>
 
           <!-- Barlow -->
-          <article class="nbdf-calc" aria-labelledby="bl-title">
+          <article class="nbdf-calc" id="calculator-barlow" aria-labelledby="bl-title">
             <h3 class="nbdf-calc__title" id="bl-title">Barlow hoop stress</h3>
             <p class="nbdf-calc__sub">Thin-wall hoop-stress relation — solve for required wall thickness or maximum allowable pressure.</p>
 
@@ -331,6 +356,10 @@ L  (ft)    = SF · P · A · tan(θ/2) / Fs</code>
                   <input class="nbdf-field__input" id="bl-s" name="allowableStressPsi" type="number" step="any" inputmode="decimal" placeholder="incl. design factor">
                   <p class="nbdf-field__error" role="alert" hidden></p>
                 </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
+                </div>
               </form>
 
               <div class="nbdf-results" aria-live="polite">
@@ -359,7 +388,7 @@ P (psi) = 2 · S · t / Do</code>
           </article>
 
           <!-- Modified Iowa -->
-          <article class="nbdf-calc" aria-labelledby="mi-title">
+          <article class="nbdf-calc" id="calculator-modified-iowa" aria-labelledby="mi-title">
             <h3 class="nbdf-calc__title" id="mi-title">Modified Iowa deflection</h3>
             <p class="nbdf-calc__sub">Predicted vertical ring deflection of buried flexible pipe under earth and live load (Spangler/Watkins).</p>
 
@@ -399,6 +428,10 @@ P (psi) = 2 · S · t / Do</code>
                   <label class="nbdf-field__label" for="mi-wl">Live load WL <span class="nbdf-field__unit">(psi, 0 if none)</span></label>
                   <input class="nbdf-field__input" id="mi-wl" name="liveLoadPsi" type="number" step="any" inputmode="decimal" placeholder="HS-20 table below">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -461,7 +494,7 @@ P (psi) = 2 · S · t / Do</code>
         <div class="nbdf-workflow">
 
           <!-- Joukowsky -->
-          <article class="nbdf-calc" aria-labelledby="jk-title">
+          <article class="nbdf-calc" id="calculator-joukowsky-surge" aria-labelledby="jk-title">
             <h3 class="nbdf-calc__title" id="jk-title">Joukowsky surge</h3>
             <p class="nbdf-calc__sub">Upper-bound surge pressure from an instantaneous flow stoppage (water hammer).</p>
 
@@ -486,6 +519,10 @@ P (psi) = 2 · S · t / Do</code>
                   <label class="nbdf-field__label" for="jk-po">Operating pressure <span class="nbdf-field__unit">(psi)</span></label>
                   <input class="nbdf-field__input" id="jk-po" name="operatingPressurePsi" type="number" step="any" inputmode="decimal" placeholder="e.g. 80">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -534,7 +571,7 @@ Total    = operating pressure + ΔP</code>
         <div class="nbdf-workflow">
 
           <!-- Buoyancy -->
-          <article class="nbdf-calc" aria-labelledby="by-title">
+          <article class="nbdf-calc" id="calculator-buoyancy" aria-labelledby="by-title">
             <h3 class="nbdf-calc__title" id="by-title">Buoyancy / flotation check</h3>
             <p class="nbdf-calc__sub">Flotation safety factor for buried pipe — fully-submerged, empty-pipe worst case — with concrete ballast sizing when short.</p>
 
@@ -574,6 +611,10 @@ Total    = operating pressure + ΔP</code>
                   <label class="nbdf-field__label" for="by-sf">Required safety factor <span class="nbdf-field__unit">(—)</span></label>
                   <input class="nbdf-field__input" id="by-sf" name="requiredSF" type="number" step="any" inputmode="decimal" value="1.25">
                   <p class="nbdf-field__error" role="alert" hidden></p>
+                </div>
+                <div class="nbdf-form__actions">
+                  <button class="btn btn--primary" type="submit">Calculate</button>
+                  <button class="btn" type="button" data-reset>Reset this tool</button>
                 </div>
               </form>
 
@@ -617,9 +658,9 @@ Ballast (concrete, air wt) = [SFreq·Fb − (Wp+Ws)] · γc / (γc − γw)</cod
       </section>
 
       <!-- DISCLAIMER -->
-      <section class="section nbdf-disclaimer" aria-label="Engineering disclaimer">
-        <p class="eyebrow">Disclaimer</p>
-        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
+      <section class="section nbdf-disclaimer" id="disclaimer" aria-label="Engineering disclaimer">
+        <p class="eyebrow">06 · Disclaimer</p>
+        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer against the applicable editions of governing standards, references, and agency requirements. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
       </section>
 
     </main>

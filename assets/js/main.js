@@ -51,4 +51,44 @@
 
     sections.forEach(function (s) { observer.observe(s); });
   }
+
+  /* --- Calculator jump list: mark the calculator at the reading line --- */
+  var calculatorLinks = Array.prototype.slice.call(
+    document.querySelectorAll('[data-calculator-jump]')
+  );
+  var calculatorCards = calculatorLinks
+    .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+    .filter(Boolean);
+  var calculatorUpdatePending = false;
+
+  var updateCurrentCalculator = function () {
+    calculatorUpdatePending = false;
+    if (!calculatorCards.length) return;
+    var readingLine = Math.min(140, window.innerHeight * 0.25);
+    var current = calculatorCards[0];
+    calculatorCards.forEach(function (card) {
+      if (card.getBoundingClientRect().top <= readingLine) current = card;
+    });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = calculatorCards[calculatorCards.length - 1];
+    }
+    calculatorLinks.forEach(function (a) {
+      a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + current.id));
+    });
+  };
+
+  var scheduleCalculatorUpdate = function () {
+    if (calculatorUpdatePending) return;
+    calculatorUpdatePending = true;
+    window.requestAnimationFrame(updateCurrentCalculator);
+  };
+
+  if (calculatorCards.length) {
+    window.addEventListener('scroll', scheduleCalculatorUpdate, { passive: true });
+    window.addEventListener('resize', scheduleCalculatorUpdate);
+    calculatorLinks.forEach(function (a) {
+      a.addEventListener('click', scheduleCalculatorUpdate);
+    });
+    updateCurrentCalculator();
+  }
 })();

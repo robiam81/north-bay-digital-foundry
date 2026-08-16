@@ -337,39 +337,6 @@ FORMS.forEach((form) => {
   });
 });
 
-const CALCULATOR_JUMP_LINKS = Array.from(document.querySelectorAll('[data-calculator-jump]'));
-const CALCULATOR_CARDS = CALCULATOR_JUMP_LINKS
-  .map((link) => document.getElementById(link.hash.slice(1)))
-  .filter(Boolean);
-let calculatorNavUpdatePending = false;
-
-function updateCurrentCalculator() {
-  calculatorNavUpdatePending = false;
-  if (!CALCULATOR_CARDS.length) return;
-  const readingLine = Math.min(140, window.innerHeight * 0.25);
-  let current = CALCULATOR_CARDS[0];
-  CALCULATOR_CARDS.forEach((card) => {
-    if (card.getBoundingClientRect().top <= readingLine) current = card;
-  });
-  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
-    current = CALCULATOR_CARDS[CALCULATOR_CARDS.length - 1];
-  }
-  CALCULATOR_JUMP_LINKS.forEach((link) => {
-    link.setAttribute('aria-current', String(link.hash === `#${current.id}`));
-  });
-}
-
-function scheduleCalculatorNavUpdate() {
-  if (calculatorNavUpdatePending) return;
-  calculatorNavUpdatePending = true;
-  requestAnimationFrame(updateCurrentCalculator);
-}
-
-window.addEventListener('scroll', scheduleCalculatorNavUpdate, { passive: true });
-window.addEventListener('resize', scheduleCalculatorNavUpdate);
-CALCULATOR_JUMP_LINKS.forEach((link) => link.addEventListener('click', scheduleCalculatorNavUpdate));
-updateCurrentCalculator();
-
 // Native details/summary is the primary behavior. This small fallback keeps
 // keyboard toggling deterministic in embedded and automation browsers.
 document.querySelectorAll('.transport-details summary').forEach((summary) => {

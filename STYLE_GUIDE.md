@@ -70,11 +70,16 @@ tags, the inline-SVG NBDF favicon, Inter loaded from Google Fonts with
   `.rail__toggle` "Menu" button), the numbered nav, and `.rail__meta` pinned to
   the bottom (`North Bay · est. 2024` on the homepage; `Prototype · v0.1` on
   the game page).
-- Nav is an ordered list of `NN · Label` links. The homepage lists site
-  sections `01 · Overview` … `06 · Contact` plus cross-page entries
-  (`07 · Excavator Wind Run`). Subpages list their **own** sections starting
+- Nav is an ordered list of `NN · Label` links. The homepage rail lists its
+  own sections (`01 · Overview` … `06 · Contact`); project cards are the
+  primary route to individual project pages, so each project does not require
+  a separate homepage rail entry. Subpages list their **own** sections starting
   again at `01 ·` and add a `.rail__home` "← Back to the foundry" link above
   the nav.
+- Calculator pages with multiple tools place numbered topical/section links
+  first, followed by a clearly labeled `Jump to calculator` list with one
+  direct anchor per calculator. On mobile, keep a single copy of that list
+  inside the collapsible rail menu.
 - `aria-current="true"` marks the active link (styled ink-on-dark);
   `assets/js/main.js` provides the scroll-spy and the mobile menu toggle —
   include it on every page.
@@ -188,8 +193,9 @@ Cards live in the homepage `.projects` grid (3 columns desktop). Structure:
 - `.card__thumb` is a CSS placeholder (tinted panel with an X of dashed
   lines) — swap for a real `<img>` when a screenshot exists.
 - The grid auto-flows: adding a card requires **no CSS changes**.
-- When a card links to a real page, also add a numbered rail entry on the
-  homepage (see §3) so both routes exist.
+- A linked project card does not require a dedicated numbered homepage rail
+  entry. Add a separate homepage rail feature only when it serves an intentional
+  curated-navigation purpose rather than mirroring every project card.
 
 ## 10. Tool / game page conventions
 
@@ -294,7 +300,7 @@ Breakpoints (max-width, in `styles.css` — extend, don't replace):
 7. [ ] Accessibility pass: skip link, landmarks, heading order, aria on nav
        and decoratives, keyboard support for anything interactive.
 8. [ ] Responsive pass at 860 / 760 / 540 / 375 px.
-9. [ ] Link the page from the homepage: rail entry `NN · Name` and (if it's a
-       project) a `.card` in the Projects grid with an honest status label.
+9. [ ] Link a project page from the homepage Projects grid with an honest
+       status label; a dedicated homepage rail entry is optional (see §3).
 10. [ ] Test by opening the file directly from disk **and** via
         `python -m http.server 8000`.

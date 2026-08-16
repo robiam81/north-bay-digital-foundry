@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="assets/css/transportation-calc.css">
 </head>
 <body>
-  <a class="skip-link" href="#suite">Skip to calculators</a>
+  <a class="skip-link" href="#geometric-design">Skip to calculators</a>
   <div class="shell">
     <header class="rail">
       <div class="rail__top">
@@ -29,8 +29,11 @@
       <nav class="rail__nav" id="rail-nav" aria-label="Sections">
         <ol>
           <li><a href="#overview" aria-current="true">01 · Overview</a></li>
-          <li><a href="#suite">02 · Calculator suite</a></li>
-          <li><a href="#disclaimer">03 · Disclaimer</a></li>
+          <li><a href="#geometric-design">02 · Geometric Design</a></li>
+          <li><a href="#pavement-design">03 · Pavement Design</a></li>
+          <li><a href="#traffic-operations">04 · Traffic Operations</a></li>
+          <li><a href="#trip-generation">05 · Trip Generation</a></li>
+          <li><a href="#disclaimer">06 · Disclaimer</a></li>
         </ol>
         <div class="rail__jump">
           <p class="rail__jump-label">Jump to calculator</p>
@@ -55,7 +58,7 @@
           <h1 class="hero__title" id="hero-title">Civil Transportation Engineering Suite</h1>
           <p class="hero__lede">Planning and preliminary-design calculators for roadway geometry, pavement design, intersection operations, sight distance, and trip generation.</p>
           <div class="hero__actions">
-            <a class="btn btn--primary" href="#suite">Open calculators</a>
+            <a class="btn btn--primary" href="#geometric-design">Open calculators</a>
             <a class="btn" href="index.html#projects">Return to projects</a>
           </div>
         </div>
@@ -67,22 +70,9 @@
         </div>
       </section>
 
-      <section class="section" id="suite" aria-labelledby="suite-title">
-        <p class="eyebrow">02 · Calculator suite</p>
-        <h2 class="section__title" id="suite-title">Seven planning tools</h2>
-
-        <details class="mobile-jump-nav" id="calculator-jump">
-          <summary>Jump to calculator</summary>
-          <ol>
-            <li><a href="#calculator-stopping-sight-distance">Stopping Sight Distance</a></li>
-            <li><a href="#calculator-horizontal-curve">Horizontal Curve</a></li>
-            <li><a href="#calculator-vertical-curve">Vertical Curve</a></li>
-            <li><a href="#calculator-pavement-structural-number">Pavement Structural Number</a></li>
-            <li><a href="#calculator-intersection-los">Intersection LOS / Capacity</a></li>
-            <li><a href="#calculator-sight-triangles">Intersection Sight Triangles</a></li>
-            <li><a href="#calculator-trip-generation">Trip Generation</a></li>
-          </ol>
-        </details>
+      <section class="section" id="geometric-design" aria-labelledby="geometric-design-title">
+        <p class="eyebrow">02 · Geometric Design</p>
+        <h2 class="section__title" id="geometric-design-title">Sight distance &amp; roadway alignment</h2>
 
         <div class="tool-stack">
         <article class="tool-panel" id="calculator-stopping-sight-distance" aria-labelledby="ssd-title">
@@ -136,7 +126,13 @@
           </div>
           <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>A</var> = |<var>g</var><sub>2</sub> − <var>g</var><sub>1</sub>| &nbsp; · &nbsp; <var>L</var> = <var>KA</var></span><p>A uses percentage points; K uses length per percent. No AASHTO K-value table is generated or approximated.</p><p>AASHTO-based preliminary relation. The user must select K and any minimum length from an authorized, applicable governing edition and agency policy.</p></div></details>
         </article>
+        </div>
+      </section>
 
+      <section class="section" id="pavement-design" aria-labelledby="pavement-design-title">
+        <p class="eyebrow">03 · Pavement Design</p>
+        <h2 class="section__title" id="pavement-design-title">Flexible pavement structure</h2>
+        <div class="tool-stack">
         <article class="tool-panel" id="calculator-pavement-structural-number" aria-labelledby="pavement-title">
           <div class="tool-panel__head"><h3 class="tool-panel__title" id="pavement-title">Pavement Structural Number — AASHTO 1993</h3><p class="tool-panel__lede">Bounded bisection solution of the implicit flexible-pavement equation. Z<sub>R</sub> is derived from the selected reliability.</p><span class="reference-state">Reliability required · Z<sub>R</sub> calculated</span></div>
           <div class="transport-workspace">
@@ -154,7 +150,13 @@
           </div>
           <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation">log₁₀(W₁₈) = ZR·Sₒ + 9.36log₁₀(SN+1) − 0.20 + log₁₀(ΔPSI/2.7) / [0.40 + 1094/(SN+1)<sup>5.19</sup>] + 2.32log₁₀(MR) − 8.07</span><p>Z<sub>R</sub> is the lower-tail standard-normal quantile corresponding to 1 − R. Bisection searches SN ∈ [0, user-entered maximum], requires a bracket, retains full precision, and reports iterations and residual.</p><p>AASHTO Guide for Design of Pavement Structures (1993); equation reproduced in FHWA NHI-05-037 (2006), chapter 3. Layer coefficients, drainage coefficients, constructability, and agency minimum sections remain separate design work.</p></div></details>
         </article>
+        </div>
+      </section>
 
+      <section class="section" id="traffic-operations" aria-labelledby="traffic-operations-title">
+        <p class="eyebrow">04 · Traffic Operations</p>
+        <h2 class="section__title" id="traffic-operations-title">Intersection capacity &amp; sight triangles</h2>
+        <div class="tool-stack">
         <article class="tool-panel" id="calculator-intersection-los" aria-labelledby="los-title">
           <div class="tool-panel__head"><h3 class="tool-panel__title" id="los-title">Intersection LOS / Capacity Estimator</h3><p class="tool-panel__lede">Simplified directional screen using user-entered capacities and control delays. It does not calculate formal HCM delay.</p><span class="reference-state">HCM-aligned planning estimate · not formal operational analysis</span></div>
           <div class="transport-workspace">
@@ -196,7 +198,13 @@
           </div>
           <details class="transport-details"><summary>Method and references</summary><div class="transport-details__body"><span class="transport-equation"><var>b</var> = 1.47 <var>V</var><sub>major</sub><var>t</var><sub>g</sub> (US) &nbsp; · &nbsp; <var>b</var> = (<var>V</var>/3.6)<var>t</var><sub>g</sub> (SI)</span><p>Leg a is the entered eye setback to the near edge. Leg b is measured along the major-road traveled way. No lane-count or grade time-gap adjustment is invented.</p><p>AASHTO-based Case B departure relationship using a user-supplied criterion. Verify horizontal and vertical obstructions, eye/object heights, curvature, skew, grades, and adopted jurisdictional standards.</p></div></details>
         </article>
+        </div>
+      </section>
 
+      <section class="section" id="trip-generation" aria-labelledby="trip-generation-title">
+        <p class="eyebrow">05 · Trip Generation</p>
+        <h2 class="section__title" id="trip-generation-title">Travel-demand estimate</h2>
+        <div class="tool-stack">
         <article class="tool-panel" id="calculator-trip-generation" aria-labelledby="trip-title">
           <div class="tool-panel__head"><h3 class="tool-panel__title" id="trip-title">Trip Generation Estimator — ITE-Based</h3><p class="tool-panel__lede">Apply a user-supplied or otherwise authorized average rate. No proprietary ITE rates are embedded.</p><span class="reference-state">Reference data required · custom land use only</span></div>
           <div class="transport-workspace">
@@ -224,8 +232,8 @@
       </section>
 
       <section class="section nbdf-disclaimer" id="disclaimer" aria-label="Engineering disclaimer">
-        <p class="eyebrow">Disclaimer</p>
-        <p class="nbdf-disclaimer__text">Preliminary engineering tool. Results are for planning and preliminary evaluation only and must be independently verified against governing-agency requirements and the applicable editions of AASHTO, HCM, ITE, and other controlling references. Not for final design or construction without independent professional review.</p>
+        <p class="eyebrow">06 · Disclaimer</p>
+        <p class="nbdf-disclaimer__text">Engineering reference tool only. Calculations are provided for preliminary engineering evaluation and must be independently verified by a licensed professional engineer against the applicable editions of governing standards, references, and agency requirements. Use of this software does not replace applicable engineering judgment, governing codes, manufacturer guidance, or agency standards.</p>
       </section>
     </main>
   </div>
