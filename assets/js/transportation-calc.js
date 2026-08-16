@@ -25,6 +25,32 @@ function lengthUnit(form) {
   return form.elements.unitSystem?.value === 'si' ? 'm' : 'ft';
 }
 
+function prepareFieldAccessibility(form) {
+  form.querySelectorAll('input[name], select[name]').forEach((el) => {
+    const field = el.closest('.transport-field');
+    const label = field?.querySelector('.transport-label');
+    if (!field || !label || !el.id) return;
+
+    label.id ||= `${el.id}-label`;
+    el.setAttribute('aria-labelledby', label.id);
+
+    const help = field.querySelector('.transport-help');
+    if (help) help.id ||= `${el.id}-help`;
+
+    let error = field.querySelector('.transport-error');
+    if (!error) {
+      error = document.createElement('span');
+      error.className = 'transport-error';
+      error.hidden = true;
+      field.append(error);
+    }
+    error.id ||= `${el.id}-error`;
+    error.setAttribute('role', 'alert');
+    el.setAttribute('aria-errormessage', error.id);
+    el.setAttribute('aria-describedby', [help?.id, error.id].filter(Boolean).join(' '));
+  });
+}
+
 function fieldError(form, name, message) {
   const el = form.elements[name];
   if (!el) return;
@@ -74,7 +100,7 @@ function run(form, input) {
     case 'los':
       return intersectionScreening({
         controlType: input.controlType,
-        periodMinutes: input.periodMinutes,
+        periodMinutes: Number(input.periodMinutes),
         peakHourFactor: input.peakHourFactor,
         alertRatio: input.alertRatio,
         approaches: ['Northbound', 'Southbound', 'Eastbound', 'Westbound'].map((name, i) => ({
@@ -126,17 +152,21 @@ function resultModel(form, input, r) {
       return {
         primary: `SN ${f(r.structuralNumber, 4)}`,
         interpretation: r.converged ? 'The bounded bisection solver converged within the selected tolerance.' : 'The solver did not converge.',
-        given: [`W₁₈: ${f(input.w18, 0)} ESALs`, `R: ${f(input.reliabilityPct)}%`, `ZR: ${f(r.zR, 4)} (user supplied)`, `MR: ${f(input.resilientModulusPsi, 0)} psi`],
-        conversions: [`ΔPSI = ${f(r.deltaPsi, 3)}`, `Target log₁₀(W₁₈) = ${f(r.targetLogW18, 6)}`],
+        given: [`W₁₈: ${f(input.w18, 0)} ESALs`, `Reliability: ${f(r.reliabilityPct)}%`, `MR: ${f(input.resilientModulusPsi, 0)} psi`],
+        conversions: [`Reliability ${f(r.reliabilityPct)}% → ZR = ${f(r.zR, 4)} (standard-normal quantile)`, `ΔPSI = ${f(r.deltaPsi, 3)}`, `Target log₁₀(W₁₈) = ${f(r.targetLogW18, 6)}`],
         steps: [`ZR·Sₒ term = ${f(r.reliabilityTerm, 6)}`, `Structural term = ${f(r.structuralTerm, 6)}`, `Serviceability term = ${f(r.serviceabilityTerm, 6)}`, `Subgrade term = ${f(r.subgradeTerm, 6)}`, `Iterations = ${r.iterations}; residual = ${r.residual.toExponential(3)}`]
       };
     case 'los':
       return {
         primary: `${r.controllingApproach} controls at v/c ${f(r.controllingRatio, 2)}`,
         interpretation: `The controlling approach’s user-entered delay classifies as LOS ${r.controllingLos}. This is not intersection-wide formal HCM LOS.`,
-        given: [`Control: ${input.controlType}`, `Analysis period: ${f(input.periodMinutes)} min`, `PHF: ${f(input.peakHourFactor, 3)}`, `Capacity flag threshold: ${f(input.alertRatio, 2)} v/c`],
-        conversions: ['Period demand is converted to an hourly rate and divided by PHF before comparison with directional capacity.'],
-        steps: r.approaches.map((a) => `${a.name}: ${f(a.hourlyDemand, 0)} veh/h ÷ ${f(a.capacity, 0)} veh/h = v/c ${f(a.volumeCapacityRatio, 2)}; ${f(a.delay, 1)} s/veh → LOS ${a.los}; ${a.capacityFlag}.`)
+        given: [`Control: ${input.controlType}`, `Demand basis: ${r.demandBasis}`, `PHF: ${f(r.peakHourFactor, 3)}`, `Capacity flag threshold: ${f(input.alertRatio, 2)} v/c`],
+        conversions: [r.periodMinutes === 15
+          ? 'Peak 15-minute counts are multiplied by four to obtain the HCM peak flow rate. PHF is not applied again.'
+          : 'Hourly volumes are divided by PHF to obtain the HCM peak 15-minute-equivalent flow rate.'],
+        steps: r.approaches.map((a) => r.periodMinutes === 15
+          ? `${a.name}: ${f(a.demand, 0)} veh/15 min × 4 = ${f(a.peakFlowRate, 0)} veh/h peak flow rate; supplied PHF implies ${f(a.hourlyVolume, 0)} veh hourly volume; v/c ${f(a.volumeCapacityRatio, 2)}; ${f(a.delay, 1)} s/veh → LOS ${a.los}; ${a.capacityFlag}.`
+          : `${a.name}: ${f(a.hourlyVolume, 0)} veh hourly volume ÷ PHF ${f(r.peakHourFactor, 3)} = ${f(a.peakFlowRate, 0)} veh/h peak flow rate; v/c ${f(a.volumeCapacityRatio, 2)}; ${f(a.delay, 1)} s/veh → LOS ${a.los}; ${a.capacityFlag}.`)
       };
     case 'sight':
       return {
@@ -148,11 +178,11 @@ function resultModel(form, input, r) {
       };
     case 'trip':
       return {
-        primary: `${f(r.adjustedTrips, 1)} adjusted ${input.period.toUpperCase()} peak-hour trips`,
-        interpretation: `${f(r.enteringTrips, 1)} entering and ${f(r.exitingTrips, 1)} exiting trips from the user-authorized rate.`,
+        primary: `${f(r.newExternalRoadwayTrips, 1)} new external roadway ${input.period.toUpperCase()} peak-hour trips`,
+        interpretation: `Project driveways carry ${f(r.drivewayEnteringTrips, 1)} entering and ${f(r.drivewayExitingTrips, 1)} exiting trips, including pass-by and diverted-link traffic. Of those, ${f(r.newExternalEnteringTrips, 1)} entering and ${f(r.newExternalExitingTrips, 1)} exiting trips are new to the external roadway network.`,
         given: [`Land use: ${r.landUse}`, `Quantity: ${f(r.quantity)} ${input.variableType}`, `Rate: ${f(r.rate, 4)} trips/unit`, `Source: ${r.source}; edition/date: ${r.edition}`],
         conversions: ['Quantity is assumed already normalized to the supplied rate unit.'],
-        steps: [`Raw trips = R × X = ${f(r.rawTrips, 2)}`, `Pass-by reduction = ${f(r.passByReduction, 2)}`, `Diverted-link reduction = ${f(r.divertedReduction, 2)}`, `Internal-capture reduction = ${f(r.internalCaptureReduction, 2)}`, `Adjusted trips = ${f(r.adjustedTrips, 2)}`, `Directional split = ${f(input.enteringPct)}% entering / ${f(input.exitingPct)}% exiting`]
+        steps: [`Raw site trip ends = R × X = ${f(r.rawTrips, 2)}`, `Internal-capture reduction = ${f(r.internalCaptureReduction, 2)}`, `External driveway trips after internal capture = ${f(r.drivewayTrips, 2)}`, `Pass-by reduction from new roadway traffic = ${f(r.passByReduction, 2)}`, `Diverted-link reduction from new roadway traffic = ${f(r.divertedReduction, 2)}`, `New external roadway trips = ${f(r.newExternalRoadwayTrips, 2)}`, `Directional split = ${f(input.enteringPct)}% entering / ${f(input.exitingPct)}% exiting`]
       };
     default: return null;
   }
@@ -277,6 +307,7 @@ function syncForm(form, eventTarget) {
 restore();
 
 FORMS.forEach((form) => {
+  prepareFieldAccessibility(form);
   form.dataset.units = form.elements.unitSystem?.value || '';
   syncForm(form);
   form.addEventListener('submit', (event) => {
@@ -295,7 +326,7 @@ FORMS.forEach((form) => {
     idle(form);
     save();
   });
-  form.querySelector('[data-reset]').addEventListener('click', () => {
+  form.querySelector('[data-reset]')?.addEventListener('click', () => {
     form.reset();
     form.dataset.units = form.elements.unitSystem?.value || '';
     syncForm(form);

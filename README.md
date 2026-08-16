@@ -1,6 +1,6 @@
 # North Bay Digital Foundry
 
-A single-page website for **North Bay Digital Foundry** — a digital workshop where
+A static, multi-page website for **North Bay Digital Foundry** — a digital workshop where
 useful tools for **AI, automation, engineering, and municipal technology** are
 designed, prototyped, tested, and documented in public.
 
@@ -35,14 +35,14 @@ focus.
 
 ## Structure
 
-The page is a single document organized into six numbered sections, mirrored by
+The homepage is organized into six numbered sections, mirrored by
 the left index rail:
 
 | #  | Section       | Content                                                        |
 |----|---------------|----------------------------------------------------------------|
 | 01 | Overview      | Hero statement + a spec block of "at a glance" stats           |
 | 02 | Capabilities  | A bordered matrix of the five practice areas                   |
-| 03 | Projects      | A uniform grid of nine project cards                           |
+| 03 | Projects      | A uniform grid of ten project cards                            |
 | 04 | Lab log       | A table of recent experiments (date / experiment / tag / status) |
 | 05 | Writing       | A two-column list of posts                                     |
 | 06 | Contact       | A call-to-action panel                                         |
@@ -58,6 +58,7 @@ the left index rail:
 - **Excavator Wind Run** — game / canvas · `PROTOTYPE · PLAY`
 - **Potable Pipeline Engineering Suite** — engineering / tools · `TOOL · AVAILABLE`
 - **Storm Drainage Toolkit** — engineering / tools · `TOOL · AVAILABLE`
+- **Civil Transportation Engineering Suite** — engineering / tools · `TOOL · AVAILABLE`
 
 ### Semantic HTML
 
@@ -144,27 +145,36 @@ north-bay-digital-foundry/
 ├── index.html              # The landing page
 ├── excavator-wind-run.html # "Excavator Wind Run" — canvas game prototype page
 ├── pipeline-calc.html      # Potable Pipeline Engineering Suite (calculators)
+├── storm-drainage-calc.html # Storm Drainage Toolkit (calculators)
+├── transportation-calc.html # Civil Transportation Engineering Suite (calculators)
 ├── 404.html                # Custom not-found page (Cloudflare Pages)
 ├── _headers                # Cloudflare Pages response headers (security + cache)
 ├── README.md               # This file
+├── PROJECTS.md             # Current experiments and planned work
 ├── STYLE_GUIDE.md          # Design-system reference for new pages
 └── assets/
     ├── css/
     │   ├── styles.css                 # Shared design system; tokens in :root
     │   ├── excavator-wind-run.css     # Game page styles (blue accent + game UI)
-    │   └── pipeline-calc.css          # Pipeline suite page styles
+    │   ├── pipeline-calc.css          # Pipeline suite page styles
+    │   ├── storm-drainage-calc.css    # Storm suite page styles
+    │   └── transportation-calc.css    # Transportation suite page styles
     └── js/
         ├── main.js                    # Progressive enhancement (nav, scroll-spy, year)
         ├── excavator-wind-run.js      # The canvas game (vanilla JS, no dependencies)
         ├── pipeline-calc.js           # Pipeline suite UI/state (ES module)
-        └── pipeline-engineering.js    # Pure hydraulic/structural calculations
+        ├── pipeline-engineering.js    # Pure hydraulic/structural calculations
+        ├── storm-drainage-calc.js     # Storm suite UI/state
+        ├── storm-engineering.js       # Pure stormwater calculations
+        ├── transportation-calc.js     # Transportation suite UI/state
+        └── transportation-engineering.js # Pure transportation calculations
 ```
 
 There is no build step. The files served are the files in the repository.
 
 ### Excavator Wind Run
 
-A second page (`excavator-wind-run.html`) ships a self-contained HTML-canvas
+A dedicated page (`excavator-wind-run.html`) ships a self-contained HTML-canvas
 game built on the **same shared design system** (`assets/css/styles.css`). The
 player drives an excavator through a construction corridor while a constant
 downward **crosswind** pushes it off line; holding <kbd>Space</kbd>, the mouse,
@@ -173,7 +183,7 @@ pause, end, and restart the run. Scaffolding hazards advance from the right
 (forward-travel illusion), score is the distance travelled, and the furthest
 run is kept in `localStorage`.
 
-It demonstrates the project's multi-page direction: the page reuses the shared
+It demonstrates the project's multi-page structure: the page reuses the shared
 shell, rail, and components, and only overrides `--accent` to blue plus adds
 game-specific UI in `assets/css/excavator-wind-run.css`. The game logic lives
 in `assets/js/excavator-wind-run.js` — vanilla JS, no frameworks, delta-timed
@@ -195,8 +205,8 @@ python -m http.server 8000
 npx serve .
 ```
 
-Then open <http://localhost:8000>. Because asset paths are root-relative
-(`/assets/...`), serve from the project root.
+Then open <http://localhost:8000>. Asset paths are relative, so serve from the
+project root to preserve the repository's page-to-asset routing.
 
 ### Cloudflare Pages
 
@@ -228,9 +238,8 @@ The site is deliberately simple so it can grow without a rewrite:
 - **Re-theme** — every color and key dimension is a CSS variable in `:root`.
   Changing `--accent` re-themes the whole site (this mirrors the wireframe's
   switchable accent control).
-- **Grow into multiple pages** — when project or writing detail pages are
-  needed, factor the rail and shared styles out; `styles.css` is already
-  organized by component with section banners.
+- **Add more project pages** — reuse the established shared shell, rail, and
+  component styles; `styles.css` is organized by component with section banners.
 - **Contact** — the CTA intentionally uses the public
   `mailto:rob@northbaydigitalfoundry.com` address. Mailbox routing is configured
   externally and is not handled by this static repository.

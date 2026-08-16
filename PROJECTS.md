@@ -48,6 +48,24 @@ Goals
 - [ ] Verify hydraulic coefficients against HEC-22 / HDS-5 / HEC-14 (PE review)
 - [ ] Real screenshot thumbnail on the project card
 
+### 🔧 Civil Transportation Engineering Suite
+
+Status: Available tool (`transportation-calc.html`)
+
+Seven preliminary planning and design calculators — stopping sight distance,
+horizontal curve geometry, vertical curve length, pavement structural number,
+intersection LOS/capacity screening, intersection sight triangles, and trip
+generation.
+
+Goals
+
+- [x] Build calculator suite (pure engineering layer + UI layer)
+- [x] Document method, assumptions, sources, and calculation steps inline
+- [x] Integrate into website (project card)
+- [x] Address engineering, reporting, accessibility, and robustness peer review
+- [ ] Complete independent PE review of jurisdiction-specific criteria
+- [ ] Real screenshot thumbnail on the project card
+
 ## Planned
 
 - Project management code

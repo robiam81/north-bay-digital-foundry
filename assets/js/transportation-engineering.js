@@ -182,7 +182,6 @@ export function verticalCurve(input) {
   const errors = [];
   const units = unitSystem(errors, input.unitSystem);
   if (!['crest', 'sag'].includes(input.curveType)) errors.push({ field: 'curveType', message: 'Select crest or sag.' });
-  number(errors, 'speed', input.speed, 'Design speed', { positive: true, max: units === 'us' ? 150 : 240 });
   const g1 = number(errors, 'g1Pct', input.g1Pct, 'Entering grade', { min: -25, max: 25 });
   const g2 = number(errors, 'g2Pct', input.g2Pct, 'Exiting grade', { min: -25, max: 25 });
   const k = number(errors, 'kValue', input.kValue, 'K-value', { positive: true });
@@ -206,6 +205,37 @@ export function verticalCurve(input) {
   };
 }
 
+// Peter J. Acklam's rational approximation of the inverse standard-normal
+// CDF. The pavement workflow uses the lower-tail quantile 1 - R so the
+// AASHTO reliability deviate is negative above 50% reliability.
+function standardNormalQuantile(probability) {
+  const a = [-3.969683028665376e+1, 2.209460984245205e+2, -2.759285104469687e+2,
+    1.38357751867269e+2, -3.066479806614716e+1, 2.506628277459239];
+  const b = [-5.447609879822406e+1, 1.615858368580409e+2, -1.556989798598866e+2,
+    6.680131188771972e+1, -1.328068155288572e+1];
+  const c = [-7.784894002430293e-3, -3.223964580411365e-1, -2.400758277161838,
+    -2.549732539343734, 4.374664141464968, 2.938163982698783];
+  const d = [7.784695709041462e-3, 3.224671290700398e-1, 2.445134137142996,
+    3.754408661907416];
+  const lower = 0.02425;
+  const upper = 1 - lower;
+
+  if (probability < lower) {
+    const q = Math.sqrt(-2 * Math.log(probability));
+    return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
+      ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+  }
+  if (probability > upper) {
+    const q = Math.sqrt(-2 * Math.log(1 - probability));
+    return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
+      ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+  }
+  const q = probability - 0.5;
+  const r = q * q;
+  return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q /
+    (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+}
+
 function pavementRightSide(sn, input) {
   const deltaPsi = input.initialServiceability - input.terminalServiceability;
   const reliabilityTerm = input.zR * input.standardDeviation;
@@ -220,22 +250,23 @@ function pavementRightSide(sn, input) {
 
 /**
  * Solve the AASHTO 1993 flexible-pavement equation by bisection.
- * W18 is ESALs, MR is psi, and SN is dimensionless. ZR is user supplied.
+ * W18 is ESALs, MR is psi, and SN is dimensionless. ZR is derived from the
+ * entered reliability as the corresponding lower-tail standard-normal value.
  */
 export function pavementStructuralNumber(input) {
   const errors = [];
   const w18 = number(errors, 'w18', input.w18, 'Design ESALs', { positive: true });
-  number(errors, 'reliabilityPct', input.reliabilityPct, 'Reliability', { min: 50, max: 99.999 });
+  const reliabilityPct = number(errors, 'reliabilityPct', input.reliabilityPct, 'Reliability', { min: 50, max: 99.999 });
   const so = number(errors, 'standardDeviation', input.standardDeviation, 'Overall standard deviation', { positive: true, max: 1.5 });
   const pi = number(errors, 'initialServiceability', input.initialServiceability, 'Initial serviceability', { positive: true, max: 5 });
   const pt = number(errors, 'terminalServiceability', input.terminalServiceability, 'Terminal serviceability', { positive: true, max: 5 });
   const mr = number(errors, 'resilientModulusPsi', input.resilientModulusPsi, 'Resilient modulus', { positive: true });
-  const zR = number(errors, 'zR', input.zR, 'Standard normal deviate');
   const tolerance = number(errors, 'tolerance', input.tolerance, 'Numerical tolerance', { positive: true, max: 0.01 });
   const snMax = number(errors, 'snMax', input.snMax ?? 20, 'Maximum SN search bound', { positive: true, max: 100 });
   if (pi <= pt) errors.push({ field: 'terminalServiceability', message: 'Initial serviceability must be greater than terminal serviceability.' });
   if (errors.length) return failure(errors);
 
+  const zR = standardNormalQuantile(1 - reliabilityPct / 100);
   const target = Math.log10(w18);
   const args = { ...input, w18, standardDeviation: so, initialServiceability: pi, terminalServiceability: pt, resilientModulusPsi: mr, zR };
   const residualAt = (sn) => pavementRightSide(sn, args).rhs - target;
@@ -264,8 +295,10 @@ export function pavementStructuralNumber(input) {
   const terms = pavementRightSide(mid, args);
   return {
     isValid: true,
+    reliabilityPct,
     deltaPsi: pi - pt,
     zR,
+    zRSource: 'Derived from the entered reliability using the standard-normal quantile',
     structuralNumber: mid,
     iterations: iterations + 1,
     residual,
@@ -278,8 +311,9 @@ export function pavementStructuralNumber(input) {
 
 /**
  * Directional intersection planning screen. Each approach must provide
- * {name, demand, capacity, delay}; demand/capacity are veh/h and delay is
- * user-entered seconds/vehicle. No delay model is implied.
+ * {name, demand, capacity, delay}. Demand is either a 60-minute hourly volume
+ * or a peak 15-minute count; capacity is veh/h and delay is user-entered
+ * seconds/vehicle. No delay model is implied.
  */
 export function intersectionScreening(input) {
   const errors = [];
@@ -288,6 +322,9 @@ export function intersectionScreening(input) {
   }
   const periodMinutes = number(errors, 'periodMinutes', input.periodMinutes, 'Analysis period', { positive: true, max: 60 });
   const phf = number(errors, 'peakHourFactor', input.peakHourFactor, 'Peak-hour factor', { positive: true, max: 1 });
+  if (Number.isFinite(periodMinutes) && ![15, 60].includes(periodMinutes)) {
+    errors.push({ field: 'periodMinutes', message: 'Analysis period must be either 15 or 60 minutes.' });
+  }
   const alertRatio = number(errors, 'alertRatio', input.alertRatio, 'Approaching-capacity threshold', { min: 0.5, max: 1 });
   if (!Array.isArray(input.approaches) || input.approaches.length < 1 || input.approaches.length > 8) {
     errors.push({ field: 'approaches', message: 'Provide 1–8 directional approaches.' });
@@ -304,12 +341,18 @@ export function intersectionScreening(input) {
   const thresholds = LOS_THRESHOLDS[input.controlType];
   const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
   const classified = approaches.map((a) => {
-    const hourlyDemand = a.demand * (60 / periodMinutes) / phf;
-    const volumeCapacityRatio = hourlyDemand / a.capacity;
+    // HCM PHF = hourly volume / (4 × peak 15-minute count). A peak
+    // 15-minute count already defines the peak flow rate when multiplied by
+    // four; dividing that result by PHF would count the same peaking twice.
+    const peakFlowRate = periodMinutes === 15 ? a.demand * 4 : a.demand / phf;
+    const hourlyVolume = periodMinutes === 15 ? peakFlowRate * phf : a.demand;
+    const volumeCapacityRatio = peakFlowRate / a.capacity;
     const losIndex = thresholds.findIndex((limit) => a.delay <= limit);
     return {
       ...a,
-      hourlyDemand,
+      hourlyVolume,
+      peakFlowRate,
+      hourlyDemand: peakFlowRate,
       volumeCapacityRatio,
       los: letters[losIndex === -1 ? 5 : losIndex],
       capacityFlag: volumeCapacityRatio > 1 ? 'Demand exceeds assumed capacity' :
@@ -320,6 +363,9 @@ export function intersectionScreening(input) {
   return {
     isValid: true,
     controlType: input.controlType,
+    periodMinutes,
+    peakHourFactor: phf,
+    demandBasis: periodMinutes === 15 ? 'Peak 15-minute count' : '60-minute hourly volume',
     approaches: classified,
     controllingApproach: controlling.name,
     controllingRatio: controlling.volumeCapacityRatio,
@@ -366,7 +412,8 @@ export function sightTriangle(input) {
 
 /**
  * Manual average-rate trip generation. Rate units must match quantity units.
- * User-entered reductions are applied sequentially and reported separately.
+ * User-entered reductions are applied internal capture, pass-by, then
+ * diverted-link and are reported separately.
  */
 export function tripGeneration(input) {
   const errors = [];
@@ -389,9 +436,11 @@ export function tripGeneration(input) {
   }
   if (errors.length) return failure(errors);
   const rawTrips = rate * quantity;
-  const afterPassBy = rawTrips * (1 - passByPct / 100);
+  const afterInternalCapture = rawTrips * (1 - internalPct / 100);
+  const afterPassBy = afterInternalCapture * (1 - passByPct / 100);
   const afterDiverted = afterPassBy * (1 - divertedPct / 100);
-  const adjustedTrips = afterDiverted * (1 - internalPct / 100);
+  const drivewayTrips = afterInternalCapture;
+  const newExternalRoadwayTrips = afterDiverted;
   return {
     isValid: true,
     landUse,
@@ -401,12 +450,18 @@ export function tripGeneration(input) {
     quantity,
     rate,
     rawTrips,
-    enteringTrips: adjustedTrips * enteringPct / 100,
-    exitingTrips: adjustedTrips * exitingPct / 100,
-    passByReduction: rawTrips - afterPassBy,
+    drivewayTrips,
+    drivewayEnteringTrips: drivewayTrips * enteringPct / 100,
+    drivewayExitingTrips: drivewayTrips * exitingPct / 100,
+    newExternalRoadwayTrips,
+    newExternalEnteringTrips: newExternalRoadwayTrips * enteringPct / 100,
+    newExternalExitingTrips: newExternalRoadwayTrips * exitingPct / 100,
+    enteringTrips: newExternalRoadwayTrips * enteringPct / 100,
+    exitingTrips: newExternalRoadwayTrips * exitingPct / 100,
+    internalCaptureReduction: rawTrips - afterInternalCapture,
+    passByReduction: afterInternalCapture - afterPassBy,
     divertedReduction: afterPassBy - afterDiverted,
-    internalCaptureReduction: afterDiverted - adjustedTrips,
-    adjustedTrips,
+    adjustedTrips: newExternalRoadwayTrips,
     warning: 'No proprietary ITE data are bundled. Validate the supplied rate, local context, and adjustment policy.'
   };
 }
