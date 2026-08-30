@@ -25,27 +25,6 @@
 }
 
 .transport-hero .hero__lede { max-width: 64ch; }
-.transport-unit-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 2px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  padding: 5px 9px;
-  background: var(--surface);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-.transport-unit-badge::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  background: var(--accent);
-  border-radius: 50%;
-}
-
 .transport-disclaimer {
   margin-top: 18px;
   padding: 13px 15px;
@@ -157,7 +136,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
-  margin-top: 17px;
+  margin-top: 13px;
 }
 .transport-actions .btn { cursor: pointer; }
 

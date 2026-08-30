@@ -291,9 +291,6 @@ function syncForm(form, eventTarget) {
     form.querySelectorAll('[data-unit]').forEach((el) => {
       el.textContent = unitSelect.value === 'si' ? el.dataset.si : el.dataset.us;
     });
-    form.querySelectorAll('[data-unit-badge]').forEach((el) => {
-      el.textContent = unitSelect.value === 'si' ? 'SI units' : 'US customary';
-    });
   }
   if (form.dataset.calc === 'ssd') {
     const method = form.elements.method.value;
