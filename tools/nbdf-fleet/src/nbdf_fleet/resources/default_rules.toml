@@ -1,0 +1,229 @@
+# Copyright (c) 2026 North Bay Digital Foundry
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# SPDX-License-Identifier: MPL-2.0
+
+# NBDF Fleet Maintenance CLI - default rules configuration
+#
+# This file is the complete, documented reference for every setting the tool
+# reads. Copy it, edit it, and pass it with `--config <path>`. Nothing in the
+# source code needs to change to add tasks, asset classes, aliases, intervals,
+# thresholds, or weights.
+#
+# IMPORTANT: every interval and threshold below is a PLACEHOLDER chosen to
+# make the synthetic demo readable. They are not manufacturer intervals and
+# not a recommendation for any real fleet. Replace them with your own
+# maintenance program before use, and treat the output as a planning
+# heuristic that needs human review.
+
+schema_version = 1
+
+
+# ---------------------------------------------------------------------------
+# Placeholder flag
+# ---------------------------------------------------------------------------
+# While this is true, every report carries a banner saying the intervals are
+# placeholders and the JSON metadata has "placeholder_config": true. Once you
+# have replaced the intervals below with your own maintenance program and had
+# them reviewed, set it to false (or delete the [meta] table) to clear it.
+
+[meta]
+placeholder_intervals = true
+
+
+# ---------------------------------------------------------------------------
+# Classification thresholds
+# ---------------------------------------------------------------------------
+# For each task criterion, utilization = elapsed / interval.
+#
+#   utilization <  due_soon_utilization        -> CURRENT
+#   due_soon_utilization <= utilization < 1.0  -> DUE SOON   (exact boundary is DUE SOON)
+#   utilization >= 1.0                         -> OVERDUE    (exact boundary is OVERDUE)
+#
+# Comparisons are exact (rational arithmetic), so 4250 / 5000 with the
+# threshold 0.85 is DUE SOON, not CURRENT.
+
+[thresholds]
+due_soon_utilization = 0.85
+
+
+# ---------------------------------------------------------------------------
+# Validation thresholds
+# ---------------------------------------------------------------------------
+# Implausible-jump checks compare consecutive readings for the same vehicle
+# (service to service, and latest service to the current reading as of the
+# analysis date). A jump is implausible when it exceeds the per-day limit
+# multiplied by the number of elapsed days (minimum one day). These produce
+# WARNINGS, not errors.
+
+[validation]
+max_miles_per_day = 600
+max_engine_hours_per_day = 24
+min_model_year = 1950          # model years earlier than this are warned about
+max_model_years_ahead = 1      # model years later than as-of year + this are warned about
+
+
+# ---------------------------------------------------------------------------
+# Baseline assumptions (off by default)
+# ---------------------------------------------------------------------------
+# When a task has NO prior service record, the default is INSUFFICIENT DATA.
+# Set assume_in_service_baseline = true to instead treat the in-service date
+# (with zero miles and zero hours) as the last service. When enabled, every
+# result that depends on it is labeled "ASSUMED BASELINE" in the explanation.
+# Vehicles without an in-service date still get INSUFFICIENT DATA.
+
+[baseline]
+assume_in_service_baseline = false
+
+
+# ---------------------------------------------------------------------------
+# Scoring
+# ---------------------------------------------------------------------------
+# method: which scorer to use. Only "rules" is implemented. A future validated
+#         statistical or ML scorer would register a new method id here without
+#         changing ingestion, validation, reporting, or commands.
+#
+# Score = 100 * sum(weight_i * component_i), each component in [0, 1].
+# Weights must sum to exactly 1.0 (the tool refuses to run otherwise).
+#
+#   governing_utilization  min(1, highest utilization across all criteria)
+#   overdue_magnitude      min(1, (highest utilization - 1) / overdue_saturation), 0 if not overdue
+#   additional_pressure    share of the OTHER evaluated criteria that are DUE SOON or OVERDUE
+#   repeat_maintenance     min(1, corrective records in lookback window / repeat_saturation_count);
+#                          0 (and noted) when the history has no category data
+#   data_completeness      share of required data points that are MISSING
+#                          (raises priority so incomplete records surface)
+#
+# overdue_saturation = 1.0 means a task at twice its interval scores the full
+# overdue_magnitude component.
+
+[scoring]
+method = "rules"
+overdue_saturation = 1.0
+repeat_lookback_months = 12
+repeat_saturation_count = 3
+
+[scoring.weights]
+governing_utilization = 0.30
+overdue_magnitude = 0.25
+additional_pressure = 0.10
+repeat_maintenance = 0.10
+data_completeness = 0.25
+
+# Priority bands are derived from the score rounded to one decimal place:
+#   score >= high    -> HIGH
+#   score >= medium  -> MEDIUM
+#   otherwise        -> LOW
+# With the weights above: a vehicle with no usable data at all scores 25.0
+# (MEDIUM), a single task at exactly its interval scores 30.0, and a task at
+# twice its interval scores 55.0 before pressure/repeat signals are added.
+[scoring.bands]
+high = 50
+medium = 25
+
+
+# ---------------------------------------------------------------------------
+# Asset classes
+# ---------------------------------------------------------------------------
+# Vehicle rows must use one of these names (case-insensitive). A vehicle whose
+# asset class is not listed here gets a WARNING and INSUFFICIENT DATA because
+# no rules apply to it. primary_meter is informational ("miles" or "hours")
+# and is shown in reports; it does not change the rules.
+
+[[asset_classes]]
+name = "light-duty"
+description = "Pickups, vans, and sedans - mileage-based"
+primary_meter = "miles"
+
+[[asset_classes]]
+name = "medium-duty"
+description = "Utility and service trucks - mileage-based"
+primary_meter = "miles"
+
+[[asset_classes]]
+name = "heavy-duty"
+description = "Dump trucks, sweepers, refuse trucks - miles and engine hours"
+primary_meter = "miles"
+
+[[asset_classes]]
+name = "off-road-equipment"
+description = "Backhoes, loaders, excavators - engine-hour-based"
+primary_meter = "hours"
+
+
+# ---------------------------------------------------------------------------
+# Maintenance tasks
+# ---------------------------------------------------------------------------
+# Each task has:
+#   name       display name; also matched as a service type
+#   aliases    additional service_type spellings that mean this task
+#              (matching is case-insensitive and whitespace-insensitive)
+#   schedules  one or more [[tasks.schedules]] blocks. Each names the asset
+#              classes it applies to and any subset of interval_miles,
+#              interval_hours (decimal), interval_months (whole months).
+#              An asset class may appear in only one schedule per task.
+#
+# Service types in the history that match no alias are reported as
+# "unmapped" (WARNING) and excluded from rule evaluation.
+
+[[tasks]]
+name = "Engine oil and filter"
+aliases = ["oil change", "oil & filter", "oil and filter", "lof", "lube oil filter", "engine oil"]
+
+  [[tasks.schedules]]
+  asset_classes = ["light-duty", "medium-duty"]
+  interval_miles = 5000
+  interval_months = 6
+
+  [[tasks.schedules]]
+  asset_classes = ["heavy-duty"]
+  interval_miles = 10000
+  interval_hours = 300
+  interval_months = 12
+
+  [[tasks.schedules]]
+  asset_classes = ["off-road-equipment"]
+  interval_hours = 250
+  interval_months = 12
+
+[[tasks]]
+name = "Tire rotation and inspection"
+aliases = ["tire rotation", "rotate tires", "tires"]
+
+  [[tasks.schedules]]
+  asset_classes = ["light-duty", "medium-duty"]
+  interval_miles = 7500
+
+[[tasks]]
+name = "Brake inspection"
+aliases = ["brakes", "brake service", "brake check"]
+
+  [[tasks.schedules]]
+  asset_classes = ["light-duty", "medium-duty"]
+  interval_miles = 15000
+  interval_months = 12
+
+  [[tasks.schedules]]
+  asset_classes = ["heavy-duty"]
+  interval_miles = 20000
+  interval_months = 12
+
+[[tasks]]
+name = "Hydraulic system service"
+aliases = ["hydraulic service", "hydraulics", "hydraulic filter"]
+
+  [[tasks.schedules]]
+  asset_classes = ["off-road-equipment"]
+  interval_hours = 1000
+  interval_months = 24
+
+[[tasks]]
+name = "Annual safety inspection"
+aliases = ["annual inspection", "safety inspection", "annual safety"]
+
+  [[tasks.schedules]]
+  asset_classes = ["light-duty", "medium-duty", "heavy-duty", "off-road-equipment"]
+  interval_months = 12

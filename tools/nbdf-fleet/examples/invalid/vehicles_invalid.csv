@@ -1,0 +1,10 @@
+Vehicle ID,Year,Make,Model,Asset Class,Department,In Service Date,Current Odometer,Current Engine Hours,Color
+LD-101,2021,Northwind,Hauler 150,light-duty,Streets Division,2021-03-15,48200,,white
+LD-101,2021,Northwind,Hauler 150,light-duty,Streets Division,2021-03-15,48200,,white
+LD-900,abc,Northwind,Hauler 150,light-duty,Streets Division,2020-01-10,15000,,white
+LD-901,2020,Meridian,Trailhead 4x4,light-duty,Parks Maintenance,2020-05-01,"12,345",,green
+LD-902,2020,Meridian,Trailhead 4x4,light-duty,Parks Maintenance,3/5/24,22000,,green
+LD-903,2019,Cascade,Courier Van,light-duty,Fleet Pool,2019-08-15,20000,,white
+LD-904,2022,Cascade,Courier Van,light-duty,Fleet Pool,2022-02-01,90000,,white
+,2018,Northwind,Hauler 150,light-duty,Streets Division,2018-06-01,70000,,white
+HD-905,2017,Ironpeak,Titan 10-yd Dump,boat,Water Utility,2017-03-03,50000,4000,orange

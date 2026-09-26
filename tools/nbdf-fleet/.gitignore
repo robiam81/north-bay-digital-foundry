@@ -1,0 +1,19 @@
+# Python artifacts for the NBDF Fleet Maintenance CLI (scoped to this project)
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+# Generated reports and test output should never be committed
+output/
+reports-out/
+# Default workspace created by `nbdf-fleet init` (may hold real fleet data)
+nbdf-fleet-data/
+# Leftovers from an interrupted output write
+.nbdf-tmp-*
+.nbdf-bak-*

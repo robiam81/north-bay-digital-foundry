@@ -1,0 +1,57 @@
+# Copyright (c) 2026 North Bay Digital Foundry
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# SPDX-License-Identifier: MPL-2.0
+
+[build-system]
+# setuptools >= 77 is required for the PEP 639 license expression below.
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nbdf-fleet"
+# The version is single-sourced from src/nbdf_fleet/__init__.py (__version__).
+dynamic = ["version"]
+description = "NBDF Fleet Maintenance CLI - explainable, rules-based maintenance priority scoring for municipal fleets (planning heuristic, not a failure-prediction model; prototype)."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MPL-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "North Bay Digital Foundry" }]
+keywords = ["fleet", "maintenance", "public-works", "cli"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Utilities",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+nbdf-fleet = "nbdf_fleet.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.dynamic]
+version = { attr = "nbdf_fleet.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+nbdf_fleet = ["resources/*.toml", "resources/*.csv"]
+
+[tool.pytest.ini_options]
+# No cache directory is ever written inside the repository.
+addopts = "-p no:cacheprovider"
+testpaths = ["tests"]

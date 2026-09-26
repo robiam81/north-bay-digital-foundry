@@ -1,0 +1,47 @@
+vehicle_id,service_date,service_type,odometer,engine_hours,cost,category,notes
+LD-101,2025-11-02,Brake inspection,39800,,185.00,preventive,
+LD-101,2025-11-02,Annual safety inspection,39800,,120.00,preventive,
+LD-101,2026-05-10,Oil change,46000,,68.50,preventive,
+LD-101,2026-05-10,Tire rotation,46000,,40.00,preventive,
+LD-102,2025-10-20,Brakes,38500,,210.00,preventive,
+LD-102,2025-10-20,Annual inspection,38500,,120.00,preventive,
+LD-102,3/2/2026,OIL & FILTER,43700,,71.25,preventive,Date entered in M/D/YYYY form on purpose
+LD-102,2026-03-02,Rotate tires,43700,,40.00,preventive,
+LD-103,2025-04-14,Brake inspection,24000,,190.00,preventive,
+LD-103,2025-04-14,Annual safety inspection,24000,,120.00,preventive,
+LD-103,2025-10-01,LOF,30000,,66.00,preventive,
+LD-103,2025-10-01,Tire rotation,30000,,40.00,preventive,
+LD-103,2026-02-11,Starter replacement,34100,,412.80,corrective,Would not crank; starter replaced
+LD-105,2025-12-01,Brake inspection,48000,,185.00,preventive,
+LD-105,2025-12-01,Annual safety inspection,48000,,120.00,preventive,
+LD-105,2026-04-15,Oil change,52000,,70.00,preventive,
+LD-105,2026-04-15,Tire rotation,52000,,40.00,preventive,
+HD-201,2025-09-10,Brake service,54000,3880,640.00,preventive,
+HD-201,2025-09-10,Annual safety inspection,54000,3880,240.00,preventive,
+HD-201,2026-04-02,Engine oil and filter,58900,4180,310.00,preventive,
+HD-202,2025-08-05,Annual safety inspection,68500,5520,240.00,preventive,
+HD-202,2026-01-20,Oil change,72000,5760,305.00,preventive,
+HD-202,2026-01-20,Brake service,72000,5760,655.00,preventive,
+HD-202,2026-02-14,Hydraulic leak repair,72600,5810,890.00,corrective,Bed lift cylinder hose
+HD-202,2026-04-30,Alternator replacement,73900,5980,720.00,corrective,
+HD-203,2025-09-12,Brake air line repair,81200,9310,260.00,corrective,
+HD-203,2025-12-15,Brake service,84500,9520,690.00,preventive,
+HD-203,2025-12-15,Annual safety inspection,84500,9520,240.00,preventive,
+HD-203,2026-01-22,Hydraulic pump replacement,85300,9590,2140.00,corrective,
+HD-203,2026-04-08,Conveyor belt repair,86900,9705,530.00,corrective,
+HD-203,2026-05-28,Oil change,87600,9800,315.00,preventive,
+HD-203,2026-05-28,Broom motor replacement,87600,9800,1180.00,corrective,Second broom motor in two years
+OR-301,2025-06-20,Hydraulic service,,1650,480.00,preventive,
+OR-301,2025-10-08,Annual safety inspection,,1820,240.00,preventive,
+OR-301,2026-03-18,Oil change,,2010,140.00,preventive,
+OR-302,2024-08-20,Hydraulic service,,5300,510.00,preventive,
+OR-302,2025-05-15,Oil change,,5540,145.00,preventive,
+OR-302,2025-05-15,Annual safety inspection,,5540,240.00,preventive,
+OR-303,2025-11-14,Annual safety inspection,,760,240.00,preventive,
+OR-303,2026-05-02,Oil change,,900,140.00,preventive,
+OR-303,2026-05-02,Track tension check,,900,60.00,preventive,Service type is not mapped to a task on purpose
+MD-401,2025-07-22,Brake inspection,31000,,230.00,preventive,
+MD-401,2025-07-22,Annual safety inspection,31000,,150.00,preventive,
+MD-401,2026-02-10,Oil change,37000,,95.00,preventive,Exactly 4250 of 5000 miles as of 2026-06-30 (boundary case)
+MD-401,2026-02-10,Tire rotation,37000,,45.00,preventive,
+TR-501,2025-09-30,Annual inspection,,,90.00,preventive,Asset class has no configured rules on purpose

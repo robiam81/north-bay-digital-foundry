@@ -1,0 +1,14 @@
+vehicle_id,year,make,model,asset_class,department,in_service_date,current_odometer,current_engine_hours
+LD-101,2021,Northwind,Hauler 150,light-duty,Streets Division,2021-03-15,48200,
+LD-102,2019,Meridian,Trailhead 4x4,light-duty,Parks Maintenance,2019-06-01,48100,
+LD-103,2017,Northwind,Hauler 150,light-duty,Streets Division,2017-04-10,37500,
+LD-104,2024,Cascade,Courier Van,light-duty,Fleet Pool,2024-09-01,9800,
+LD-105,2020,Meridian,Trailhead 4x4,light-duty,Water Utility,2020-02-20,,
+HD-201,2018,Ironpeak,Titan 10-yd Dump,heavy-duty,Streets Division,2018-07-01,61200,4310.5
+HD-202,2016,Ironpeak,Titan 10-yd Dump,heavy-duty,Water Utility,2016-05-12,74900,6120
+HD-203,2015,Tidewater,Sweeper 3000,heavy-duty,Streets Division,2015-03-30,88400,9870
+OR-301,2019,Ironpeak,Backhoe BX-90,off-road-equipment,Water Utility,2019-10-08,,2140.5
+OR-302,2014,Cascade,Loader L-220,off-road-equipment,Parks Maintenance,2014-05-05,,5610
+OR-303,2022,Ironpeak,Excavator EX-40,off-road-equipment,Streets Division,2022-11-14,,980
+MD-401,2020,Northwind,Utility U-350,medium-duty,Water Utility,2020-08-03,41250,
+TR-501,2018,Cascade,Tilt Trailer 14k,trailer,Parks Maintenance,2018-04-02,,
