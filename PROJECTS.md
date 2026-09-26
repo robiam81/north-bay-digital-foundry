@@ -66,12 +66,29 @@ Goals
 - [ ] Complete independent PE review of jurisdiction-specific criteria
 - [ ] Real screenshot thumbnail on the project card
 
+### 🚧 Fleet Maintenance Review Tool
+
+Status: Prototype (`fleet-maintenance-review-tool.html`; CLI source in
+`tools/nbdf-fleet/`, MPL-2.0)
+
+A rules-based prototype that checks service intervals and data gaps, then
+ranks fleet vehicles for human review. It does not predict failures or
+determine whether a vehicle is safe to operate.
+
+Goals
+
+- [x] Build rules-based CLI (validation, classification, review priority score)
+- [x] Independent peer review passes
+- [x] Project page and homepage card
+- [ ] Publish GitHub Release and link it from the project page
+- [ ] Calibrate against real fleet data with fleet staff
+- [ ] Real screenshot of report output on the project page
+
 ## Planned
 
 - Project management code
 - As-built plan retrieval system
 - Agenda report AI tool
-- AI fleet maintenance prediction experiment
 - Offline model evaluation kit
 - GIS export utility
 - AI prompt library

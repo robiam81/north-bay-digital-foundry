@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fleet Maintenance Review Tool — North Bay Digital Foundry</title>
+  <meta name="description" content="A rules-based prototype that checks service intervals and data gaps, then ranks fleet vehicles for human review. It does not predict failures or determine whether a vehicle is safe to operate.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Fleet Maintenance Review Tool — North Bay Digital Foundry">
+  <meta property="og:description" content="A rules-based prototype that checks service intervals and data gaps, then ranks fleet vehicles for human review.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared design system, then page-specific styles. -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/fleet-maintenance-review-tool.css">
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview" aria-current="true">01 · Overview</a></li>
+          <li><a href="#how-it-works">02 · How it works</a></li>
+          <li><a href="#impact">      03 · Potential impact</a></li>
+          <li><a href="#limitations"> 04 · Limitations</a></li>
+          <li><a href="#download">    05 · Download</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">Prototype · v0.1.0</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <!-- 01 · OVERVIEW / HERO -->
+      <section class="hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// rules-based prototype</p>
+          <h1 class="hero__title" id="hero-title">Fleet Maintenance Review Tool</h1>
+          <p class="hero__lede">A rules-based prototype that checks service intervals and data gaps, then ranks fleet vehicles for human review. It does not predict failures or determine whether a vehicle is safe to operate.</p>
+          <p class="nbdf-intro">Import vehicle and service-history CSV files, apply your configured maintenance schedules, and see which tasks are current, due soon, overdue, or missing enough data to assess. An explainable review priority score helps order follow-up work. Fleet staff must verify the records, assess faults, and make operational decisions separately.</p>
+
+          <p class="nbdf-score-note">
+            <span class="nbdf-score-note__label">Review priority score</span>
+            <span class="nbdf-score-note__caveat">Higher means review sooner; it does not measure failure risk or permission to operate.</span>
+            <span class="nbdf-score-note__status">Always shown with each vehicle's maintenance-schedule status: current, due soon, overdue, or insufficient data.</span>
+          </p>
+
+          <div class="nbdf-notice" role="note" aria-label="Prototype notice">
+            <p class="nbdf-notice__label">Prototype · read before use</p>
+            <p>This is a rules-based heuristic, not a validated failure-prediction model. The default maintenance intervals are placeholders, not manufacturer or agency schedules, and the tool shows that same warning every time it runs until you replace them. Fleet staff must independently verify records and make all operational and safety decisions; the tool does not do this.</p>
+          </div>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#download">Go to download</a>
+            <a class="btn" href="#limitations">Read the limitations</a>
+          </div>
+        </div>
+
+        <div class="spec" aria-label="At a glance">
+          <div class="spec__row"><span class="spec__label">STATUS</span><span class="spec__value">PROTOTYPE</span></div>
+          <div class="spec__row"><span class="spec__label">VERSION</span><span class="spec__value tnum">0.1.0</span></div>
+          <div class="spec__row"><span class="spec__label">METHOD</span><span class="spec__value">RULES ONLY</span></div>
+          <div class="spec__row"><span class="spec__label">RUNS</span><span class="spec__value">LOCAL CLI</span></div>
+          <div class="spec__row"><span class="spec__label">LICENSE</span><span class="spec__value">MPL-2.0</span></div>
+        </div>
+      </section>
+
+      <!-- 02 · HOW IT WORKS -->
+      <section class="section" id="how-it-works" aria-labelledby="how-title">
+        <p class="eyebrow">02 · How it works</p>
+        <h2 class="section__title" id="how-title">From two CSV files to a review list</h2>
+
+        <div class="nbdf-prose">
+          <p>The tool is a command-line program that runs locally on a Windows machine with Python 3.12. It makes no network calls and has no accounts or telemetry; it reads the files you name and writes only where you tell it to.</p>
+        </div>
+
+        <ol class="nbdf-steps">
+          <li><span><strong>Import two CSV files.</strong> A vehicle inventory (current odometer and engine-hour readings) and a service history. The tool validates both first and reports every problem with its file, row, field, and a suggested fix.</span></li>
+          <li><span><strong>Apply your configured maintenance schedules.</strong> A rules file sets each task's interval by miles, engine hours, and calendar months for each asset class. Replace the bundled placeholder intervals with your own maintenance program.</span></li>
+          <li><span><strong>Classify every task.</strong> Each configured task on each vehicle is marked current, due soon, overdue, or insufficient data. The vehicle takes the most severe status among its tasks, and the task that set it is named.</span></li>
+          <li><span><strong>Order the fleet for review.</strong> Each vehicle gets a review priority score from five documented components, shown next to its maintenance-schedule status. The <code>explain</code> command lists every component's inputs and contribution for a single vehicle.</span></li>
+        </ol>
+
+        <h3 class="nbdf-subhead">Maintenance-schedule status</h3>
+        <div class="table-wrap nbdf-status-table">
+          <table class="log">
+            <thead>
+              <tr><th scope="col">Status</th><th scope="col">What it means (default thresholds)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Current</td><td>Less than 85% of the interval used on every measured criterion.</td></tr>
+              <tr><td>Due soon</td><td>At least 85% of an interval used, but not yet at 100%.</td></tr>
+              <tr><td>Overdue</td><td>At or past an interval.</td></tr>
+              <tr><td>Insufficient data</td><td>No matching service record, a reading not recorded at the last service, a missing current reading, or a current reading below the last-service reading. Missing data is never treated as current.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="nbdf-subhead">Review priority score</h3>
+        <p class="nbdf-score-note">
+          <span class="nbdf-score-note__label">Review priority score</span>
+          <span class="nbdf-score-note__caveat">Higher means review sooner; it does not measure failure risk or permission to operate.</span>
+          <span class="nbdf-score-note__status">The score is always reported beside the vehicle's maintenance-schedule status — current, due soon, overdue, or insufficient data — and the task that set that status. Read the two together, never the score alone.</span>
+        </p>
+        <div class="nbdf-prose">
+          <p>The score runs from 0 to 100 and is built from five weighted components: how close the most-due task is, how far past due it is, how much other work is stacking up, repeated corrective work, and how much of the record is missing. The weights, thresholds, and bands are all set in the rules file and documented with the tool. Data gaps alone cannot push a vehicle into the highest band, so vehicles with insufficient data should be worked from their own list, not only by score.</p>
+        </div>
+
+        <h3 class="nbdf-subhead">Quickstart (Windows PowerShell)</h3>
+        <div class="nbdf-prose">
+          <p>From the folder where you saved the release files, check the download against the published hash, then install and run the bundled synthetic demo:</p>
+        </div>
+<pre class="nbdf-code">Get-FileHash .\nbdf_fleet-0.1.0-py3-none-any.whl -Algorithm SHA256
+Get-Content .\SHA256SUMS.txt</pre>
+<pre class="nbdf-code">py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install .\nbdf_fleet-0.1.0-py3-none-any.whl
+.\.venv\Scripts\nbdf-fleet.exe demo</pre>
+        <div class="nbdf-prose">
+          <p>The two hash strings must match. The wheel has no dependencies, so the install works offline. To use your own data, create a workspace, fill in the two CSV templates, replace the placeholder intervals in <code>rules.toml</code>, then validate and analyze:</p>
+        </div>
+<pre class="nbdf-code">.\.venv\Scripts\nbdf-fleet.exe init my-fleet
+.\.venv\Scripts\nbdf-fleet.exe validate my-fleet\vehicles.csv my-fleet\service_history.csv --config my-fleet\rules.toml
+.\.venv\Scripts\nbdf-fleet.exe analyze  my-fleet\vehicles.csv my-fleet\service_history.csv --config my-fleet\rules.toml --as-of 2026-06-30 --output-dir my-fleet\out
+.\.venv\Scripts\nbdf-fleet.exe explain  my-fleet\vehicles.csv my-fleet\service_history.csv LD-103 --config my-fleet\rules.toml --as-of 2026-06-30</pre>
+        <div class="nbdf-prose">
+          <p>Keep real fleet data on your own machine. The README included with the download covers every command, the input schema, exit codes, and the full scoring method.</p>
+        </div>
+        <!-- TODO: add a real screenshot of terminal or HTML report output once one is captured; do not substitute a mock-up. -->
+      </section>
+
+      <!-- 03 · POTENTIAL IMPACT -->
+      <section class="section" id="impact" aria-labelledby="impact-title">
+        <p class="eyebrow">03 · Potential impact</p>
+        <h2 class="section__title" id="impact-title">Why build it</h2>
+
+        <div class="nbdf-prose">
+          <p>Many small and mid-size public works fleets track maintenance in spreadsheets or paper logs, with no consistent way to see which vehicles need attention first. This tool offers a low-cost, transparent way to bring structure to that review: it applies the same documented rules to every vehicle, every time, so prioritization doesn't depend on who happens to remember which truck is due for service.</p>
+          <p>Because the scoring method and thresholds are fully configurable and disclosed, agencies can adapt it to their own maintenance schedules rather than trust an opaque model. The goal is to save staff time on the first pass of fleet review, not to replace their judgment. It is a prototype today, but it's built so a validated predictive model could extend it later without discarding the work already done.</p>
+        </div>
+
+        <p class="nbdf-score-note">
+          <span class="nbdf-score-note__label">Review priority score</span>
+          <span class="nbdf-score-note__caveat">Higher means review sooner; it does not measure failure risk or permission to operate.</span>
+          <span class="nbdf-score-note__status">Prioritization always pairs the score with each vehicle's maintenance-schedule status: current, due soon, overdue, or insufficient data.</span>
+        </p>
+      </section>
+
+      <!-- 04 · LIMITATIONS -->
+      <section class="section" id="limitations" aria-labelledby="limits-title">
+        <p class="eyebrow">04 · Limitations</p>
+        <h2 class="section__title" id="limits-title">Limitations and caveats</h2>
+
+        <div class="nbdf-prose">
+          <ul>
+            <li><strong>Prototype status.</strong> This is a rules-based heuristic, not a validated failure-prediction model. It does not predict failures, estimate probabilities, or forecast costs.</li>
+            <li><strong>Placeholder intervals.</strong> The default maintenance intervals are placeholders, not manufacturer or agency schedules. The tool displays this same warning at runtime until you replace them and say so in the rules file.</li>
+            <li><strong>Not validated against real fleet data.</strong> The bundled and example datasets are synthetic.</li>
+            <li><strong>Requires calibration before operational use.</strong> Intervals, thresholds, weights, and bands must be set to your maintenance program and reviewed by people who know the fleet.</li>
+            <li><strong>Requires human oversight throughout.</strong> Fleet staff must independently verify records and make operational and safety decisions. The tool does not do this.</li>
+            <li><strong>Readings are trusted as entered.</strong> A wrong but plausible odometer or engine-hour reading passes validation and drives the result.</li>
+            <li><strong>License.</strong> Licensed under MPL-2.0. The license covers this project only, not the rest of the North Bay Digital Foundry repository or website.</li>
+          </ul>
+        </div>
+
+        <p class="nbdf-score-note">
+          <span class="nbdf-score-note__label">Review priority score</span>
+          <span class="nbdf-score-note__caveat">Higher means review sooner; it does not measure failure risk or permission to operate.</span>
+          <span class="nbdf-score-note__status">Its bands are ordinal buckets of a heuristic, not risk levels. Read it with the maintenance-schedule status — current, due soon, overdue, or insufficient data — never on its own.</span>
+        </p>
+      </section>
+
+      <!-- 05 · DOWNLOAD -->
+      <section class="section" id="download" aria-labelledby="download-title">
+        <p class="eyebrow">05 · Download</p>
+        <h2 class="section__title" id="download-title">Download</h2>
+
+        <div class="nbdf-download">
+          <p class="nbdf-download__copy">Version 0.1.0 (prototype) will be published as a GitHub Release: a Python wheel, a source zip, and <code>SHA256SUMS.txt</code>. <strong>Not yet published.</strong></p>
+          <!-- TODO: link to GitHub Release once published.
+               Replace href="#" with the release URL, then remove
+               aria-disabled="true" and tabindex="-1" so the button becomes live. -->
+          <a class="btn" href="#" aria-disabled="true" tabindex="-1">Download (GitHub Release)</a>
+        </div>
+
+        <div class="nbdf-prose">
+          <p>Licensed under the <a class="link-accent" href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0 (MPL-2.0)</a>. The full license text ships with the download as <code>LICENSE</code>. It applies to this project only, not to the rest of this site.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <!-- Shared progressive enhancement (nav toggle, scroll-spy, year) -->
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

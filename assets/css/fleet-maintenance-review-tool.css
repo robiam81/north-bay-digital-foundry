@@ -1,0 +1,179 @@
+/* =========================================================================
+   Fleet Maintenance Review Tool — project page styles
+   Loaded after styles.css. Tokens only; no hard-coded colors.
+   ========================================================================= */
+
+/* Long-form copy inside sections */
+.nbdf-prose { max-width: 68ch; }
+.nbdf-prose p,
+.nbdf-prose li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.nbdf-prose p { margin: 14px 0 0; }
+.nbdf-prose ul { margin: 14px 0 0; padding-left: 20px; }
+.nbdf-prose li + li { margin-top: 8px; }
+
+.nbdf-subhead {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.014em;
+  margin: 30px 0 0;
+}
+
+/* Hero intro paragraph (second paragraph under the lede) */
+.hero__main .nbdf-intro {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 14px 0 0;
+  max-width: 56ch;
+}
+
+/* Prominent prototype notice — kept near the top, not buried */
+.nbdf-notice {
+  margin: 22px 0 0;
+  border: 2px solid var(--line-strong);
+  border-left-width: 6px;
+  border-left-color: var(--accent);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  padding: 14px 18px;
+  max-width: 64ch;
+}
+.nbdf-notice__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 6px;
+}
+.nbdf-notice p:last-child {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Review priority score label + caveat + status reminder.
+   Used everywhere the page shows or discusses the score. */
+.nbdf-score-note {
+  margin: 16px 0 0;
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 12px 16px;
+  max-width: 64ch;
+}
+.nbdf-score-note__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.014em;
+}
+.nbdf-score-note__caveat {
+  display: block;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.nbdf-score-note__status {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* Numbered workflow steps */
+.nbdf-steps {
+  list-style: none;
+  counter-reset: step;
+  margin: 20px 0 0;
+  padding: 0;
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.nbdf-steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1.5px solid var(--line);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.nbdf-steps li:last-child { border-bottom: 0; }
+.nbdf-steps li::before {
+  content: counter(step, decimal-leading-zero);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+  padding-top: 3px;
+}
+.nbdf-steps strong { font-weight: 700; }
+
+/* Status table: reuses the shared .log table */
+.nbdf-status-table { margin-top: 16px; }
+.nbdf-status-table .log { font-size: 13px; }
+.nbdf-status-table .log tbody td { color: var(--ink); vertical-align: top; }
+.nbdf-status-table .log tbody td:first-child { white-space: nowrap; font-weight: 600; }
+
+/* Command blocks. The site has no monospace face; Inter with tabular
+   figures is the house style for data/code contexts. */
+.nbdf-code {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  background: var(--surface-alt);
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.6;
+  font-feature-settings: 'tnum' 1, 'zero' 1, 'cv05' 1;
+  white-space: pre;
+}
+.nbdf-prose code {
+  font-family: var(--font);
+  font-feature-settings: 'tnum' 1, 'zero' 1, 'cv05' 1;
+  font-size: 0.93em;
+  background: var(--surface-tint);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* Download panel */
+.nbdf-download {
+  margin: 20px 0 0;
+  border: 2.5px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface-alt);
+  padding: clamp(18px, 3vw, 24px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.nbdf-download__copy { margin: 0; font-size: 14px; line-height: 1.55; max-width: 52ch; }
+
+/* Placeholder button: visibly inert until the release URL is filled in */
+.btn[aria-disabled="true"] {
+  border-style: dashed;
+  border-color: var(--dash);
+  color: var(--muted);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (max-width: 540px) {
+  .nbdf-steps li { grid-template-columns: 1fr; gap: 4px; }
+  .nbdf-download .btn { width: 100%; text-align: center; }
+}
