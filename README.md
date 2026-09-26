@@ -8,6 +8,33 @@ The work is presented as **concepts, prototypes, experiments, and tools** — no
 commercial products. The tone is that of a modern engineering workshop:
 clarity, craftsmanship, experimentation, and practical utility.
 
+## Run it locally
+
+From the repository root, in PowerShell:
+
+```powershell
+python -m http.server 8000
+```
+
+Then open <http://localhost:8000/>. Stop the server with `Ctrl+C`. If `python`
+is not on your PATH, use `py -3.12 -m http.server 8000`; for another port,
+change the number.
+
+- **Serve it; don't double-click the files.** The three calculator suites load
+  their JavaScript as ES modules (`<script type="module">`), which browsers
+  block on `file://`, so the calculators do nothing when opened from disk. The
+  homepage, the game, and the project pages do render from disk.
+- **Serve from the repository root.** Pages link to each other with `.html`
+  extensions and to assets with relative paths, which matches how Cloudflare
+  Pages resolves them from the root.
+- **What differs from production:** Python's server does not apply `_headers`,
+  and an unknown URL gets Python's plain error page instead of `404.html`. To
+  check the custom 404 page, open <http://localhost:8000/404.html> directly
+  (its root-absolute asset paths resolve because the root is being served).
+- **Seeing an old version after an edit?** The browser may be caching the
+  page; hard-refresh with `Ctrl+F5`.
+- `npx serve .` also works if you have Node installed.
+
 ---
 
 ## Purpose
@@ -195,18 +222,7 @@ physics, and high-DPI canvas scaling.
 
 ### Local preview
 
-Any static file server works. For example:
-
-```bash
-# Python
-python -m http.server 8000
-
-# Node
-npx serve .
-```
-
-Then open <http://localhost:8000>. Asset paths are relative, so serve from the
-project root to preserve the repository's page-to-asset routing.
+See [Run it locally](#run-it-locally) near the top of this file.
 
 ### Cloudflare Pages
 
