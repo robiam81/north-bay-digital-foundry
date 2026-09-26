@@ -45,7 +45,7 @@ practice. Its goals, in order:
 1. **Establish technical credibility** with engineering and public-sector peers.
 2. **Show the work** — a structured grid of projects, each tagged with an
    availability-aware status such as `IN DEVELOPMENT`, `CONCEPT ONLY`,
-   `PLANNED TOOL`, `PROTOTYPE · PLAY`, or `TOOL · AVAILABLE`.
+   `PLANNED TOOL`, `PROTOTYPE`, `PROTOTYPE · PLAY`, or `TOOL · AVAILABLE`.
 3. **Stay honest** — nothing is sold; everything is framed as something being
    built, tested, and documented.
 
@@ -79,7 +79,7 @@ the left index rail:
 - **Project Management Code** — engineering / automation · `IN DEVELOPMENT`
 - **As-Built Plan Retrieval System** — municipal · `CONCEPT ONLY`
 - **Agenda Report AI Tool** — AI / automation · `IN DEVELOPMENT`
-- **AI Fleet Maintenance Prediction** — AI · `EARLY EXPERIMENT`
+- **Fleet Maintenance Review Tool** — municipal / tools · `PROTOTYPE`
 - **GIS Export CLI** — tools · `PLANNED TOOL`
 - **Offline Model Evaluation Kit** — AI · `EARLY EXPERIMENT`
 - **Excavator Wind Run** — game / canvas · `PROTOTYPE · PLAY`
@@ -171,6 +171,7 @@ breaks the layout on narrow screens. Motion respects
 north-bay-digital-foundry/
 ├── index.html              # The landing page
 ├── excavator-wind-run.html # "Excavator Wind Run" — canvas game prototype page
+├── fleet-maintenance-review-tool.html # Fleet Maintenance Review Tool project page
 ├── pipeline-calc.html      # Potable Pipeline Engineering Suite (calculators)
 ├── storm-drainage-calc.html # Storm Drainage Toolkit (calculators)
 ├── transportation-calc.html # Civil Transportation Engineering Suite (calculators)
@@ -183,6 +184,7 @@ north-bay-digital-foundry/
     ├── css/
     │   ├── styles.css                 # Shared design system; tokens in :root
     │   ├── excavator-wind-run.css     # Game page styles (blue accent + game UI)
+    │   ├── fleet-maintenance-review-tool.css # Fleet tool project page styles
     │   ├── pipeline-calc.css          # Pipeline suite page styles
     │   ├── storm-drainage-calc.css    # Storm suite page styles
     │   └── transportation-calc.css    # Transportation suite page styles
