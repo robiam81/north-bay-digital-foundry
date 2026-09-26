@@ -201,14 +201,18 @@ Get-Content .\SHA256SUMS.txt</pre>
         <h2 class="section__title" id="download-title">Download</h2>
 
         <div class="nbdf-download">
-          <p class="nbdf-download__copy">Version 0.1.0 (prototype) will be published as a GitHub Release: a Python wheel, a source zip, and <code>SHA256SUMS.txt</code>. <strong>Not yet published.</strong></p>
-          <!-- TODO: link to GitHub Release once published.
-               Replace href="#" with the release URL, then remove
-               aria-disabled="true" and tabindex="-1" so the button becomes live. -->
-          <a class="btn" href="#" aria-disabled="true" tabindex="-1">Download (GitHub Release)</a>
+          <p class="nbdf-download__copy">Version 0.1.0 (prototype) is published as a GitHub pre-release: a Python wheel, a CLI-only source zip, and <code>SHA256SUMS.txt</code>. Check the wheel's hash before installing (see the quickstart above).</p>
+          <a class="btn btn--primary" href="https://github.com/robiam81/north-bay-digital-foundry/releases/tag/nbdf-fleet-v0.1.0">Download (GitHub Release)</a>
         </div>
 
         <div class="nbdf-prose">
+          <p>Direct links to the release files:</p>
+          <ul>
+            <li><a class="link-accent" href="https://github.com/robiam81/north-bay-digital-foundry/releases/download/nbdf-fleet-v0.1.0/nbdf_fleet-0.1.0-py3-none-any.whl"><code>nbdf_fleet-0.1.0-py3-none-any.whl</code></a> — installable wheel (Python 3.12, no dependencies)</li>
+            <li><a class="link-accent" href="https://github.com/robiam81/north-bay-digital-foundry/releases/download/nbdf-fleet-v0.1.0/nbdf-fleet-0.1.0-source.zip"><code>nbdf-fleet-0.1.0-source.zip</code></a> — source for this tool only</li>
+            <li><a class="link-accent" href="https://github.com/robiam81/north-bay-digital-foundry/releases/download/nbdf-fleet-v0.1.0/SHA256SUMS.txt"><code>SHA256SUMS.txt</code></a> — SHA-256 hashes for the two files above</li>
+          </ul>
+          <p>The "Source code" archives that GitHub adds to every release contain this whole website repository, not just the tool. Use <code>nbdf-fleet-0.1.0-source.zip</code> for the tool's source.</p>
           <p>Licensed under the <a class="link-accent" href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0 (MPL-2.0)</a>. The full license text ships with the download as <code>LICENSE</code>. It applies to this project only, not to the rest of this site.</p>
         </div>
       </section>
