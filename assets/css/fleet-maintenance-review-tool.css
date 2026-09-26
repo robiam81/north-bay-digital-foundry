@@ -164,15 +164,6 @@
 }
 .nbdf-download__copy { margin: 0; font-size: 14px; line-height: 1.55; max-width: 52ch; }
 
-/* Placeholder button: visibly inert until the release URL is filled in */
-.btn[aria-disabled="true"] {
-  border-style: dashed;
-  border-color: var(--dash);
-  color: var(--muted);
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 @media (max-width: 540px) {
   .nbdf-steps li { grid-template-columns: 1fr; gap: 4px; }
   .nbdf-download .btn { width: 100%; text-align: center; }
