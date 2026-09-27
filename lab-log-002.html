@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When a CLI is the whole product — North Bay Digital Foundry</title>
+  <meta name="description" content="How the Fleet Maintenance Review Tool was built with AI assistance: deterministic rules only, three build passes, and two independent review passes.">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="When a CLI is the whole product — North Bay Digital Foundry">
+  <meta property="og:description" content="Lab Log 002: building the Fleet Maintenance Review Tool — deterministic rules, three build passes, two independent review passes.">
+
+  <!-- Favicon: the NBDF mark -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='6' width='20' height='20' rx='4' fill='none' stroke='%231A1A18' stroke-width='3'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared design system, then page-specific styles. -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/lab-log-002.css">
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+
+  <div class="shell">
+
+    <!-- ============ RAIL / INDEX ============ -->
+    <header class="rail">
+      <div class="rail__top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">NBDF</span>
+        <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-nav">
+          Menu
+        </button>
+      </div>
+
+      <a class="rail__home" href="index.html">← Back to the foundry</a>
+
+      <nav class="rail__nav" id="rail-nav" aria-label="Sections">
+        <ol>
+          <li><a href="#overview" aria-current="true">01 · Premise</a></li>
+          <li><a href="#process">      02 · The build</a></li>
+          <li><a href="#purpose">      03 · What it's for</a></li>
+          <li><a href="#links">        04 · Try it</a></li>
+        </ol>
+      </nav>
+
+      <p class="rail__meta">Lab Log 002</p>
+    </header>
+
+    <!-- ============ CONTENT ============ -->
+    <main class="content">
+
+      <!-- 01 · PREMISE / HERO -->
+      <section class="hero" id="overview" aria-labelledby="hero-title">
+        <div class="hero__main">
+          <p class="hero__kicker">// lab log 002 · tools</p>
+          <h1 class="hero__title" id="hero-title">When a CLI is the whole product</h1>
+          <p class="hero__lede">Most of what ends up on this site starts as a calculator: a formula, a form, an answer. The Fleet Maintenance Review Tool started differently — as a question about what an AI coding assistant can responsibly build when the subject is maintenance decisions on public equipment.</p>
+          <div class="nbdf-prose">
+            <p>The premise was deliberately narrow. Fleet maintenance software gets sold with words like "predictive" and "AI-powered," and most of that is marketing wrapped around a set of if-then rules. So instead of pretending otherwise, I asked for the if-then rules — deterministic, documented, and configurable — and nothing more. A vehicle's service history and current readings go in; a plain-language explanation of what's current, due soon, overdue, or too undocumented to assess comes out, along with a review priority score. No claim of predicting failure. No claim about whether a vehicle is safe to drive. Those are still a person's call.</p>
+          </div>
+        </div>
+
+        <div class="spec" aria-label="At a glance">
+          <div class="spec__row"><span class="spec__label">DATE</span><span class="spec__value tnum">2026-09-26</span></div>
+          <div class="spec__row"><span class="spec__label">TAG</span><span class="spec__value">TOOLS</span></div>
+          <div class="spec__row"><span class="spec__label">STATUS</span><span class="spec__value">PUBLISHED</span></div>
+          <div class="spec__row"><span class="spec__label">SUBJECT</span><span class="spec__value">FLEET REVIEW TOOL</span></div>
+        </div>
+      </section>
+
+      <!-- 02 · THE BUILD -->
+      <section class="section" id="process" aria-labelledby="process-title">
+        <p class="eyebrow">02 · The build</p>
+        <h2 class="section__title" id="process-title">What "built with AI" actually looked like</h2>
+
+        <div class="nbdf-prose">
+          <p>This wasn't a single prompt producing a finished tool. It was three build passes and two independent review passes, each with a narrower job than the last:</p>
+          <ul>
+            <li>Pass one built the architecture — ingestion, validation, rules, scoring, and reporting kept as separate layers, so a future statistical model could plug into the scoring layer without touching the rest.</li>
+            <li>Pass two turned a working prototype into something installable — a proper package, a <code>--version</code> flag, a placeholder-config banner so nobody mistakes the default intervals for real ones, and the first release build.</li>
+            <li>An independent review pass — a second AI, with no context from the first, given nothing but the code and told to try to break it — found two real defects. One let a careless command overwrite the very file it was reading. The other let a malformed spreadsheet row get silently truncated instead of rejected, meaning bad data could pass through undetected.</li>
+            <li>Pass three fixed both, plus six smaller issues the review also caught, and added a regression test for every one.</li>
+            <li>A second, narrower review then went after the fixes specifically — deliberately trying edge cases like symlinks, path casing, and multiple errors in one file — and found the fixes held.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 03 · WHAT IT'S FOR -->
+      <section class="section" id="purpose" aria-labelledby="purpose-title">
+        <p class="eyebrow">03 · What it's for</p>
+        <h2 class="section__title" id="purpose-title">What that process is actually for</h2>
+
+        <div class="nbdf-prose">
+          <p>None of this makes the tool "smart." It makes the tool honest about not being smart, and it catches the kind of bug a single confident build pass doesn't notice because it's checking its own work. The review that found the overwrite bug wasn't cautious because it was told to be — it was a different AI session with no stake in the first one being right, testing exactly the kind of careless command a tired person actually types.</p>
+          <p>The result is a prototype, and it's labeled as one everywhere it appears: in the terminal banner, in the exported reports, on this site. Its default maintenance intervals are placeholders, not real manufacturer schedules. It hasn't been run against a real fleet's data. What it offers instead is a specific, bounded kind of usefulness — a consistent first pass at "what needs a human's attention first" — built and checked with enough rigor that I'm comfortable putting my name on the download.</p>
+        </div>
+      </section>
+
+      <!-- 04 · TRY IT -->
+      <section class="section" id="links" aria-labelledby="links-title">
+        <p class="eyebrow">04 · Try it</p>
+        <h2 class="section__title" id="links-title">The tool itself</h2>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="fleet-maintenance-review-tool.html">Try it: Fleet Maintenance Review Tool</a>
+          <a class="btn" href="https://github.com/robiam81/north-bay-digital-foundry/releases/tag/nbdf-fleet-v0.1.0">Download v0.1.0 (GitHub Release)</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="colophon">
+    <span>© <span id="year">2026</span> North Bay Digital Foundry</span>
+    <span>Concepts, prototypes &amp; tools — shared in the open.</span>
+  </footer>
+
+  <!-- Shared progressive enhancement (nav toggle, scroll-spy, year) -->
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/* =========================================================================
+   Lab Log 002 — "When a CLI is the whole product" article styles
+   Loaded after styles.css. Tokens only; no hard-coded colors.
+   ========================================================================= */
+
+/* Long-form copy inside sections */
+.nbdf-prose { max-width: 68ch; }
+.nbdf-prose p,
+.nbdf-prose li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.nbdf-prose p { margin: 14px 0 0; }
+.nbdf-prose ul { margin: 14px 0 0; padding-left: 20px; }
+.nbdf-prose li + li { margin-top: 8px; }
+.nbdf-prose code { font-size: 0.92em; }
