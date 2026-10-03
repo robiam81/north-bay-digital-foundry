@@ -6,6 +6,7 @@
   <title>When a CLI is the whole product — North Bay Digital Foundry</title>
   <meta name="description" content="How the Fleet Maintenance Review Tool was built with AI assistance: deterministic rules only, three build passes, and two independent review passes.">
   <meta name="color-scheme" content="light">
+  <link rel="canonical" href="https://northbaydigitalfoundry.com/lab-log-002">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
@@ -57,13 +58,14 @@
     <main class="content">
 
       <!-- 01 · PREMISE / HERO -->
-      <section class="hero" id="overview" aria-labelledby="hero-title">
+      <section class="hero" id="overview" aria-labelledby="hero-title" tabindex="-1">
         <div class="hero__main">
           <p class="hero__kicker">// lab log 002 · tools</p>
           <h1 class="hero__title" id="hero-title">When a CLI is the whole product</h1>
-          <p class="hero__lede">Most of what ends up on this site starts as a calculator: a formula, a form, an answer. The Fleet Maintenance Review Tool started differently — as a question about what an AI coding assistant can responsibly build when the subject is maintenance decisions on public equipment.</p>
+          <p class="hero__lede">Most of what ends up on this site starts as a calculator: a formula, a form, an answer. The Fleet Maintenance Review Tool started differently—as an experiment in how responsibly an AI coding assistant could help build software related to maintenance decisions for public equipment.</p>
           <div class="nbdf-prose">
-            <p>The premise was deliberately narrow. Fleet maintenance software gets sold with words like "predictive" and "AI-powered," and most of that is marketing wrapped around a set of if-then rules. So instead of pretending otherwise, I asked for the if-then rules — deterministic, documented, and configurable — and nothing more. A vehicle's service history and current readings go in; a plain-language explanation of what's current, due soon, overdue, or too undocumented to assess comes out, along with a review priority score. No claim of predicting failure. No claim about whether a vehicle is safe to drive. Those are still a person's call.</p>
+            <p>The scope was deliberately narrow. Fleet software is often described as “predictive” or “AI-powered,” but those labels do not always reveal whether a product uses a validated statistical model or a deterministic set of rules. This tool makes no such ambiguity possible. Its rules are documented, configurable, and explainable. Vehicle service history and current readings go in; classifications of current, due soon, overdue, or insufficient data come out, together with a review-priority score and a plain-language explanation.</p>
+            <p>It does not predict equipment failure, determine whether a vehicle is safe to operate, or replace professional judgment. Those decisions remain with qualified people.</p>
           </div>
         </div>
 
@@ -81,13 +83,13 @@
         <h2 class="section__title" id="process-title">What "built with AI" actually looked like</h2>
 
         <div class="nbdf-prose">
-          <p>This wasn't a single prompt producing a finished tool. It was three build passes and two independent review passes, each with a narrower job than the last:</p>
+          <p>This was not a single prompt producing a finished tool. It took three build passes and two independent review passes, with each pass assigned a narrower purpose:</p>
           <ul>
-            <li>Pass one built the architecture — ingestion, validation, rules, scoring, and reporting kept as separate layers, so a future statistical model could plug into the scoring layer without touching the rest.</li>
-            <li>Pass two turned a working prototype into something installable — a proper package, a <code>--version</code> flag, a placeholder-config banner so nobody mistakes the default intervals for real ones, and the first release build.</li>
-            <li>An independent review pass — a second AI, with no context from the first, given nothing but the code and told to try to break it — found two real defects. One let a careless command overwrite the very file it was reading. The other let a malformed spreadsheet row get silently truncated instead of rejected, meaning bad data could pass through undetected.</li>
-            <li>Pass three fixed both, plus six smaller issues the review also caught, and added a regression test for every one.</li>
-            <li>A second, narrower review then went after the fixes specifically — deliberately trying edge cases like symlinks, path casing, and multiple errors in one file — and found the fixes held.</li>
+            <li><strong>Pass one</strong> established the architecture. Ingestion, validation, maintenance rules, scoring, and reporting were separated so that a future validated model could be added without rewriting the rest of the application.</li>
+            <li><strong>Pass two</strong> turned the working prototype into an installable package. It added version reporting, release artifacts, a setup command, and prominent warnings that the default maintenance intervals are placeholders.</li>
+            <li><strong>The first independent review</strong> used a separate AI session that had not participated in the build. Its assignment was to distrust the implementation report and try to break the tool. It found two release-blocking defects: one could allow an output command to overwrite an input file, and another could allow a malformed CSV row to be silently misread instead of rejected.</li>
+            <li><strong>Pass three</strong> corrected those defects and six smaller issues identified during the same review. It also added regression coverage for each correction.</li>
+            <li><strong>The targeted re-check</strong> tested the corrections using alternate path spellings, filesystem aliases, multiple malformed records, and other boundary cases. The corrections held.</li>
           </ul>
         </div>
       </section>
@@ -98,8 +100,10 @@
         <h2 class="section__title" id="purpose-title">What that process is actually for</h2>
 
         <div class="nbdf-prose">
-          <p>None of this makes the tool "smart." It makes the tool honest about not being smart, and it catches the kind of bug a single confident build pass doesn't notice because it's checking its own work. The review that found the overwrite bug wasn't cautious because it was told to be — it was a different AI session with no stake in the first one being right, testing exactly the kind of careless command a tired person actually types.</p>
-          <p>The result is a prototype, and it's labeled as one everywhere it appears: in the terminal banner, in the exported reports, on this site. Its default maintenance intervals are placeholders, not real manufacturer schedules. It hasn't been run against a real fleet's data. What it offers instead is a specific, bounded kind of usefulness — a consistent first pass at "what needs a human's attention first" — built and checked with enough rigor that I'm comfortable putting my name on the download.</p>
+          <p>Review and testing do not turn a deterministic rules engine into a predictive model. They do something more modest and immediately useful: make its behavior more dependable, expose its limitations, and catch defects that a single build session may overlook.</p>
+          <p>The overwrite defect is a good example. The original implementation passed its own tests, but those tests did not try the kind of mistaken output command a tired person might actually enter. A separate reviewer approached the tool with a different objective: find a credible way for it to fail.</p>
+          <p>The result remains a prototype. Its documentation, terminal output, principal reports, and website identify it accordingly. Its default maintenance intervals are placeholders rather than manufacturer-approved schedules, and it has not been calibrated or validated using representative fleet data.</p>
+          <p>What it offers is narrower: a consistent and explainable first pass at the question, “What needs human attention first?” Before operational use, its rules would need to be replaced with an organization’s approved maintenance program and reviewed by qualified fleet personnel. Within those limits, it is complete enough to publish for examination, testing, and reuse.</p>
         </div>
       </section>
 
@@ -108,8 +112,11 @@
         <p class="eyebrow">04 · Try it</p>
         <h2 class="section__title" id="links-title">The tool itself</h2>
 
+        <div class="nbdf-prose">
+          <p>The prototype runs locally with Python 3.12 or later and includes synthetic demonstration data. Windows PowerShell instructions are provided. Its bundled maintenance intervals are examples only and must be replaced and validated before operational use.</p>
+        </div>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="fleet-maintenance-review-tool.html">Try it: Fleet Maintenance Review Tool</a>
+          <a class="btn btn--primary" href="fleet-maintenance-review-tool.html">Fleet Maintenance Review Tool — project details</a>
           <a class="btn" href="https://github.com/robiam81/north-bay-digital-foundry/releases/tag/nbdf-fleet-v0.1.0">Download v0.1.0 (GitHub Release)</a>
         </div>
       </section>

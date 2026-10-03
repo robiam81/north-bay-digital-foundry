@@ -4,6 +4,15 @@
    ========================================================================= */
 
 /* Long-form copy inside sections */
+:root { --accent-small-text: #A9441A; }
+
+.hero__kicker { color: var(--accent-small-text); }
+.eyebrow,
+.spec__label,
+.rail__meta { color: var(--muted); }
+.btn--primary { background: var(--accent-small-text); }
+:focus-visible { outline-color: var(--accent-small-text); }
+
 .nbdf-prose { max-width: 68ch; }
 .nbdf-prose p,
 .nbdf-prose li {
@@ -15,3 +24,13 @@
 .nbdf-prose ul { margin: 14px 0 0; padding-left: 20px; }
 .nbdf-prose li + li { margin-top: 8px; }
 .nbdf-prose code { font-size: 0.92em; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .spec { border-left: 0; border-top: 2px dashed var(--dash); }
+}
+
+@media (max-width: 540px) {
+  .hero__actions { flex-direction: column; }
+  .hero__actions .btn { flex: none; }
+}
